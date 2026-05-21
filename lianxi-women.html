@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>联系我们 — 湘潭市中环水务有限公司</title>
+<style>
+  :root {
+    --primary: #1a56db; --primary-dark: #0f3dab; --primary-light: #e8f0fe;
+    --accent: #0891b2; --white: #ffffff; --text: #1e293b; --text-light: #64748b;
+    --bg: #f8fafc; --bg-card: #ffffff; --border: #e2e8f0;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+    --radius: 6px; --max-width: 1200px; --transition: 0.25s ease;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; font-size: 14px; }
+  a { text-decoration: none; color: inherit; }
+  ul { list-style: none; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+  /* ====== 共享头部组件 ====== */
+  .top-toolbar { background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-size: 12px; color: var(--text-light); }
+  .top-toolbar .container { display: flex; justify-content: space-between; align-items: center; padding: 6px 20px; flex-wrap: wrap; gap: 8px; }
+  .top-toolbar .toolbar-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .top-toolbar a { color: var(--text-light); }
+  .top-toolbar a:hover { color: var(--primary); }
+
+  .site-header { background: linear-gradient(135deg, #fff 0%, #f0f7ff 100%); border-bottom: 3px solid var(--primary); }
+  .site-header .container { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; gap: 24px; flex-wrap: wrap; }
+  .header-brand { display: flex; align-items: center; gap: 16px; }
+  .header-logo { width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff; box-shadow: 0 4px 16px rgba(26,86,219,0.25); flex-shrink: 0; }
+  .header-titles h1 { font-size: 26px; font-weight: 700; color: var(--primary-dark); letter-spacing: 1px; }
+  .header-titles .subtitle { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+  .header-search { display: flex; border: 2px solid var(--border); border-radius: 50px; overflow: hidden; background: #fff; transition: border-color var(--transition); flex-shrink: 0; }
+  .header-search:focus-within { border-color: var(--primary); }
+  .header-search input { border: none; outline: none; padding: 10px 18px; width: 240px; font-size: 14px; font-family: inherit; }
+  .header-search button { background: var(--primary); color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-size: 14px; font-family: inherit; }
+  .header-search button:hover { background: var(--primary-dark); }
+
+  .main-nav { background: var(--primary); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+  .main-nav .container { display: flex; align-items: center; }
+  .main-nav .nav-list { display: flex; align-items: center; }
+  .main-nav .nav-list > li { position: relative; }
+  .main-nav .nav-list > li > a { display: block; padding: 14px 24px; color: rgba(255,255,255,0.92); font-size: 15px; font-weight: 500; white-space: nowrap; transition: all var(--transition); letter-spacing: 0.5px; }
+  .main-nav .nav-list > li > a:hover, .main-nav .nav-list > li.active > a { background: rgba(255,255,255,0.15); color: #fff; }
+  .main-nav .nav-list > li.active > a { border-bottom: 3px solid #fff; padding-bottom: 11px; }
+  .main-nav .nav-dropdown { position: absolute; top: 100%; left: 0; background: #fff; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); border-radius: 0 0 var(--radius) var(--radius); opacity: 0; visibility: hidden; transform: translateY(4px); transition: all 0.2s ease; z-index: 1001; overflow: hidden; }
+  .main-nav .nav-list > li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-dropdown a { display: block; padding: 10px 18px; color: var(--text); font-size: 13px; border-bottom: 1px solid #f1f5f9; transition: all var(--transition); }
+  .nav-dropdown a:hover { background: var(--primary-light); color: var(--primary); padding-left: 22px; }
+  .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; margin-left: auto; }
+  .menu-toggle span { display: block; width: 26px; height: 2.5px; background: #fff; border-radius: 2px; transition: all 0.3s ease; }
+  .menu-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .menu-toggle.open span:nth-child(2) { opacity: 0; }
+  .menu-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  .breadcrumb { background: #fff; border-bottom: 1px solid var(--border); }
+  .breadcrumb .container { padding: 12px 20px; font-size: 13px; color: var(--text-light); display: flex; gap: 8px; align-items: center; }
+  .breadcrumb a { color: var(--primary); }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { color: #94a3b8; }
+
+  /* ====== 页面横幅 ====== */
+  .page-banner { background: linear-gradient(135deg, #0f2b6e, #1e40af, #0ea5e9); color: #fff; padding: 56px 0; text-align: center; }
+  .page-banner h2 { font-size: clamp(26px, 4vw, 36px); font-weight: 700; margin-bottom: 10px; letter-spacing: 2px; }
+  .page-banner p { opacity: 0.85; font-size: 15px; max-width: 600px; margin: 0 auto; line-height: 1.8; }
+
+  /* ====== 主体布局 ====== */
+  .page-body { padding: 40px 0; }
+  .page-body .container { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+
+  .card { background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+  .card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); background: linear-gradient(90deg, #f8fafc, #fff); }
+  .card-header h3 { font-size: 16px; color: var(--text); display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .card-header h3::before { content: ""; width: 4px; height: 18px; background: var(--primary); border-radius: 2px; }
+  .card-body { padding: 20px; }
+
+  /* ====== 联系信息卡片 ====== */
+  .info-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  .info-card { background: var(--bg); border-radius: var(--radius); padding: 20px; text-align: center; border: 1px solid transparent; transition: all var(--transition); }
+  .info-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); }
+  .info-card .ic-icon { font-size: 28px; margin-bottom: 8px; }
+  .info-card .ic-label { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .info-card .ic-value { font-size: 13px; color: var(--text-light); line-height: 1.6; }
+
+  /* ====== 表单 ====== */
+  .form-group { margin-bottom: 15px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: var(--text); }
+  .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 11px 14px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 14px; font-family: inherit; outline: none; transition: all var(--transition); background: #f8fafc; }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(26,86,219,0.06); }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .btn-submit { width: 100%; padding: 13px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; font-size: 15px; font-weight: 600; border: none; border-radius: var(--radius); cursor: pointer; transition: all var(--transition); font-family: inherit; letter-spacing: 0.5px; }
+  .btn-submit:hover { box-shadow: 0 6px 20px rgba(37,99,235,0.3); transform: translateY(-1px); }
+  .btn-submit:active { transform: scale(0.98); }
+
+  /* ====== 网点卡片 ====== */
+  .outlet-list { display: flex; flex-direction: column; gap: 12px; }
+  .outlet-item { background: var(--bg); border-radius: var(--radius); padding: 18px; display: flex; gap: 14px; align-items: flex-start; border: 1px solid transparent; transition: all var(--transition); }
+  .outlet-item:hover { border-color: var(--primary); }
+  .outlet-item .olt-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .olt-icon-main { background: #dbeafe; } .olt-icon-branch { background: #d1fae5; } .olt-icon-sub { background: #ffedd5; }
+  .outlet-item .olt-info { flex: 1; }
+  .outlet-item .olt-name { font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 2px; }
+  .outlet-item .olt-detail { font-size: 12px; color: var(--text-light); line-height: 1.7; }
+  .outlet-item .olt-badge { display: inline-block; padding: 2px 8px; border-radius: 50px; font-size: 11px; margin-top: 4px; }
+  .badge-main { background: #dbeafe; color: #1e40af; }
+  .badge-branch { background: #d1fae5; color: #065f46; }
+  .badge-sub { background: #ffedd5; color: #9a3412; }
+
+  /* ====== 部门通讯录表格 ====== */
+  .dept-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .dept-table th, .dept-table td { padding: 10px 12px; border: 1px solid var(--border); text-align: left; }
+  .dept-table th { background: var(--bg); font-weight: 600; color: var(--text); white-space: nowrap; }
+  .dept-table td { color: var(--text-light); }
+  .dept-table tbody tr:hover { background: #f8fafc; }
+
+  /* ====== 全宽卡片区 ====== */
+  .full-section { margin-top: 32px; }
+
+  /* ====== 二维码区域 ====== */
+  .qrcode-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .qrcode-item { text-align: center; }
+  .qrcode-placeholder { width: 120px; height: 120px; margin: 0 auto 10px; background: linear-gradient(135deg, #f1f5f9, #e2e8f0); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 48px; border: 2px dashed var(--border); }
+  .qrcode-item p { font-size: 13px; color: var(--text); font-weight: 500; }
+  .qrcode-item span { font-size: 11px; color: var(--text-light); }
+
+  /* 页脚 */
+  .site-footer { background: #0b1424; color: #94a3b8; padding: 36px 20px 24px; font-size: 13px; }
+  .footer-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; margin-bottom: 24px; }
+  .footer-grid h4 { color: #fff; font-size: 15px; margin-bottom: 14px; font-weight: 600; }
+  .footer-grid a { color: #94a3b8; display: block; margin-bottom: 6px; transition: color 0.2s; font-size: 13px; }
+  .footer-grid a:hover { color: #fff; }
+  .footer-contact p { margin-bottom: 6px; display: flex; gap: 6px; align-items: flex-start; }
+  .footer-bottom { max-width: var(--max-width); margin: 0 auto; padding-top: 18px; border-top: 1px solid #1e293b; text-align: center; font-size: 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+  /* 响应式 */
+  @media (max-width: 900px) {
+    .page-body .container { grid-template-columns: 1fr; }
+    .info-cards { grid-template-columns: repeat(2, 1fr); }
+    .qrcode-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .top-toolbar .container { justify-content: center; }
+    .site-header .container { justify-content: center; text-align: center; }
+    .header-titles h1 { font-size: 20px; }
+    .header-search input { width: 160px; }
+    .main-nav .nav-list { display: none; }
+    .menu-toggle { display: flex; }
+    .main-nav .nav-list.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--primary-dark); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .main-nav .nav-list.open .nav-dropdown { position: static; opacity: 1; visibility: visible; background: rgba(0,0,0,0.1); box-shadow: none; transform: none; border-radius: 0; }
+    .main-nav .nav-list.open .nav-dropdown a { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.1); }
+    .info-cards { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .qrcode-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .form-row { grid-template-columns: 1fr; }
+    .header-titles h1 { font-size: 18px; }
+    .qrcode-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 顶部工具条 -->
+<div class="top-toolbar">
+  <div class="container">
+    <div class="toolbar-links">
+      <a href="#">中国政府网</a><span>|</span><a href="#">住建部网</a><span>|</span><a href="#">湖南省政府门户</a><span>|</span><a href="#">湘潭市政府网</a>
+    </div>
+    <span id="currentDate"></span>
+  </div>
+</div>
+
+<!-- 头部 -->
+<header class="site-header">
+  <div class="container">
+    <div class="header-brand">
+      <div class="header-logo">💧</div>
+      <div class="header-titles"><h1>湘潭市中环水务有限公司</h1><p class="subtitle">安全供水 · 优质服务 · 绿色发展</p></div>
+    </div>
+    <div class="header-search"><input type="text" placeholder="搜索联系信息…"><button>🔍 搜索</button></div>
+  </div>
+</header>
+
+<!-- 主导航 -->
+<nav class="main-nav" id="mainNav">
+  <div class="container">
+    <ul class="nav-list" id="navList">
+      <li><a href="index.html">网站首页</a></li>
+      <li><a href="xinxi-gongkai.html">信息公开</a></li>
+      <li><a href="banshi-fuwu.html">办事服务</a></li>
+      <li><a href="hudong-jiaoliu.html">互动交流</a></li>
+      <li><a href="zhuanti-zhuanlan.html">专题专栏</a></li>
+      <li class="active"><a href="lianxi-women.html">联系我们</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- 面包屑 -->
+<div class="breadcrumb">
+  <div class="container"><a href="index.html">首页</a><span>/</span><span>联系我们</span></div>
+</div>
+
+<!-- 页面横幅 -->
+<section class="page-banner">
+  <div class="container">
+    <h2>联系我们</h2>
+    <p>我们珍视每一次与您的沟通。无论您有任何用水需求、意见建议还是紧急故障，请通过以下方式联系我们，我们随时为您服务。</p>
+  </div>
+</section>
+
+<!-- 主体 -->
+<main class="page-body">
+  <div class="container">
+
+    <!-- 左栏：联系信息 -->
+    <div>
+      <!-- 核心联系卡片 -->
+      <div class="info-cards">
+        <div class="info-card"><div class="ic-icon">📞</div><div class="ic-label">24小时客服热线</div><div class="ic-value">0731-5828-XXXX</div></div>
+        <div class="info-card"><div class="ic-icon">📱</div><div class="ic-label">紧急抢修电话</div><div class="ic-value">0731-5828-YYYY</div></div>
+        <div class="info-card"><div class="ic-icon">✉️</div><div class="ic-label">公司邮箱</div><div class="ic-value">service@xtzhsw.com</div></div>
+        <div class="info-card"><div class="ic-icon">🕐</div><div class="ic-label">总机服务时间</div><div class="ic-value">周一至周五 8:30-17:30</div></div>
+      </div>
+
+      <!-- 公司地址 -->
+      <div class="card">
+        <div class="card-header"><h3>公司地址</h3></div>
+        <div class="card-body">
+          <p style="font-size:14px;color:var(--text);font-weight:600;margin-bottom:6px;">📍 湘潭市中环水务有限公司</p>
+          <p style="font-size:13px;color:var(--text-light);line-height:1.8;margin-bottom:14px;">湖南省湘潭市雨湖区韶山东路88号水务大厦 &nbsp;|&nbsp; 邮编：411100</p>
+          <!-- 地图占位 -->
+          <div style="aspect-ratio:16/7;background:linear-gradient(135deg,#dbeafe,#93c5fd);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;overflow:hidden;">
+            <span style="position:relative;z-index:1;">🗺️</span>
+            <span style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-size:13px;color:var(--text-light);background:rgba(255,255,255,0.85);padding:4px 14px;border-radius:50px;z-index:1;">水务大厦地理位置示意</span>
+            <div style="position:absolute;inset:0;background:radial-gradient(circle at 30% 45%,rgba(255,255,255,0.3),transparent 60%);"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 服务网点 -->
+      <div class="card" style="margin-top:20px;">
+        <div class="card-header"><h3>服务网点</h3></div>
+        <div class="card-body">
+          <div class="outlet-list">
+            <div class="outlet-item">
+              <div class="olt-icon olt-icon-main">🏢</div>
+              <div class="olt-info">
+                <div class="olt-name">雨湖营业厅（总厅）<span class="olt-badge badge-main">总厅</span></div>
+                <div class="olt-detail">📍 雨湖区韶山东路88号水务大厦一楼<br>🕐 周一至周五 8:30-17:30 &nbsp;|&nbsp; 周六 9:00-15:00<br>📞 0731-5828-1101</div>
+              </div>
+            </div>
+            <div class="outlet-item">
+              <div class="olt-icon olt-icon-branch">🏢</div>
+              <div class="olt-info">
+                <div class="olt-name">岳塘营业厅<span class="olt-badge badge-branch">分厅</span></div>
+                <div class="olt-detail">📍 岳塘区建设南路218号<br>🕐 周一至周五 8:30-17:30 &nbsp;|&nbsp; 周六 9:00-15:00<br>📞 0731-5828-1102</div>
+              </div>
+            </div>
+            <div class="outlet-item">
+              <div class="olt-icon olt-icon-branch">🏢</div>
+              <div class="olt-info">
+                <div class="olt-name">九华营业厅<span class="olt-badge badge-branch">分厅</span></div>
+                <div class="olt-detail">📍 九华经开区富洲路1号<br>🕐 周一至周五 8:30-17:00 &nbsp;|&nbsp; 周六 9:00-12:00<br>📞 0731-5828-1103</div>
+              </div>
+            </div>
+            <div class="outlet-item">
+              <div class="olt-icon olt-icon-sub">🏢</div>
+              <div class="olt-info">
+                <div class="olt-name">昭山营业厅<span class="olt-badge badge-sub">网点</span></div>
+                <div class="olt-detail">📍 昭山示范区芙蓉大道56号<br>🕐 周一至周五 8:30-17:00 &nbsp;|&nbsp; 周六休息<br>📞 0731-5828-1104</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右栏：在线留言表单 -->
+    <div>
+      <div class="card">
+        <div class="card-header"><h3>在线留言</h3></div>
+        <div class="card-body">
+          <p style="color:var(--text-light);font-size:13px;margin-bottom:16px;">请填写以下表单，我们将在1个工作日内与您联系。标 * 为必填项。</p>
+          <form id="contactForm">
+            <div class="form-row">
+              <div class="form-group"><label>姓名 *</label><input type="text" placeholder="请输入您的姓名" required></div>
+              <div class="form-group"><label>联系电话 *</label><input type="tel" placeholder="请输入联系电话" required></div>
+            </div>
+            <div class="form-group"><label>电子邮箱</label><input type="email" placeholder="选填，方便我们邮件回复"></div>
+            <div class="form-group"><label>留言类型 *</label>
+              <select required>
+                <option value="">请选择留言类型</option><option>业务咨询</option><option>故障报修</option><option>投诉建议</option><option>水质反馈</option><option>商务合作</option><option>媒体采访</option><option>其他</option>
+              </select>
+            </div>
+            <div class="form-group"><label>留言内容 *</label><textarea placeholder="请详细描述您的需求或问题…" required></textarea></div>
+            <div class="form-group" style="display:flex;align-items:center;gap:8px;">
+              <input type="checkbox" id="agree" style="width:auto;" required><label for="agree" style="font-weight:400;font-size:12px;color:var(--text-light);">我已阅读并同意<a href="#" style="color:var(--primary);">《用户隐私协议》</a></label>
+            </div>
+            <button type="submit" class="btn-submit">📨 提交留言</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- 部门通讯录 -->
+      <div class="card" style="margin-top:20px;">
+        <div class="card-header"><h3>部门通讯录</h3></div>
+        <div class="card-body" style="padding:8px;">
+          <div style="overflow-x:auto;">
+            <table class="dept-table">
+              <thead><tr><th>部门</th><th>电话</th><th>主要职责</th></tr></thead>
+              <tbody>
+                <tr><td>客户服务中心</td><td>0731-5828-1001</td><td>业务咨询、投诉受理、用户回访</td></tr>
+                <tr><td>管网管理部</td><td>0731-5828-1002</td><td>管网巡检、抢修调度、漏损控制</td></tr>
+                <tr><td>水质检测中心</td><td>0731-5828-1003</td><td>水质监测、检测报告、技术咨询</td></tr>
+                <tr><td>生产技术部</td><td>0731-5828-1004</td><td>生产调度、设备管理、技术保障</td></tr>
+                <tr><td>物资采购部</td><td>0731-5828-1005</td><td>物资采购、供应商管理、库存管理</td></tr>
+                <tr><td>财务部</td><td>0731-5828-1006</td><td>水费核算、发票管理、对公业务</td></tr>
+                <tr><td>信息中心</td><td>0731-5828-1007</td><td>智慧水务平台、微信公众号运维</td></tr>
+                <tr><td>安全监管部</td><td>0731-5828-1008</td><td>安全生产监督、应急管理</td></tr>
+                <tr><td>党群工作部</td><td>0731-5828-1009</td><td>党建工作、企业文化、宣传</td></tr>
+                <tr><td>办公室</td><td>0731-5828-1010</td><td>行政事务、公文处理、来访接待</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 全宽：社交媒体 -->
+  <div class="container full-section">
+    <div class="card">
+      <div class="card-header"><h3>关注我们</h3></div>
+      <div class="card-body">
+        <div class="qrcode-grid">
+          <div class="qrcode-item">
+            <div class="qrcode-placeholder">💬</div>
+            <p>微信公众号</p>
+            <span>搜索"湘潭中环水务"</span>
+          </div>
+          <div class="qrcode-item">
+            <div class="qrcode-placeholder">🔵</div>
+            <p>支付宝生活号</p>
+            <span>搜索"湘潭中环水务"</span>
+          </div>
+          <div class="qrcode-item">
+            <div class="qrcode-placeholder">📢</div>
+            <p>官方微博</p>
+            <span>@湘潭中环水务</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 全宽：交通指引 -->
+  <div class="container full-section">
+    <div class="card">
+      <div class="card-header"><h3>交通指引</h3></div>
+      <div class="card-body">
+        <table class="dept-table">
+          <tr><th>🚌 公交线路</th><td>乘坐1路、6路、9路、13路、23路至"水务大厦站"下车即到；乘坐2路、7路、15路至"韶山东路口站"下车，步行约300米</td></tr>
+          <tr><th>🚗 自驾导航</th><td>导航搜索"湘潭市中环水务有限公司"或"水务大厦（韶山东路88号）"，公司院内提供来访停车位</td></tr>
+          <tr><th>🚄 火车站出发</th><td>从湘潭火车站乘坐1路公交直达，约20分钟；打车约12分钟，费用约15元</td></tr>
+          <tr><th>🏥 周边地标</th><td>公司北邻湘潭市第一人民医院，南靠雨湖公园，东距湘潭市政府约3公里</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- 页脚 -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-contact">
+      <h4>湘潭市中环水务有限公司</h4>
+      <p>📍 地址：湖南省湘潭市雨湖区韶山东路88号水务大厦</p>
+      <p>📞 24小时客服热线：0731-5828-XXXX</p>
+      <p>✉️ 电子邮箱：service@xtzhsw.com</p>
+    </div>
+    <div><h4>快速导航</h4>
+      <a href="index.html">网站首页</a><a href="xinxi-gongkai.html">信息公开</a><a href="banshi-fuwu.html">办事服务</a><a href="hudong-jiaoliu.html">互动交流</a><a href="zhuanti-zhuanlan.html">专题专栏</a>
+    </div>
+    <div><h4>服务直达</h4>
+      <a href="banshi-fuwu.html#pay">在线缴费</a><a href="xinxi-gongkai.html#water-quality">水质公告</a><a href="xinxi-gongkai.html#water-quality">停水通知</a><a href="banshi-fuwu.html#repair">故障报修</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>主办单位：湘潭市中环水务有限公司</span>
+    <span>湘ICP备2025XXXXXXXX号-1</span>
+    <span>湘公网安备 43030202000XXX号</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('currentDate').textContent = (function(){
+    var d = new Date();
+    var w = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+    return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 '+w[d.getDay()];
+  })();
+  document.getElementById('menuToggle').addEventListener('click', function(){
+    this.classList.toggle('open'); document.getElementById('navList').classList.toggle('open');
+  });
+
+  // 表单提交
+  document.getElementById('contactForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var btn = this.querySelector('.btn-submit');
+    var orig = btn.textContent;
+    btn.textContent = '✅ 提交成功！我们将尽快与您联系';
+    btn.style.background = '#22c55e';
+    setTimeout(function(){ btn.textContent = orig; btn.style.background = ''; e.target.reset(); }.bind({target:this}), 3000);
+  });
+</script>
+</body>
+</html>

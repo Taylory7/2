@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专题专栏 — 湘潭市中环水务有限公司</title>
+<style>
+  :root {
+    --primary: #1a56db; --primary-dark: #0f3dab; --primary-light: #e8f0fe;
+    --accent: #0891b2; --white: #ffffff; --text: #1e293b; --text-light: #64748b;
+    --bg: #f8fafc; --bg-card: #ffffff; --border: #e2e8f0;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+    --radius: 6px; --max-width: 1200px; --transition: 0.25s ease;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; font-size: 14px; }
+  a { text-decoration: none; color: inherit; }
+  ul { list-style: none; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+  .top-toolbar { background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-size: 12px; color: var(--text-light); }
+  .top-toolbar .container { display: flex; justify-content: space-between; align-items: center; padding: 6px 20px; flex-wrap: wrap; gap: 8px; }
+  .top-toolbar .toolbar-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .top-toolbar a { color: var(--text-light); }
+  .top-toolbar a:hover { color: var(--primary); }
+
+  .site-header { background: linear-gradient(135deg, #fff 0%, #f0f7ff 100%); border-bottom: 3px solid var(--primary); }
+  .site-header .container { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; gap: 24px; flex-wrap: wrap; }
+  .header-brand { display: flex; align-items: center; gap: 16px; }
+  .header-logo { width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff; box-shadow: 0 4px 16px rgba(26,86,219,0.25); flex-shrink: 0; }
+  .header-titles h1 { font-size: 26px; font-weight: 700; color: var(--primary-dark); letter-spacing: 1px; }
+  .header-titles .subtitle { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+  .header-search { display: flex; border: 2px solid var(--border); border-radius: 50px; overflow: hidden; background: #fff; transition: border-color var(--transition); flex-shrink: 0; }
+  .header-search:focus-within { border-color: var(--primary); }
+  .header-search input { border: none; outline: none; padding: 10px 18px; width: 240px; font-size: 14px; font-family: inherit; }
+  .header-search button { background: var(--primary); color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-size: 14px; font-family: inherit; }
+  .header-search button:hover { background: var(--primary-dark); }
+
+  .main-nav { background: var(--primary); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+  .main-nav .container { display: flex; align-items: center; }
+  .main-nav .nav-list { display: flex; align-items: center; }
+  .main-nav .nav-list > li { position: relative; }
+  .main-nav .nav-list > li > a { display: block; padding: 14px 24px; color: rgba(255,255,255,0.92); font-size: 15px; font-weight: 500; white-space: nowrap; transition: all var(--transition); letter-spacing: 0.5px; }
+  .main-nav .nav-list > li > a:hover, .main-nav .nav-list > li.active > a { background: rgba(255,255,255,0.15); color: #fff; }
+  .main-nav .nav-list > li.active > a { border-bottom: 3px solid #fff; padding-bottom: 11px; }
+  .main-nav .nav-dropdown { position: absolute; top: 100%; left: 0; background: #fff; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); border-radius: 0 0 var(--radius) var(--radius); opacity: 0; visibility: hidden; transform: translateY(4px); transition: all 0.2s ease; z-index: 1001; overflow: hidden; }
+  .main-nav .nav-list > li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-dropdown a { display: block; padding: 10px 18px; color: var(--text); font-size: 13px; border-bottom: 1px solid #f1f5f9; transition: all var(--transition); }
+  .nav-dropdown a:hover { background: var(--primary-light); color: var(--primary); padding-left: 22px; }
+  .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; margin-left: auto; }
+  .menu-toggle span { display: block; width: 26px; height: 2.5px; background: #fff; border-radius: 2px; transition: all 0.3s ease; }
+  .menu-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .menu-toggle.open span:nth-child(2) { opacity: 0; }
+  .menu-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  .breadcrumb { background: #fff; border-bottom: 1px solid var(--border); }
+  .breadcrumb .container { padding: 12px 20px; font-size: 13px; color: var(--text-light); display: flex; gap: 8px; align-items: center; }
+  .breadcrumb a { color: var(--primary); }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { color: #94a3b8; }
+
+  /* 顶部横幅 */
+  .topic-banner { background: linear-gradient(135deg, #0f2b6e, #1e40af, #0ea5e9); color: #fff; padding: 48px 0; text-align: center; }
+  .topic-banner h2 { font-size: clamp(26px, 4vw, 36px); font-weight: 700; margin-bottom: 10px; letter-spacing: 2px; }
+  .topic-banner p { opacity: 0.85; font-size: 15px; }
+
+  /* 专题网格 */
+  .topics-section { padding: 40px 0; }
+  .topic-block { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 32px; overflow: hidden; }
+  .topic-block-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; background: linear-gradient(90deg, #f8fafc, #fff); }
+  .topic-block-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+  .tbi-1 { background: #dbeafe; } .tbi-2 { background: #d1fae5; } .tbi-3 { background: #ffedd5; }
+  .tbi-4 { background: #ede9fe; } .tbi-5 { background: #cffafe; } .tbi-6 { background: #ffe4e6; }
+  .topic-block-header h3 { font-size: 18px; color: var(--text); }
+  .topic-block-header .topic-tag { margin-left: auto; padding: 4px 12px; background: var(--primary-light); color: var(--primary); border-radius: 50px; font-size: 12px; font-weight: 600; }
+  .topic-block-body { padding: 24px; }
+  .topic-block-body .intro { font-size: 14px; color: var(--text-light); line-height: 1.9; margin-bottom: 20px; }
+
+  /* 文章列表 */
+  .article-list li { padding: 14px 0; border-bottom: 1px dashed #e2e8f0; display: flex; align-items: flex-start; gap: 14px; }
+  .article-list li:last-child { border-bottom: none; }
+  .article-thumb { width: 120px; height: 80px; border-radius: var(--radius); background: linear-gradient(135deg, #dbeafe, #93c5fd); display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+  .article-info { flex: 1; min-width: 0; }
+  .article-info .art-title { font-size: 15px; font-weight: 600; color: var(--text); transition: color var(--transition); display: block; margin-bottom: 4px; }
+  .article-info .art-title:hover { color: var(--primary); }
+  .article-info .art-desc { font-size: 13px; color: var(--text-light); line-height: 1.6; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .article-info .art-meta { font-size: 11px; color: #94a3b8; }
+
+  /* 数据和进度 */
+  .stats-mini { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+  .stat-mini-item { background: var(--bg); border-radius: var(--radius); padding: 16px; text-align: center; }
+  .stat-mini-item .sm-num { font-size: 28px; font-weight: 800; color: var(--primary); }
+  .stat-mini-item .sm-label { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+
+  .progress-list li { padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px; display: flex; align-items: center; gap: 10px; }
+  .progress-list li:last-child { border-bottom: none; }
+  .progress-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .progress-dot.done { background: #22c55e; }
+  .progress-dot.ongoing { background: #f59e0b; animation: pulse 1.5s infinite; }
+  .progress-dot.plan { background: #94a3b8; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .progress-tag { padding: 2px 8px; border-radius: 50px; font-size: 11px; white-space: nowrap; }
+  .tag-done { background: #d1fae5; color: #065f46; }
+  .tag-ongoing { background: #ffedd5; color: #9a3412; }
+  .tag-plan { background: #f1f5f9; color: #64748b; }
+
+  /* 图片网格 */
+  .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .gallery-item { aspect-ratio: 4/3; background: linear-gradient(135deg, #dbeafe, #93c5fd); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 40px; position: relative; overflow: hidden; }
+  .gallery-item::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 30% 35%, rgba(255,255,255,0.3), transparent 60%); }
+
+  .site-footer { background: #0b1424; color: #94a3b8; padding: 36px 20px 24px; font-size: 13px; }
+  .footer-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; margin-bottom: 24px; }
+  .footer-grid h4 { color: #fff; font-size: 15px; margin-bottom: 14px; font-weight: 600; }
+  .footer-grid a { color: #94a3b8; display: block; margin-bottom: 6px; transition: color 0.2s; font-size: 13px; }
+  .footer-grid a:hover { color: #fff; }
+  .footer-contact p { margin-bottom: 6px; display: flex; gap: 6px; align-items: flex-start; }
+  .footer-bottom { max-width: var(--max-width); margin: 0 auto; padding-top: 18px; border-top: 1px solid #1e293b; text-align: center; font-size: 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+  @media (max-width: 768px) {
+    .top-toolbar .container { justify-content: center; }
+    .site-header .container { justify-content: center; text-align: center; }
+    .header-titles h1 { font-size: 20px; }
+    .header-search input { width: 160px; }
+    .main-nav .nav-list { display: none; }
+    .menu-toggle { display: flex; }
+    .main-nav .nav-list.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--primary-dark); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .main-nav .nav-list.open .nav-dropdown { position: static; opacity: 1; visibility: visible; background: rgba(0,0,0,0.1); box-shadow: none; transform: none; border-radius: 0; }
+    .main-nav .nav-list.open .nav-dropdown a { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.1); }
+    .stats-mini { grid-template-columns: repeat(2, 1fr); }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr; }
+    .article-thumb { width: 80px; height: 60px; font-size: 22px; }
+  }
+  @media (max-width: 480px) {
+    .stats-mini { grid-template-columns: 1fr 1fr; }
+    .gallery-grid { grid-template-columns: 1fr; }
+    .header-titles h1 { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-toolbar">
+  <div class="container">
+    <div class="toolbar-links">
+      <a href="#">中国政府网</a><span>|</span><a href="#">住建部网</a><span>|</span><a href="#">湖南省政府门户</a><span>|</span><a href="#">湘潭市政府网</a>
+    </div>
+    <span id="currentDate"></span>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container">
+    <div class="header-brand">
+      <div class="header-logo">💧</div>
+      <div class="header-titles"><h1>湘潭市中环水务有限公司</h1><p class="subtitle">安全供水 · 优质服务 · 绿色发展</p></div>
+    </div>
+    <div class="header-search"><input type="text" placeholder="搜索专题内容…"><button>🔍 搜索</button></div>
+  </div>
+</header>
+
+<nav class="main-nav" id="mainNav">
+  <div class="container">
+    <ul class="nav-list" id="navList">
+      <li><a href="index.html">网站首页</a></li>
+      <li><a href="xinxi-gongkai.html">信息公开</a></li>
+      <li><a href="banshi-fuwu.html">办事服务</a></li>
+      <li><a href="hudong-jiaoliu.html">互动交流</a></li>
+      <li class="active">
+        <a href="zhuanti-zhuanlan.html">专题专栏</a>
+        <div class="nav-dropdown">
+          <a href="#smart-water">智慧水务</a><a href="#save-water">节水创建</a><a href="#safety">安全生产</a><a href="#water-edu">水质科普</a><a href="#pipe">管网改造</a><a href="#party">党建文明</a>
+        </div>
+      </li>
+      <li><a href="lianxi-women.html">联系我们</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <div class="container"><a href="index.html">首页</a><span>/</span><span>专题专栏</span></div>
+</div>
+
+<!-- 顶部横幅 -->
+<section class="topic-banner">
+  <div class="container">
+    <h2>专题专栏</h2>
+    <p>聚焦水务发展前沿 · 展现企业责任担当 · 服务城市美好生活</p>
+  </div>
+</section>
+
+<!-- 专题内容 -->
+<main class="topics-section">
+  <div class="container">
+
+    <!-- 智慧水务建设 -->
+    <div class="topic-block" id="smart-water">
+      <div class="topic-block-header">
+        <div class="topic-block-icon tbi-1">🤖</div>
+        <h3>智慧水务建设</h3>
+        <span class="topic-tag">进行中</span>
+      </div>
+      <div class="topic-block-body">
+        <p class="intro">以数字化、智能化技术赋能传统水务管理，构建"智慧生产、智慧管网、智慧服务"三位一体的新型水务体系。智慧水务2.0平台已正式上线运行，实现从水源到龙头的全链条数字化管控。</p>
+        <div class="stats-mini">
+          <div class="stat-mini-item"><div class="sm-num">156</div><div class="sm-label">在线监测点</div></div>
+          <div class="stat-mini-item"><div class="sm-num">8.2<span style="font-size:16px;">万</span></div><div class="sm-label">智能水表覆盖</div></div>
+          <div class="stat-mini-item"><div class="sm-num">92<span style="font-size:16px;">%</span></div><div class="sm-label">管网在线率</div></div>
+          <div class="stat-mini-item"><div class="sm-num">16<span style="font-size:16px;">%</span></div><div class="sm-label">漏损率降低</div></div>
+        </div>
+        <ul class="article-list">
+          <li>
+            <div class="article-thumb">📡</div>
+            <div class="article-info">
+              <a href="#" class="art-title">智慧水务2.0平台正式上线运行</a>
+              <p class="art-desc">集成GIS地理信息系统、SCADA数据采集系统和AI智能调度引擎，实现全市供水管网实时可视化监控和智能调度。</p>
+              <span class="art-meta">2026-05-10 &nbsp;|&nbsp; 阅读 3,286</span>
+            </div>
+          </li>
+          <li>
+            <div class="article-thumb">🔬</div>
+            <div class="article-info">
+              <a href="#" class="art-title">水质在线监测系统覆盖全市12个关键节点</a>
+              <p class="art-desc">新增6个管网末梢水质在线监测点，实时回传浊度、余氯、pH值、电导率等关键指标数据。</p>
+              <span class="art-meta">2026-04-22 &nbsp;|&nbsp; 阅读 2,145</span>
+            </div>
+          </li>
+          <li>
+            <div class="article-thumb">📱</div>
+            <div class="article-info">
+              <a href="#" class="art-title">"掌上营业厅"功能升级，用水服务触手可及</a>
+              <p class="art-desc">微信公众号新增AI智能客服、用水异常预警、漏损自检助手等8项新功能，用户满意度提升至96%。</p>
+              <span class="art-meta">2026-03-15 &nbsp;|&nbsp; 阅读 4,521</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 节水型城市创建 -->
+    <div class="topic-block" id="save-water">
+      <div class="topic-block-header">
+        <div class="topic-block-icon tbi-2">💧</div>
+        <h3>节水型城市创建</h3>
+        <span class="topic-tag">长期推进</span>
+      </div>
+      <div class="topic-block-body">
+        <p class="intro">积极响应国家节水行动号召，全面推进湘潭市节水型城市创建工作。从水源保护、管网降损、再生水利用、节水宣传四个维度发力，构建全民参与的节水型社会。</p>
+        <div class="gallery-grid">
+          <div class="gallery-item">🌱</div>
+          <div class="gallery-item">🏫</div>
+          <div class="gallery-item">🏘️</div>
+        </div>
+        <ul class="article-list">
+          <li>
+            <div class="article-thumb" style="background:linear-gradient(135deg,#d1fae5,#6ee7b7);">🎓</div>
+            <div class="article-info">
+              <a href="#" class="art-title">"节水知识进校园"系列活动覆盖全市32所中小学</a>
+              <p class="art-desc">通过科普讲座、互动实验、节水绘画比赛等形式，向青少年传递节水理念，累计参与学生超过2万人次。</p>
+              <span class="art-meta">2026-05-15 &nbsp;|&nbsp; 阅读 1,876</span>
+            </div>
+          </li>
+          <li>
+            <div class="article-thumb" style="background:linear-gradient(135deg,#d1fae5,#6ee7b7);">🏗️</div>
+            <div class="article-info">
+              <a href="#" class="art-title">再生水利用示范项目开工建设</a>
+              <p class="art-desc">项目总投资5800万元，设计日处理再生水2万吨，将用于城市绿化浇灌、道路清洗和工业冷却，年节水量可达700万吨。</p>
+              <span class="art-meta">2026-04-08 &nbsp;|&nbsp; 阅读 2,310</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 安全生产专栏 -->
+    <div class="topic-block" id="safety">
+      <div class="topic-block-header">
+        <div class="topic-block-icon tbi-3">🛡️</div>
+        <h3>安全生产专栏</h3>
+        <span class="topic-tag">常态化</span>
+      </div>
+      <div class="topic-block-body">
+        <p class="intro">安全生产是企业发展的生命线。公司严格执行"安全第一、预防为主、综合治理"方针，构建安全生产风险分级管控和隐患排查治理双重预防机制。</p>
+        <ul class="article-list">
+          <li>
+            <div class="article-thumb" style="background:linear-gradient(135deg,#ffedd5,#fdba74);">🧯</div>
+            <div class="article-info">
+              <a href="#" class="art-title">2026年夏季防汛应急演练圆满完成</a>
+              <p class="art-desc">模拟湘江水位超警戒线场景，检验应急供水调度、管网抢修、水质应急监测等8个科目，参演人员120人。</p>
+              <span class="art-meta">2026-05-20 &nbsp;|&nbsp; 阅读 1,543</span>
+            </div>
+          </li>
+          <li>
+            <div class="article-thumb" style="background:linear-gradient(135deg,#ffedd5,#fdba74);">📋</div>
+            <div class="article-info">
+              <a href="#" class="art-title">第二季度安全生产大检查全面展开</a>
+              <p class="art-desc">重点检查水厂加氯系统、变配电设施、有限空间作业等环节，排查隐患23项，已全部整改到位。</p>
+              <span class="art-meta">2026-04-30 &nbsp;|&nbsp; 阅读 987</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 水质科普园地 -->
+    <div class="topic-block" id="water-edu">
+      <div class="topic-block-header">
+        <div class="topic-block-icon tbi-4">🔬</div>
+        <h3>水质科普园地</h3>
+        <span class="topic-tag">持续更新</span>
+      </div>
+      <div class="topic-block-body">
+        <p class="intro">普及饮用水科学知识，消除公众对自来水的常见误解，让每一位市民都能科学饮水、放心用水。</p>
+        <ul class="article-list">
+          <li>
+            <div class="article-thumb" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd);">❓</div>
+            <div class="article-info">
+              <a href="#" class="art-title">自来水为什么有时会有"漂白粉味"？</a>
+              <p class="art-desc">自来水中含有的微量余氯是为了在管网输送过程中持续杀菌，确保到达您家中时依然安全卫生。将水烧开后敞盖放置片刻即可消除。</p>
+              <span class="art-meta">2026-05-08 &nbsp;|&nbsp; 阅读 5,672</span>
+            </div>
+          </li>
+          <li>
+            <div class="article-thumb" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd);">🔍</div>
+            <div class="article-info">
+              <a href="#" class="art-title">TDS值越低水质越好？揭开TDS检测笔的真相</a>
+              <p class="art-desc">TDS（溶解性总固体）仅是水质指标之一，不代表水质的全部。符合国家标准的自来水TDS在100-400mg/L均属正常范围。</p>
+              <span class="art-meta">2026-04-25 &nbsp;|&nbsp; 阅读 8,921</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 管网改造进行时 -->
+    <div class="topic-block" id="pipe">
+      <div class="topic-block-header">
+        <div class="topic-block-icon tbi-5">🏗️</div>
+        <h3>管网改造进行时</h3>
+        <span class="topic-tag">推进中</span>
+      </div>
+      <div class="topic-block-body">
+        <p class="intro">持续推进老旧供水管网改造升级，消除供水安全隐患，提升供水保障能力。2024-2026年计划改造老旧管网共计158公里。</p>
+        <ul class="progress-list">
+          <li><span class="progress-dot done"></span>雨湖区韶山路DN600主管网改造（3.2km）<span class="progress-tag tag-done" style="margin-left:auto;">已完成</span></li>
+          <li><span class="progress-dot done"></span>岳塘区建设南路DN400管网升级（2.8km）<span class="progress-tag tag-done" style="margin-left:auto;">已完成</span></li>
+          <li><span class="progress-dot ongoing"></span>九华经开区富洲路DN500管道敷设（4.5km）<span class="progress-tag tag-ongoing" style="margin-left:auto;">施工中</span></li>
+          <li><span class="progress-dot ongoing"></span>昭山示范区芙蓉大道管网迁移（3.1km）<span class="progress-tag tag-ongoing" style="margin-left:auto;">施工中</span></li>
+          <li><span class="progress-dot plan"></span>雨湖区民主路老旧铸铁管更换（2.6km）<span class="progress-tag tag-plan" style="margin-left:auto;">计划中</span></li>
+          <li><span class="progress-dot plan"></span>岳塘区书院路管网整体改造（5.0km）<span class="progress-tag tag-plan" style="margin-left:auto;">计划中</span></li>
+        </ul>
+        <div class="stats-mini" style="margin-top:16px;">
+          <div class="stat-mini-item"><div class="sm-num">158<span style="font-size:14px;">km</span></div><div class="sm-label">计划改造总长</div></div>
+          <div class="stat-mini-item"><div class="sm-num">76<span style="font-size:14px;">km</span></div><div class="sm-label">已完成</div></div>
+          <div class="stat-mini-item"><div class="sm-num">45<span style="font-size:14px;">km</span></div><div class="sm-label">施工中</div></div>
+          <div class="stat-mini-item"><div class="sm-num">37<span style="font-size:14px;">km</span></div><div class="sm-label">计划开工</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 党建与文明创建 -->
+    <div class="topic-block" id="party">
+      <div class="topic-block-header">
+        <div class="topic-block-icon tbi-6">🏅</div>
+        <h3>党建与文明创建</h3>
+        <span class="topic-tag">持续推进</span>
+      </div>
+      <div class="topic-block-body">
+        <p class="intro">以党建引领企业发展，以文明创建提升服务品质。公司党委下设6个党支部，共有党员168名，持续开展"党员先锋岗""供水服务进社区"等品牌活动。</p>
+        <ul class="article-list">
+          <li>
+            <div class="article-thumb" style="background:linear-gradient(135deg,#ffe4e6,#fda4af);">🚩</div>
+            <div class="article-info">
+              <a href="#" class="art-title">公司获评"湖南省文明单位"称号</a>
+              <p class="art-desc">经过三年创建，公司以扎实的文明建设成果顺利通过省文明办验收，正式获评2024-2025年度湖南省文明单位。</p>
+              <span class="art-meta">2026-04-12 &nbsp;|&nbsp; 阅读 2,890</span>
+            </div>
+          </li>
+          <li>
+            <div class="article-thumb" style="background:linear-gradient(135deg,#ffe4e6,#fda4af);">🤝</div>
+            <div class="article-info">
+              <a href="#" class="art-title">"供水服务进社区"党员志愿活动暖人心</a>
+              <p class="art-desc">组织党员志愿者走进全市12个社区，为居民免费检修供水设施、解答用水疑问、办理业务，服务居民逾3000人次。</p>
+              <span class="art-meta">2026-03-28 &nbsp;|&nbsp; 阅读 1,765</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-contact">
+      <h4>湘潭市中环水务有限公司</h4>
+      <p>📍 地址：湖南省湘潭市雨湖区韶山东路88号水务大厦</p>
+      <p>📞 24小时客服热线：0731-5828-XXXX</p>
+      <p>✉️ 电子邮箱：service@xtzhsw.com</p>
+    </div>
+    <div><h4>快速导航</h4>
+      <a href="index.html">网站首页</a><a href="xinxi-gongkai.html">信息公开</a><a href="banshi-fuwu.html">办事服务</a><a href="hudong-jiaoliu.html">互动交流</a>
+    </div>
+    <div><h4>服务直达</h4>
+      <a href="#">在线缴费</a><a href="#">水质公告</a><a href="#">停水通知</a><a href="#">故障报修</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>主办单位：湘潭市中环水务有限公司</span>
+    <span>湘ICP备2025XXXXXXXX号-1</span>
+    <span>湘公网安备 43030202000XXX号</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('currentDate').textContent = (function(){
+    var d = new Date();
+    var w = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+    return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 '+w[d.getDay()];
+  })();
+  document.getElementById('menuToggle').addEventListener('click', function(){
+    this.classList.toggle('open'); document.getElementById('navList').classList.toggle('open');
+  });
+</script>
+</body>
+</html>

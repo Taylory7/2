@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>通知公告 — 湘潭市中环水务有限公司</title>
+<style>
+  :root {
+    --primary: #1a56db; --primary-dark: #0f3dab; --primary-light: #e8f0fe; --accent: #0891b2;
+    --white: #ffffff; --text: #1e293b; --text-light: #64748b; --bg: #f8fafc; --bg-card: #ffffff;
+    --border: #e2e8f0; --shadow: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+    --radius: 6px; --max-width: 1200px; --transition: 0.25s ease;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; font-size: 14px; }
+  a { text-decoration: none; color: inherit; }
+  ul { list-style: none; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+  .top-toolbar { background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-size: 12px; color: var(--text-light); }
+  .top-toolbar .container { display: flex; justify-content: space-between; align-items: center; padding-top: 6px; padding-bottom: 6px; flex-wrap: wrap; gap: 8px; }
+  .top-toolbar .toolbar-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .top-toolbar a { color: var(--text-light); transition: color var(--transition); }
+  .top-toolbar a:hover { color: var(--primary); }
+
+  .site-header { background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%); border-bottom: 3px solid var(--primary); }
+  .site-header .container { display: flex; align-items: center; justify-content: space-between; padding-top: 18px; padding-bottom: 18px; gap: 24px; flex-wrap: wrap; }
+  .header-brand { display: flex; align-items: center; gap: 16px; }
+  .header-logo { width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff; box-shadow: 0 4px 16px rgba(26,86,219,0.25); flex-shrink: 0; }
+  .header-titles h1 { font-size: 26px; font-weight: 700; color: var(--primary-dark); letter-spacing: 1px; }
+  .header-titles .subtitle { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+  .header-search { display: flex; border: 2px solid var(--border); border-radius: 50px; overflow: hidden; background: #fff; transition: border-color var(--transition); flex-shrink: 0; }
+  .header-search:focus-within { border-color: var(--primary); }
+  .header-search input { border: none; outline: none; padding: 10px 18px; width: 240px; font-size: 14px; font-family: inherit; }
+  .header-search button { background: var(--primary); color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-size: 14px; font-family: inherit; transition: background var(--transition); }
+  .header-search button:hover { background: var(--primary-dark); }
+
+  .main-nav { background: var(--primary); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+  .main-nav .container { display: flex; align-items: center; }
+  .main-nav .nav-list { display: flex; align-items: center; }
+  .main-nav .nav-list > li { position: relative; }
+  .main-nav .nav-list > li > a { display: block; padding: 14px 24px; color: rgba(255,255,255,0.92); font-size: 15px; font-weight: 500; white-space: nowrap; transition: all var(--transition); letter-spacing: 0.5px; }
+  .main-nav .nav-list > li > a:hover, .main-nav .nav-list > li.active > a { background: rgba(255,255,255,0.15); color: #fff; }
+  .main-nav .nav-list > li.active > a { border-bottom: 3px solid #fff; padding-bottom: 11px; }
+  .main-nav .nav-dropdown { position: absolute; top: 100%; left: 0; background: #fff; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); border-radius: 0 0 var(--radius) var(--radius); opacity: 0; visibility: hidden; transform: translateY(4px); transition: all 0.2s ease; z-index: 1001; overflow: hidden; }
+  .main-nav .nav-list > li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-dropdown a { display: block; padding: 10px 18px; color: var(--text); font-size: 13px; border-bottom: 1px solid #f1f5f9; transition: all var(--transition); }
+  .nav-dropdown a:hover { background: var(--primary-light); color: var(--primary); padding-left: 22px; }
+  .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; margin-left: auto; }
+  .menu-toggle span { display: block; width: 26px; height: 2.5px; background: #fff; border-radius: 2px; transition: all 0.3s ease; }
+  .menu-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .menu-toggle.open span:nth-child(2) { opacity: 0; }
+  .menu-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  .breadcrumb-bar { background: #fff; border-bottom: 1px solid var(--border); }
+  .breadcrumb-bar .container { display: flex; align-items: center; padding-top: 10px; padding-bottom: 10px; font-size: 13px; color: var(--text-light); gap: 6px; }
+  .breadcrumb-bar a { color: var(--text-light); transition: color var(--transition); }
+  .breadcrumb-bar a:hover { color: var(--primary); }
+  .breadcrumb-bar .sep { color: #94a3b8; }
+  .breadcrumb-bar .current { color: var(--primary); font-weight: 500; }
+
+  .main-content { padding: 32px 0; }
+  .main-content .container { display: grid; grid-template-columns: 1fr 320px; gap: 24px; }
+
+  .card { background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+  .card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); background: linear-gradient(90deg, #f8fafc, #fff); }
+  .card-header h3 { font-size: 16px; color: var(--text); display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .card-header h3::before { content: ""; width: 4px; height: 18px; background: var(--primary); border-radius: 2px; }
+  .card-body { padding: 16px 20px; }
+
+  /* 分类标签栏 */
+  .category-tabs { display: flex; gap: 0; flex-wrap: wrap; border-bottom: 2px solid var(--border); margin-bottom: 16px; }
+  .category-tabs .cat-btn { padding: 8px 20px; font-size: 14px; border: none; background: none; color: var(--text-light); cursor: pointer; font-family: inherit; transition: all var(--transition); position: relative; }
+  .category-tabs .cat-btn:hover { color: var(--primary); }
+  .category-tabs .cat-btn.active { color: var(--primary); font-weight: 600; }
+  .category-tabs .cat-btn.active::after { content: ""; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: var(--primary); }
+  .category-tabs .cat-count { font-size: 11px; color: #94a3b8; margin-left: 4px; }
+
+  /* 公告列表 */
+  .notice-item { padding: 14px 0; border-bottom: 1px dashed #e2e8f0; display: flex; align-items: center; gap: 12px; }
+  .notice-item:last-child { border-bottom: none; }
+  .notice-icon { width: 36px; height: 36px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .notice-icon.stop { background: #fee2e2; }
+  .notice-icon.announce { background: #dbeafe; }
+  .notice-icon.public { background: #fef3c7; }
+  .notice-icon.notify { background: #d1fae5; }
+  .notice-info { flex: 1; min-width: 0; }
+  .notice-info h4 { font-size: 14px; color: var(--text); line-height: 1.5; transition: color var(--transition); cursor: pointer; }
+  .notice-info h4:hover { color: var(--primary); }
+  .notice-meta { font-size: 12px; color: #94a3b8; margin-top: 4px; display: flex; gap: 16px; }
+  .notice-tag { font-size: 11px; padding: 2px 8px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; font-weight: 500; }
+  .tag-stop { background: #fee2e2; color: #dc2626; }
+  .tag-announce { background: #dbeafe; color: #2563eb; }
+  .tag-public { background: #fef3c7; color: #d97706; }
+  .tag-notify { background: #d1fae5; color: #059669; }
+  .tag-urgent { background: #fce7f3; color: #db2777; }
+
+  .pagination { display: flex; justify-content: center; gap: 8px; padding: 24px 0 8px; flex-wrap: wrap; }
+  .pagination a, .pagination span { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--radius); font-size: 13px; border: 1px solid var(--border); background: #fff; color: var(--text); transition: all var(--transition); cursor: pointer; }
+  .pagination a:hover { border-color: var(--primary); color: var(--primary); }
+  .pagination a.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .pagination .page-info { font-size: 13px; color: var(--text-light); display: flex; align-items: center; margin: 0 8px; }
+
+  /* 侧边栏 */
+  .content-right { display: flex; flex-direction: column; gap: 24px; }
+  .side-card { background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+  .side-card .sc-header { padding: 12px 16px; border-bottom: 1px solid var(--border); background: linear-gradient(90deg, #f8fafc, #fff); font-size: 15px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 6px; }
+  .side-card .sc-header::before { content: ""; width: 4px; height: 16px; background: var(--primary); border-radius: 2px; }
+  .side-card .sc-body { padding: 12px 16px; }
+  .side-list li { padding: 8px 0; border-bottom: 1px dashed #e2e8f0; font-size: 13px; }
+  .side-list li:last-child { border-bottom: none; }
+  .side-list a { color: var(--text); transition: color var(--transition); display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .side-list a:hover { color: var(--primary); }
+
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat-item { text-align: center; padding: 14px 8px; background: var(--bg); border-radius: var(--radius); }
+  .stat-item .stat-num { font-size: 22px; font-weight: 700; color: #dc2626; }
+  .stat-item .stat-label { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+
+  .site-footer { background: #0b1424; color: #94a3b8; padding: 36px 20px 24px; font-size: 13px; }
+  .footer-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; margin-bottom: 24px; }
+  .footer-grid h4 { color: #fff; font-size: 15px; margin-bottom: 14px; font-weight: 600; }
+  .footer-grid a { color: #94a3b8; display: block; margin-bottom: 6px; transition: color 0.2s; font-size: 13px; }
+  .footer-grid a:hover { color: #fff; }
+  .footer-contact p { margin-bottom: 6px; display: flex; gap: 6px; align-items: flex-start; }
+  .footer-bottom { max-width: var(--max-width); margin: 0 auto; padding-top: 18px; border-top: 1px solid #1e293b; text-align: center; font-size: 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+  @media (max-width: 900px) {
+    .main-content .container { grid-template-columns: 1fr; }
+    .content-right { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  }
+  @media (max-width: 768px) {
+    .top-toolbar .container { justify-content: center; text-align: center; }
+    .site-header .container { justify-content: center; text-align: center; }
+    .header-search input { width: 160px; }
+    .header-titles h1 { font-size: 20px; }
+    .main-nav .nav-list { display: none; }
+    .menu-toggle { display: flex; }
+    .main-nav .nav-list.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--primary-dark); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .main-nav .nav-list.open .nav-dropdown { position: static; opacity: 1; visibility: visible; background: rgba(0,0,0,0.1); box-shadow: none; transform: none; border-radius: 0; }
+    .main-nav .nav-list.open .nav-dropdown a { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.1); }
+    .category-tabs .cat-btn { padding: 8px 12px; font-size: 12px; }
+    .content-right { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .header-titles h1 { font-size: 18px; }
+    .header-brand { flex-direction: column; text-align: center; }
+    .notice-item { flex-wrap: wrap; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-toolbar">
+  <div class="container">
+    <div class="toolbar-links">
+      <a href="#">中国政府网</a><span>|</span><a href="#">住建部网</a><span>|</span><a href="#">湖南省政府门户</a><span>|</span><a href="#">湘潭市政府网</a><span>|</span><a href="#">中国城镇供水排水协会</a>
+    </div>
+    <span id="currentDate"></span>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container">
+    <div class="header-brand">
+      <div class="header-logo">💧</div>
+      <div class="header-titles">
+        <h1>湘潭市中环水务有限公司</h1>
+        <p class="subtitle">Xiangtan Zhonghuan Water Co., Ltd. — 安全供水 · 优质服务 · 绿色发展</p>
+      </div>
+    </div>
+    <div class="header-search">
+      <input type="text" placeholder="搜索通知公告…">
+      <button type="button">🔍 搜索</button>
+    </div>
+  </div>
+</header>
+
+<nav class="main-nav" id="mainNav">
+  <div class="container">
+    <ul class="nav-list" id="navList">
+      <li><a href="index.html">网站首页</a></li>
+      <li><a href="xinxi-gongkai.html">信息公开</a><div class="nav-dropdown"><a href="xinxi-gongkai.html#org">机构职能</a><a href="xinxi-gongkai.html#leader">领导信息</a><a href="xinxi-gongkai.html#policy">政策法规</a><a href="xinxi-gongkai.html#water-quality">水质公告</a><a href="xinxi-gongkai.html#bidding">招标采购</a><a href="xinxi-gongkai.html#finance">财政信息</a></div></li>
+      <li><a href="banshi-fuwu.html">办事服务</a><div class="nav-dropdown"><a href="banshi-fuwu.html#guide">新装开户</a><a href="banshi-fuwu.html#pay">水费缴纳</a><a href="banshi-fuwu.html#change">过户变更</a><a href="banshi-fuwu.html#repair">故障报修</a><a href="banshi-fuwu.html#download">下载专区</a></div></li>
+      <li><a href="hudong-jiaoliu.html">互动交流</a><div class="nav-dropdown"><a href="hudong-jiaoliu.html#mailbox">经理信箱</a><a href="hudong-jiaoliu.html#consult">在线咨询</a><a href="hudong-jiaoliu.html#survey">满意度调查</a><a href="hudong-jiaoliu.html#solicit">民意征集</a></div></li>
+      <li><a href="zhuanti-zhuanlan.html">专题专栏</a><div class="nav-dropdown"><a href="zhuanti-zhuanlan.html#smart-water">智慧水务</a><a href="zhuanti-zhuanlan.html#save-water">节水宣传</a><a href="zhuanti-zhuanlan.html#safety">安全生产</a><a href="zhuanti-zhuanlan.html#party">党建园地</a></div></li>
+      <li><a href="lianxi-women.html">联系我们</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="breadcrumb-bar">
+  <div class="container">
+    <a href="index.html">首页</a><span class="sep">&gt;</span><span class="current">通知公告</span>
+  </div>
+</div>
+
+<main class="main-content">
+  <div class="container">
+    <div class="content-left">
+      <div class="card">
+        <div class="card-header"><h3>通知公告</h3></div>
+        <div class="card-body">
+          <!-- 分类标签 -->
+          <div class="category-tabs" id="categoryTabs">
+            <button class="cat-btn active" data-cat="all">全部<span class="cat-count">(32)</span></button>
+            <button class="cat-btn" data-cat="stop">停水通知<span class="cat-count">(8)</span></button>
+            <button class="cat-btn" data-cat="announce">公告公示<span class="cat-count">(10)</span></button>
+            <button class="cat-btn" data-cat="public">招标公示<span class="cat-count">(6)</span></button>
+            <button class="cat-btn" data-cat="notify">营业通知<span class="cat-count">(5)</span></button>
+            <button class="cat-btn" data-cat="urgent">紧急通告<span class="cat-count">(3)</span></button>
+          </div>
+
+          <!-- 通知列表 -->
+          <div id="noticeList">
+            <div class="notice-item" data-cat="stop">
+              <div class="notice-icon stop">🚧</div>
+              <div class="notice-info">
+                <h4>5月22日雨湖区韶山路（建设北路—雨湖路）DN600主管网升级改造停水通知</h4>
+                <div class="notice-meta"><span>📅 2026-05-21</span><span>👁 1,856 次</span><span>影响范围：雨湖区韶山路沿线</span></div>
+              </div>
+              <span class="notice-tag tag-stop">停水</span>
+            </div>
+            <div class="notice-item" data-cat="announce">
+              <div class="notice-icon announce">📋</div>
+              <div class="notice-info">
+                <h4>2026年5月水质检测报告发布公告</h4>
+                <div class="notice-meta"><span>📅 2026-05-19</span><span>👁 634 次</span><span>106项指标全部达标</span></div>
+              </div>
+              <span class="notice-tag tag-announce">公告</span>
+            </div>
+            <div class="notice-item" data-cat="public">
+              <div class="notice-icon public">📊</div>
+              <div class="notice-info">
+                <h4>2026年度智能水表采购项目（第二批）中标结果公示</h4>
+                <div class="notice-meta"><span>📅 2026-05-16</span><span>👁 489 次</span><span>中标金额：¥386.5万元</span></div>
+              </div>
+              <span class="notice-tag tag-public">公示</span>
+            </div>
+            <div class="notice-item" data-cat="notify">
+              <div class="notice-icon notify">🕐</div>
+              <div class="notice-info">
+                <h4>关于调整夏季营业时间的通知</h4>
+                <div class="notice-meta"><span>📅 2026-05-14</span><span>👁 1,023 次</span><span>6月1日起延长至18:00</span></div>
+              </div>
+              <span class="notice-tag tag-notify">通知</span>
+            </div>
+            <div class="notice-item" data-cat="announce">
+              <div class="notice-icon announce">📖</div>
+              <div class="notice-info">
+                <h4>2025年度企业社会责任报告正式发布</h4>
+                <div class="notice-meta"><span>📅 2026-05-10</span><span>👁 312 次</span><span>全文共8章42页</span></div>
+              </div>
+              <span class="notice-tag tag-announce">公告</span>
+            </div>
+            <div class="notice-item" data-cat="stop">
+              <div class="notice-icon stop">🚧</div>
+              <div class="notice-info">
+                <h4>5月15日岳塘区建设南路DN400管道迁改停水通知</h4>
+                <div class="notice-meta"><span>📅 2026-05-13</span><span>👁 1,421 次</span><span>影响范围：建设南路及周边</span></div>
+              </div>
+              <span class="notice-tag tag-stop">停水</span>
+            </div>
+            <div class="notice-item" data-cat="urgent">
+              <div class="notice-icon stop">⚠️</div>
+              <div class="notice-info">
+                <h4>紧急通告：湘江原水浊度异常升高，已启动应急处置措施</h4>
+                <div class="notice-meta"><span>📅 2026-05-08</span><span>👁 2,387 次</span><span>出厂水质达标，请放心使用</span></div>
+              </div>
+              <span class="notice-tag tag-urgent">紧急</span>
+            </div>
+            <div class="notice-item" data-cat="public">
+              <div class="notice-icon public">📊</div>
+              <div class="notice-info">
+                <h4>2026-2027年度管网抢修材料框架协议采购招标公告</h4>
+                <div class="notice-meta"><span>📅 2026-05-06</span><span>👁 356 次</span><span>投标截止：6月5日</span></div>
+              </div>
+              <span class="notice-tag tag-public">招标</span>
+            </div>
+            <div class="notice-item" data-cat="announce">
+              <div class="notice-icon announce">📋</div>
+              <div class="notice-info">
+                <h4>2026年4月水质检测报告发布公告</h4>
+                <div class="notice-meta"><span>📅 2026-04-28</span><span>👁 567 次</span><span>106项指标全部达标</span></div>
+              </div>
+              <span class="notice-tag tag-announce">公告</span>
+            </div>
+            <div class="notice-item" data-cat="notify">
+              <div class="notice-icon notify">🔔</div>
+              <div class="notice-info">
+                <h4>关于2026年"五一"劳动节期间营业时间调整的通知</h4>
+                <div class="notice-meta"><span>📅 2026-04-25</span><span>👁 876 次</span><span>5月1日-3日休息</span></div>
+              </div>
+              <span class="notice-tag tag-notify">通知</span>
+            </div>
+            <div class="notice-item" data-cat="public">
+              <div class="notice-icon public">📊</div>
+              <div class="notice-info">
+                <h4>第三水厂深度处理工艺改造项目竣工结算审计服务招标公告</h4>
+                <div class="notice-meta"><span>📅 2026-04-20</span><span>👁 423 次</span><span>开标时间：5月22日</span></div>
+              </div>
+              <span class="notice-tag tag-public">招标</span>
+            </div>
+            <div class="notice-item" data-cat="stop">
+              <div class="notice-icon stop">🚧</div>
+              <div class="notice-info">
+                <h4>4月18日九华经开区莲城大道DN500管网维修停水通知</h4>
+                <div class="notice-meta"><span>📅 2026-04-16</span><span>👁 1,234 次</span><span>影响范围：莲城大道两侧</span></div>
+              </div>
+              <span class="notice-tag tag-stop">停水</span>
+            </div>
+          </div>
+
+          <div class="pagination">
+            <span>首页</span><span>上一页</span>
+            <a href="javascript:void(0)" class="active">1</a>
+            <a href="javascript:void(0)">2</a>
+            <a href="javascript:void(0)">3</a>
+            <a href="javascript:void(0)">下一页</a>
+            <a href="javascript:void(0)">末页</a>
+            <span class="page-info">共 3 页 / 32 条</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-right">
+      <div class="side-card">
+        <div class="sc-header">公告统计</div>
+        <div class="sc-body">
+          <div class="stat-grid">
+            <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">停水通知</div></div>
+            <div class="stat-item"><div class="stat-num">10</div><div class="stat-label">公告公示</div></div>
+            <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">招标信息</div></div>
+            <div class="stat-item"><div class="stat-num">5</div><div class="stat-label">营业通知</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="sc-header">近期停水</div>
+        <div class="sc-body">
+          <ul class="side-list">
+            <li><a href="#">🚧 5月22日雨湖区韶山路DN600管网升级停水</a></li>
+            <li><a href="#">🚧 5月15日岳塘区建设南路DN400管道迁改停水</a></li>
+            <li><a href="#">🚧 4月18日九华莲城大道DN500管网维修停水</a></li>
+            <li><a href="#">🚧 4月5日湘潭县凤凰路DN300阀门更换停水</a></li>
+            <li><a href="#">🚧 3月28日雨湖区民主路DN200老旧管网改造停水</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="sc-header">快速导航</div>
+        <div class="sc-body">
+          <ul class="side-list">
+            <li><a href="gongsi-yaowen.html">📰 公司要闻</a></li>
+            <li><a href="tupian-xinwen.html">📷 图片新闻</a></li>
+            <li><a href="meiti-jujiao.html">📢 媒体聚焦</a></li>
+            <li><a href="banshi-fuwu.html#repair">🔧 故障报修</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-contact">
+      <h4>湘潭市中环水务有限公司</h4>
+      <p>📍 地址：湖南省湘潭市雨湖区韶山东路88号水务大厦</p>
+      <p>📞 24小时客服热线：0731-5828-XXXX</p>
+      <p>✉️ 电子邮箱：service@xtzhsw.com</p>
+      <p>🕐 营业时间：周一至周五 8:30-17:30，周六 9:00-15:00</p>
+    </div>
+    <div><h4>快速导航</h4><a href="xinxi-gongkai.html">信息公开</a><a href="banshi-fuwu.html">办事服务</a><a href="hudong-jiaoliu.html">互动交流</a><a href="zhuanti-zhuanlan.html">专题专栏</a><a href="lianxi-women.html">联系我们</a></div>
+    <div><h4>服务直达</h4><a href="banshi-fuwu.html#pay">在线缴费</a><a href="xinxi-gongkai.html#water-quality">水质公告</a><a href="xinxi-gongkai.html#water-quality">停水通知</a><a href="banshi-fuwu.html#repair">故障报修</a><a href="banshi-fuwu.html#download">下载专区</a></div>
+  </div>
+  <div class="footer-bottom">
+    <span>主办单位：湘潭市中环水务有限公司</span><span>🏛️ 政府网站标识码：4303000057</span><span>湘ICP备2025XXXXXXXX号-1</span><span>湘公网安备 43030202000XXX号</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('currentDate').textContent = (function(){
+    var d = new Date();
+    var week = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+    return d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日 ' + week[d.getDay()];
+  })();
+
+  var menuToggle = document.getElementById('menuToggle');
+  var navList = document.getElementById('navList');
+  menuToggle.addEventListener('click', function(){
+    navList.classList.toggle('open');
+    menuToggle.classList.toggle('open');
+  });
+
+  /* 分类筛选 */
+  document.getElementById('categoryTabs').addEventListener('click', function(e){
+    if (e.target.classList.contains('cat-btn')) {
+      var btns = this.querySelectorAll('.cat-btn');
+      btns.forEach(function(b){ b.classList.remove('active'); });
+      e.target.classList.add('active');
+      var cat = e.target.dataset.cat;
+      document.querySelectorAll('#noticeList .notice-item').forEach(function(item){
+        item.style.display = (cat === 'all' || item.dataset.cat === cat) ? '' : 'none';
+      });
+    }
+  });
+</script>
+</body>
+</html>

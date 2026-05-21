@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>公司要闻 — 湘潭市中环水务有限公司</title>
+<style>
+  :root {
+    --primary: #1a56db;
+    --primary-dark: #0f3dab;
+    --primary-light: #e8f0fe;
+    --accent: #0891b2;
+    --white: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --bg: #f8fafc;
+    --bg-card: #ffffff;
+    --border: #e2e8f0;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+    --radius: 6px;
+    --max-width: 1200px;
+    --transition: 0.25s ease;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; font-size: 14px; }
+  a { text-decoration: none; color: inherit; }
+  ul { list-style: none; }
+  img { max-width: 100%; display: block; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+  /* 顶部工具条 */
+  .top-toolbar { background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-size: 12px; color: var(--text-light); }
+  .top-toolbar .container { display: flex; justify-content: space-between; align-items: center; padding-top: 6px; padding-bottom: 6px; flex-wrap: wrap; gap: 8px; }
+  .top-toolbar .toolbar-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .top-toolbar a { color: var(--text-light); transition: color var(--transition); }
+  .top-toolbar a:hover { color: var(--primary); }
+
+  /* 头部 */
+  .site-header { background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%); border-bottom: 3px solid var(--primary); }
+  .site-header .container { display: flex; align-items: center; justify-content: space-between; padding-top: 18px; padding-bottom: 18px; gap: 24px; flex-wrap: wrap; }
+  .header-brand { display: flex; align-items: center; gap: 16px; }
+  .header-logo { width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff; box-shadow: 0 4px 16px rgba(26,86,219,0.25); flex-shrink: 0; }
+  .header-titles h1 { font-size: 26px; font-weight: 700; color: var(--primary-dark); letter-spacing: 1px; }
+  .header-titles .subtitle { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+  .header-search { display: flex; border: 2px solid var(--border); border-radius: 50px; overflow: hidden; background: #fff; transition: border-color var(--transition); flex-shrink: 0; }
+  .header-search:focus-within { border-color: var(--primary); }
+  .header-search input { border: none; outline: none; padding: 10px 18px; width: 240px; font-size: 14px; font-family: inherit; }
+  .header-search button { background: var(--primary); color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-size: 14px; font-family: inherit; transition: background var(--transition); }
+  .header-search button:hover { background: var(--primary-dark); }
+
+  /* 主导航 */
+  .main-nav { background: var(--primary); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+  .main-nav .container { display: flex; align-items: center; }
+  .main-nav .nav-list { display: flex; align-items: center; }
+  .main-nav .nav-list > li { position: relative; }
+  .main-nav .nav-list > li > a { display: block; padding: 14px 24px; color: rgba(255,255,255,0.92); font-size: 15px; font-weight: 500; white-space: nowrap; transition: all var(--transition); letter-spacing: 0.5px; }
+  .main-nav .nav-list > li > a:hover, .main-nav .nav-list > li.active > a { background: rgba(255,255,255,0.15); color: #fff; }
+  .main-nav .nav-list > li.active > a { border-bottom: 3px solid #fff; padding-bottom: 11px; }
+  .main-nav .nav-dropdown { position: absolute; top: 100%; left: 0; background: #fff; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); border-radius: 0 0 var(--radius) var(--radius); opacity: 0; visibility: hidden; transform: translateY(4px); transition: all 0.2s ease; z-index: 1001; overflow: hidden; }
+  .main-nav .nav-list > li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-dropdown a { display: block; padding: 10px 18px; color: var(--text); font-size: 13px; border-bottom: 1px solid #f1f5f9; transition: all var(--transition); }
+  .nav-dropdown a:hover { background: var(--primary-light); color: var(--primary); padding-left: 22px; }
+  .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; margin-left: auto; }
+  .menu-toggle span { display: block; width: 26px; height: 2.5px; background: #fff; border-radius: 2px; transition: all 0.3s ease; }
+  .menu-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .menu-toggle.open span:nth-child(2) { opacity: 0; }
+  .menu-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* 面包屑 */
+  .breadcrumb-bar { background: #fff; border-bottom: 1px solid var(--border); }
+  .breadcrumb-bar .container { display: flex; align-items: center; padding-top: 10px; padding-bottom: 10px; font-size: 13px; color: var(--text-light); gap: 6px; }
+  .breadcrumb-bar a { color: var(--text-light); transition: color var(--transition); }
+  .breadcrumb-bar a:hover { color: var(--primary); }
+  .breadcrumb-bar .sep { color: #94a3b8; }
+  .breadcrumb-bar .current { color: var(--primary); font-weight: 500; }
+
+  /* 主内容 */
+  .main-content { padding: 32px 0; }
+  .main-content .container { display: grid; grid-template-columns: 1fr 320px; gap: 24px; }
+
+  .card { background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+  .card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); background: linear-gradient(90deg, #f8fafc, #fff); }
+  .card-header h3 { font-size: 16px; color: var(--text); display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .card-header h3::before { content: ""; width: 4px; height: 18px; background: var(--primary); border-radius: 2px; }
+  .card-body { padding: 16px 20px; }
+
+  /* 新闻列表 */
+  .news-list-item { padding: 16px 0; border-bottom: 1px dashed #e2e8f0; display: flex; gap: 16px; align-items: flex-start; }
+  .news-list-item:last-child { border-bottom: none; }
+  .news-thumb { width: 140px; height: 95px; border-radius: 4px; flex-shrink: 0; background: linear-gradient(135deg, #dbeafe, #93c5fd); display: flex; align-items: center; justify-content: center; font-size: 28px; position: relative; overflow: hidden; }
+  .news-thumb::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.3), transparent 60%); }
+  .news-info { flex: 1; min-width: 0; }
+  .news-info h4 { font-size: 16px; color: var(--text); margin-bottom: 6px; line-height: 1.5; transition: color var(--transition); cursor: pointer; }
+  .news-info h4:hover { color: var(--primary); }
+  .news-info .news-meta { font-size: 12px; color: #94a3b8; margin-bottom: 6px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .news-info .news-desc { font-size: 13px; color: var(--text-light); line-height: 1.6; }
+  .news-tag { font-size: 11px; padding: 2px 8px; border-radius: 3px; white-space: nowrap; }
+  .tag-hot { background: #fee2e2; color: #dc2626; }
+  .tag-project { background: #dbeafe; color: #2563eb; }
+  .tag-meeting { background: #fef3c7; color: #d97706; }
+  .tag-party { background: #ede9fe; color: #7c3aed; }
+
+  /* 分页 */
+  .pagination { display: flex; justify-content: center; gap: 8px; padding: 24px 0 8px; flex-wrap: wrap; }
+  .pagination a, .pagination span { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--radius); font-size: 13px; border: 1px solid var(--border); background: #fff; color: var(--text); transition: all var(--transition); cursor: pointer; }
+  .pagination a:hover { border-color: var(--primary); color: var(--primary); }
+  .pagination a.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .pagination .page-info { font-size: 13px; color: var(--text-light); display: flex; align-items: center; margin: 0 8px; }
+
+  /* 侧边栏 */
+  .content-right { display: flex; flex-direction: column; gap: 24px; }
+  .side-card { background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+  .side-card .sc-header { padding: 12px 16px; border-bottom: 1px solid var(--border); background: linear-gradient(90deg, #f8fafc, #fff); font-size: 15px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 6px; }
+  .side-card .sc-header::before { content: ""; width: 4px; height: 16px; background: var(--primary); border-radius: 2px; }
+  .side-card .sc-body { padding: 12px 16px; }
+  .side-list li { padding: 8px 0; border-bottom: 1px dashed #e2e8f0; font-size: 13px; }
+  .side-list li:last-child { border-bottom: none; }
+  .side-list a { color: var(--text); transition: color var(--transition); display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .side-list a:hover { color: var(--primary); }
+  .side-list .hot-date { font-size: 11px; color: #94a3b8; }
+
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat-item { text-align: center; padding: 14px 8px; background: var(--bg); border-radius: var(--radius); }
+  .stat-item .stat-num { font-size: 22px; font-weight: 700; color: var(--primary); }
+  .stat-item .stat-label { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+
+  /* 页脚 */
+  .site-footer { background: #0b1424; color: #94a3b8; padding: 36px 20px 24px; font-size: 13px; }
+  .footer-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; margin-bottom: 24px; }
+  .footer-grid h4 { color: #fff; font-size: 15px; margin-bottom: 14px; font-weight: 600; }
+  .footer-grid a { color: #94a3b8; display: block; margin-bottom: 6px; transition: color 0.2s; font-size: 13px; }
+  .footer-grid a:hover { color: #fff; }
+  .footer-contact p { margin-bottom: 6px; display: flex; gap: 6px; align-items: flex-start; }
+  .footer-bottom { max-width: var(--max-width); margin: 0 auto; padding-top: 18px; border-top: 1px solid #1e293b; text-align: center; font-size: 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+  @media (max-width: 900px) {
+    .main-content .container { grid-template-columns: 1fr; }
+    .content-right { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  }
+  @media (max-width: 768px) {
+    .top-toolbar .container { justify-content: center; text-align: center; }
+    .site-header .container { justify-content: center; text-align: center; }
+    .header-search input { width: 160px; }
+    .header-titles h1 { font-size: 20px; }
+    .main-nav .nav-list { display: none; }
+    .menu-toggle { display: flex; }
+    .main-nav .nav-list.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--primary-dark); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .main-nav .nav-list.open .nav-dropdown { position: static; opacity: 1; visibility: visible; background: rgba(0,0,0,0.1); box-shadow: none; transform: none; border-radius: 0; }
+    .main-nav .nav-list.open .nav-dropdown a { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.1); }
+    .news-thumb { width: 100px; height: 70px; font-size: 22px; }
+    .news-info h4 { font-size: 14px; }
+    .content-right { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .header-titles h1 { font-size: 18px; }
+    .header-brand { flex-direction: column; text-align: center; }
+    .news-list-item { flex-direction: column; gap: 10px; }
+    .news-thumb { width: 100%; height: 140px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 顶部工具条 -->
+<div class="top-toolbar">
+  <div class="container">
+    <div class="toolbar-links">
+      <a href="#">中国政府网</a><span>|</span>
+      <a href="#">住建部网</a><span>|</span>
+      <a href="#">湖南省政府门户</a><span>|</span>
+      <a href="#">湘潭市政府网</a><span>|</span>
+      <a href="#">中国城镇供水排水协会</a>
+    </div>
+    <span id="currentDate"></span>
+  </div>
+</div>
+
+<!-- 头部 -->
+<header class="site-header">
+  <div class="container">
+    <div class="header-brand">
+      <div class="header-logo">💧</div>
+      <div class="header-titles">
+        <h1>湘潭市中环水务有限公司</h1>
+        <p class="subtitle">Xiangtan Zhonghuan Water Co., Ltd. — 安全供水 · 优质服务 · 绿色发展</p>
+      </div>
+    </div>
+    <div class="header-search">
+      <input type="text" placeholder="搜索公司要闻…">
+      <button type="button">🔍 搜索</button>
+    </div>
+  </div>
+</header>
+
+<!-- 主导航 -->
+<nav class="main-nav" id="mainNav">
+  <div class="container">
+    <ul class="nav-list" id="navList">
+      <li><a href="index.html">网站首页</a></li>
+      <li>
+        <a href="xinxi-gongkai.html">信息公开</a>
+        <div class="nav-dropdown">
+          <a href="xinxi-gongkai.html#org">机构职能</a>
+          <a href="xinxi-gongkai.html#leader">领导信息</a>
+          <a href="xinxi-gongkai.html#policy">政策法规</a>
+          <a href="xinxi-gongkai.html#water-quality">水质公告</a>
+          <a href="xinxi-gongkai.html#bidding">招标采购</a>
+          <a href="xinxi-gongkai.html#finance">财政信息</a>
+        </div>
+      </li>
+      <li>
+        <a href="banshi-fuwu.html">办事服务</a>
+        <div class="nav-dropdown">
+          <a href="banshi-fuwu.html#guide">新装开户</a>
+          <a href="banshi-fuwu.html#pay">水费缴纳</a>
+          <a href="banshi-fuwu.html#change">过户变更</a>
+          <a href="banshi-fuwu.html#repair">故障报修</a>
+          <a href="banshi-fuwu.html#download">下载专区</a>
+        </div>
+      </li>
+      <li>
+        <a href="hudong-jiaoliu.html">互动交流</a>
+        <div class="nav-dropdown">
+          <a href="hudong-jiaoliu.html#mailbox">经理信箱</a>
+          <a href="hudong-jiaoliu.html#consult">在线咨询</a>
+          <a href="hudong-jiaoliu.html#survey">满意度调查</a>
+          <a href="hudong-jiaoliu.html#solicit">民意征集</a>
+        </div>
+      </li>
+      <li>
+        <a href="zhuanti-zhuanlan.html">专题专栏</a>
+        <div class="nav-dropdown">
+          <a href="zhuanti-zhuanlan.html#smart-water">智慧水务</a>
+          <a href="zhuanti-zhuanlan.html#save-water">节水宣传</a>
+          <a href="zhuanti-zhuanlan.html#safety">安全生产</a>
+          <a href="zhuanti-zhuanlan.html#party">党建园地</a>
+        </div>
+      </li>
+      <li><a href="lianxi-women.html">联系我们</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- 面包屑 -->
+<div class="breadcrumb-bar">
+  <div class="container">
+    <a href="index.html">首页</a><span class="sep">&gt;</span><span class="current">公司要闻</span>
+  </div>
+</div>
+
+<!-- 主内容 -->
+<main class="main-content">
+  <div class="container">
+    <div class="content-left">
+      <div class="card">
+        <div class="card-header"><h3>公司要闻</h3></div>
+        <div class="card-body">
+          <!-- 第1页列表 -->
+          <div class="news-page" id="page1">
+            <div class="news-list-item">
+              <div class="news-thumb">🎤</div>
+              <div class="news-info">
+                <h4>公司召开2026年夏季供水保障工作动员大会</h4>
+                <div class="news-meta"><span>📅 2026-05-20</span><span>👁 1,268 次浏览</span><span class="news-tag tag-meeting">公司会议</span></div>
+                <p class="news-desc">5月20日上午，公司在八楼会议室召开2026年夏季供水保障工作动员大会。会议全面部署了今夏高峰供水期间的生产调度、管网巡查、应急抢险等重点工作，确保夏季高峰期全市供水安全稳定。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">🏗️</div>
+              <div class="news-info">
+                <h4>第三水厂深度处理工艺升级改造项目顺利通过验收</h4>
+                <div class="news-meta"><span>📅 2026-05-18</span><span>👁 985 次浏览</span><span class="news-tag tag-project">重点项目</span></div>
+                <p class="news-desc">经过6个月的紧张施工，第三水厂臭氧-活性炭深度处理工艺升级改造项目于5月18日正式通过竣工验收。该项目投运后，出厂水水质将全面优于国家《生活饮用水卫生标准》GB5749-2022最新要求。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">🏅</div>
+              <div class="news-info">
+                <h4>全省供水行业安全生产现场交流会在我司召开</h4>
+                <div class="news-meta"><span>📅 2026-05-15</span><span>👁 1,432 次浏览</span><span class="news-tag tag-hot">头条</span></div>
+                <p class="news-desc">5月14日至15日，由湖南省住建厅主办的全省供水行业安全生产现场交流会在湘潭召开。来自全省14个市州的供水企业代表共计120余人参加会议，现场观摩了我司安全标准化建设和应急演练。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">💻</div>
+              <div class="news-info">
+                <h4>"智慧水务云平台"获省级数字化转型示范项目称号</h4>
+                <div class="news-meta"><span>📅 2026-05-12</span><span>👁 876 次浏览</span><span class="news-tag tag-project">重点项目</span></div>
+                <p class="news-desc">省工信厅近日公布了2026年度省级数字化转型示范项目名单，我司"智慧水务云平台"项目成功入选。该平台整合了生产调度、管网GIS、营销服务、水质监测等8大业务系统，实现了全业务流程数字化管理。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">🔧</div>
+              <div class="news-info">
+                <h4>岳塘区老旧管网改造二期工程正式启动，惠及3万居民</h4>
+                <div class="news-meta"><span>📅 2026-05-08</span><span>👁 752 次浏览</span><span class="news-tag tag-project">重点项目</span></div>
+                <p class="news-desc">5月8日，岳塘区老旧供水管网改造二期工程在书院路街道正式开工。本次改造涉及书院路、建设南路等5条道路共8.6公里供水主管网，预计9月底完工，将惠及沿线约3万居民。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">🌱</div>
+              <div class="news-info">
+                <h4>公司荣获"湖南省绿色工厂"称号</h4>
+                <div class="news-meta"><span>📅 2026-05-05</span><span>👁 645 次浏览</span><span class="news-tag tag-hot">头条</span></div>
+                <p class="news-desc">省工信厅、省生态环境厅联合公布2026年度"湖南省绿色工厂"名单，我司凭借光伏发电、雨水回收、节能降耗等绿色生产实践成功入选，成为全省供水行业首家获此称号的企业。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">🤝</div>
+              <div class="news-info">
+                <h4>公司与湖南科技大学签署产学研合作协议</h4>
+                <div class="news-meta"><span>📅 2026-04-28</span><span>👁 523 次浏览</span><span class="news-tag tag-meeting">公司会议</span></div>
+                <p class="news-desc">4月28日，我司与湖南科技大学土木工程学院在图书馆报告厅签署产学研合作协议。双方将在供水管网漏损控制、水处理新材料研发、智慧水务算法优化等领域开展深度合作。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">🎖️</div>
+              <div class="news-info">
+                <h4>公司工会获评"全国模范职工之家"</h4>
+                <div class="news-meta"><span>📅 2026-04-22</span><span>👁 412 次浏览</span><span class="news-tag tag-party">党群建设</span></div>
+                <p class="news-desc">中华全国总工会近日表彰了一批全国模范职工之家，我司工会委员会光荣上榜。这是继2024年获评省级模范职工之家后，公司工会工作取得的又一项国家级荣誉。</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 第2页列表 -->
+          <div class="news-page" id="page2" style="display:none;">
+            <div class="news-list-item">
+              <div class="news-thumb">🔬</div>
+              <div class="news-info">
+                <h4>水质检测中心通过CNAS国家认可复评审</h4>
+                <div class="news-meta"><span>📅 2026-04-18</span><span>👁 398 次浏览</span><span class="news-tag tag-project">重点项目</span></div>
+                <p class="news-desc">4月16日至18日，中国合格评定国家认可委员会（CNAS）专家组对我司水质检测中心进行为期三天的现场复评审。检测中心106项水质指标检测能力全部通过评审，继续保持国家认可实验室资质。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">📢</div>
+              <div class="news-info">
+                <h4>2026年"世界水日""中国水周"系列活动圆满收官</h4>
+                <div class="news-meta"><span>📅 2026-04-12</span><span>👁 567 次浏览</span><span class="news-tag tag-hot">头条</span></div>
+                <p class="news-desc">围绕第三十四届"世界水日"和第三十七届"中国水周"主题，公司组织开展了水厂开放日、社区节水宣传、中小学生水情教育等系列公益活动，累计接待市民参观600余人次。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">⚡</div>
+              <div class="news-info">
+                <h4>二水厂配电系统升级改造圆满完成</h4>
+                <div class="news-meta"><span>📅 2026-04-08</span><span>👁 341 次浏览</span><span class="news-tag tag-project">重点项目</span></div>
+                <p class="news-desc">经过连续15天的紧张施工，二水厂10kV配电系统升级改造项目于4月7日顺利完工并一次送电成功。新系统采用智能化配电设备，供电可靠性大幅提升，为夏季高峰供水提供了坚实的电力保障。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">📋</div>
+              <div class="news-info">
+                <h4>公司召开2026年党风廉政建设工作推进会</h4>
+                <div class="news-meta"><span>📅 2026-04-02</span><span>👁 289 次浏览</span><span class="news-tag tag-party">党群建设</span></div>
+                <p class="news-desc">4月2日，公司党委召开2026年党风廉政建设工作推进会，深入学习贯彻上级纪委全会精神，总结2025年工作成效，安排部署2026年重点任务，并组织中层以上干部签订廉洁从业承诺书。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">🏆</div>
+              <div class="news-info">
+                <h4>公司客服中心获"湖南省工人先锋号"荣誉称号</h4>
+                <div class="news-meta"><span>📅 2026-03-25</span><span>👁 478 次浏览</span><span class="news-tag tag-hot">头条</span></div>
+                <p class="news-desc">湖南省总工会日前表彰2026年湖南省工人先锋号，我司客服中心凭借"15分钟响应、2小时到场、24小时办结"的服务承诺和98.6%的用户满意度获此殊荣。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">💡</div>
+              <div class="news-info">
+                <h4>湘潭市二次供水管理办法正式施行，公司参与起草</h4>
+                <div class="news-meta"><span>📅 2026-03-18</span><span>👁 534 次浏览</span><span class="news-tag tag-meeting">公司会议</span></div>
+                <p class="news-desc">《湘潭市二次供水管理办法》经市政府常务会议审议通过，于3月15日正式施行。作为主要起草参与单位，我司在技术标准、管理规范等方面贡献了大量实践经验。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">🧑‍🏫</div>
+              <div class="news-info">
+                <h4>公司举办2026年度新员工入职培训暨"师带徒"签约仪式</h4>
+                <div class="news-meta"><span>📅 2026-03-10</span><span>👁 356 次浏览</span><span class="news-tag tag-party">党群建设</span></div>
+                <p class="news-desc">3月9日至10日，公司举办2026年度新员工入职培训，来自各高校的28名新员工参加培训。培训结束后举行了"师带徒"签约仪式，18对师徒现场签订培养协议。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">📱</div>
+              <div class="news-info">
+                <h4>"湘潭供水"微信小程序升级至3.0版本</h4>
+                <div class="news-meta"><span>📅 2026-03-05</span><span>👁 689 次浏览</span><span class="news-tag tag-project">重点项目</span></div>
+                <p class="news-desc">"湘潭供水"微信小程序3.0版本于3月5日正式上线。新版本新增了用水报装进度查询、电子发票自助开具、用水异常智能预警等功能，用户体验全面优化。</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 第3页列表 -->
+          <div class="news-page" id="page3" style="display:none;">
+            <div class="news-list-item">
+              <div class="news-thumb">❄️</div>
+              <div class="news-info">
+                <h4>公司全力应对寒潮天气，抢修队伍24小时待命</h4>
+                <div class="news-meta"><span>📅 2026-02-20</span><span>👁 832 次浏览</span><span class="news-tag tag-hot">头条</span></div>
+                <p class="news-desc">2月19日晚起，湘潭市遭遇强寒潮天气，最低气温降至-3℃。公司迅速启动防冻保供应急预案，6支抢修队伍、120余名抢修人员24小时待命，累计处理冻管、爆表等工单230余件。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">🎆</div>
+              <div class="news-info">
+                <h4>公司举办2026年迎新春联欢会暨年度表彰大会</h4>
+                <div class="news-meta"><span>📅 2026-01-25</span><span>👁 1,056 次浏览</span><span class="news-tag tag-party">党群建设</span></div>
+                <p class="news-desc">1月24日下午，公司2026年迎新春联欢会暨2025年度表彰大会在湘潭大剧院隆重举行。大会对2025年度先进集体和先进个人进行了表彰，各部门自编自演的文艺节目赢得阵阵掌声。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">🔍</div>
+              <div class="news-info">
+                <h4>公司开展岁末年初安全生产大检查专项行动</h4>
+                <div class="news-meta"><span>📅 2026-01-15</span><span>👁 445 次浏览</span><span class="news-tag tag-meeting">公司会议</span></div>
+                <p class="news-desc">为确保春节期间供水安全，公司于1月10日至14日组织开展了岁末年初安全生产大检查专项行动，对各水厂、加压站、管网设施进行全面排查，发现并整改隐患32项。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">📊</div>
+              <div class="news-info">
+                <h4>公司召开2025年度工作总结暨2026年工作部署大会</h4>
+                <div class="news-meta"><span>📅 2026-01-08</span><span>👁 712 次浏览</span><span class="news-tag tag-meeting">公司会议</span></div>
+                <p class="news-desc">1月8日，公司召开2025年度工作总结暨2026年工作部署大会。会议总结了2025年公司在供水保障、经营指标、项目建设等方面取得的成绩，明确了2026年"提质增效、智慧赋能、绿色发展"的工作主线。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">🌊</div>
+              <div class="news-info">
+                <h4>湘江枯水期水源保障联合演练成功举行</h4>
+                <div class="news-meta"><span>📅 2025-12-22</span><span>👁 398 次浏览</span><span class="news-tag tag-project">重点项目</span></div>
+                <p class="news-desc">12月20日，由市水利局牵头，我司与环保、水文、气象等部门联合开展了湘江枯水期水源保障应急演练，模拟湘江水位持续下降情况下应急供水调度全流程，检验了应急预案的可操作性。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">🏗️</div>
+              <div class="news-info">
+                <h4>九华加压站扩建工程竣工投入运行</h4>
+                <div class="news-meta"><span>📅 2025-12-15</span><span>👁 523 次浏览</span><span class="news-tag tag-project">重点项目</span></div>
+                <p class="news-desc">经过8个月的建设，九华加压站扩建工程于12月12日正式竣工投运。扩建后加压站的日供水能力由3万吨提升至6万吨，将有效缓解九华经开区及周边区域高峰期供水压力不足的问题。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">📚</div>
+              <div class="news-info">
+                <h4>公司档案管理获评"湖南省档案工作规范化管理示范单位"</h4>
+                <div class="news-meta"><span>📅 2025-12-08</span><span>👁 267 次浏览</span><span class="news-tag tag-meeting">公司会议</span></div>
+                <p class="news-desc">省档案局近日公布了2025年度全省档案工作规范化管理示范单位名单，我司因档案管理制度健全、数字化率高、利用效果好等优势成功入选。</p>
+              </div>
+            </div>
+            <div class="news-list-item">
+              <div class="news-thumb">🔄</div>
+              <div class="news-info">
+                <h4>公司完成2025年度中层管理人员轮岗交流工作</h4>
+                <div class="news-meta"><span>📅 2025-12-01</span><span>👁 389 次浏览</span><span class="news-tag tag-party">党群建设</span></div>
+                <p class="news-desc">为加强干部队伍建设，促进多岗位锻炼，公司于11月底完成了2025年度中层管理人员轮岗交流工作，涉及生产、营销、行政等8个部门的12名中层干部。</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 分页 -->
+          <div class="pagination">
+            <span>首页</span>
+            <span>上一页</span>
+            <a href="javascript:void(0)" class="active" onclick="showPage(1)">1</a>
+            <a href="javascript:void(0)" onclick="showPage(2)">2</a>
+            <a href="javascript:void(0)" onclick="showPage(3)">3</a>
+            <a href="javascript:void(0)" onclick="showPage(2)">下一页</a>
+            <a href="javascript:void(0)" onclick="showPage(3)">末页</a>
+            <span class="page-info">共 3 页 / 24 条</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右栏 -->
+    <div class="content-right">
+      <div class="side-card">
+        <div class="sc-header">统计数据</div>
+        <div class="sc-body">
+          <div class="stat-grid">
+            <div class="stat-item"><div class="stat-num">24</div><div class="stat-label">本月要闻</div></div>
+            <div class="stat-item"><div class="stat-num">186</div><div class="stat-label">年度累计</div></div>
+            <div class="stat-item"><div class="stat-num">2,456</div><div class="stat-label">总发布数</div></div>
+            <div class="stat-item"><div class="stat-num">98.6%</div><div class="stat-label">更新率</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="sc-header">热点排行</div>
+        <div class="sc-body">
+          <ul class="side-list">
+            <li><a href="#"><span style="color:#dc2626;font-weight:700;">TOP1</span> 公司召开2026年夏季供水保障工作动员大会 <span class="hot-date">05-20</span></a></li>
+            <li><a href="#"><span style="color:#dc2626;font-weight:700;">TOP2</span> 全省供水行业安全生产现场交流会在我司召开 <span class="hot-date">05-15</span></a></li>
+            <li><a href="#"><span style="color:#dc2626;font-weight:700;">TOP3</span> 第三水厂深度处理工艺改造通过验收 <span class="hot-date">05-18</span></a></li>
+            <li><a href="#">TOP4 "智慧水务云平台"获省级数字化示范项目 <span class="hot-date">05-12</span></a></li>
+            <li><a href="#">TOP5 公司荣获"湖南省绿色工厂"称号 <span class="hot-date">05-05</span></a></li>
+            <li><a href="#">TOP6 岳塘区老旧管网改造二期正式启动 <span class="hot-date">05-08</span></a></li>
+            <li><a href="#">TOP7 公司全力应对寒潮天气 <span class="hot-date">02-20</span></a></li>
+            <li><a href="#">TOP8 2026年迎新春联欢会 <span class="hot-date">01-25</span></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="sc-header">快速导航</div>
+        <div class="sc-body">
+          <ul class="side-list">
+            <li><a href="tongzhi-gonggao.html">📢 通知公告</a></li>
+            <li><a href="tupian-xinwen.html">📷 图片新闻</a></li>
+            <li><a href="meiti-jujiao.html">📰 媒体聚焦</a></li>
+            <li><a href="zhuanti-zhuanlan.html">📌 专题专栏</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- 页脚 -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-contact">
+      <h4>湘潭市中环水务有限公司</h4>
+      <p>📍 地址：湖南省湘潭市雨湖区韶山东路88号水务大厦</p>
+      <p>📞 24小时客服热线：0731-5828-XXXX</p>
+      <p>✉️ 电子邮箱：service@xtzhsw.com</p>
+      <p>🕐 营业时间：周一至周五 8:30-17:30，周六 9:00-15:00</p>
+    </div>
+    <div>
+      <h4>快速导航</h4>
+      <a href="xinxi-gongkai.html">信息公开</a>
+      <a href="banshi-fuwu.html">办事服务</a>
+      <a href="hudong-jiaoliu.html">互动交流</a>
+      <a href="zhuanti-zhuanlan.html">专题专栏</a>
+      <a href="lianxi-women.html">联系我们</a>
+    </div>
+    <div>
+      <h4>服务直达</h4>
+      <a href="banshi-fuwu.html#pay">在线缴费</a>
+      <a href="xinxi-gongkai.html#water-quality">水质公告</a>
+      <a href="xinxi-gongkai.html#water-quality">停水通知</a>
+      <a href="banshi-fuwu.html#repair">故障报修</a>
+      <a href="banshi-fuwu.html#download">下载专区</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>主办单位：湘潭市中环水务有限公司</span>
+    <span>🏛️ 政府网站标识码：4303000057</span>
+    <span>湘ICP备2025XXXXXXXX号-1</span>
+    <span>湘公网安备 43030202000XXX号</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('currentDate').textContent = (function(){
+    var d = new Date();
+    var week = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+    return d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日 ' + week[d.getDay()];
+  })();
+
+  /* 移动端菜单 */
+  var menuToggle = document.getElementById('menuToggle');
+  var navList = document.getElementById('navList');
+  menuToggle.addEventListener('click', function(){
+    navList.classList.toggle('open');
+    menuToggle.classList.toggle('open');
+  });
+
+  /* 分页 */
+  function showPage(n) {
+    [1,2,3].forEach(function(i){
+      document.getElementById('page' + i).style.display = i === n ? '' : 'none';
+    });
+    var links = document.querySelectorAll('.pagination a[onclick]');
+    links.forEach(function(a){
+      a.classList.remove('active');
+      if (parseInt(a.textContent) === n) a.classList.add('active');
+    });
+    window.scrollTo({ top: 300, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>

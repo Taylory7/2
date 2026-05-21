@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>办事服务 — 湘潭市中环水务有限公司</title>
+<style>
+  :root {
+    --primary: #1a56db; --primary-dark: #0f3dab; --primary-light: #e8f0fe;
+    --accent: #0891b2; --white: #ffffff; --text: #1e293b; --text-light: #64748b;
+    --bg: #f8fafc; --bg-card: #ffffff; --border: #e2e8f0;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+    --radius: 6px; --max-width: 1200px; --transition: 0.25s ease;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; font-size: 14px; }
+  a { text-decoration: none; color: inherit; }
+  ul { list-style: none; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+  .top-toolbar { background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-size: 12px; color: var(--text-light); }
+  .top-toolbar .container { display: flex; justify-content: space-between; align-items: center; padding: 6px 20px; flex-wrap: wrap; gap: 8px; }
+  .top-toolbar .toolbar-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .top-toolbar a { color: var(--text-light); }
+  .top-toolbar a:hover { color: var(--primary); }
+
+  .site-header { background: linear-gradient(135deg, #fff 0%, #f0f7ff 100%); border-bottom: 3px solid var(--primary); }
+  .site-header .container { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; gap: 24px; flex-wrap: wrap; }
+  .header-brand { display: flex; align-items: center; gap: 16px; }
+  .header-logo { width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff; box-shadow: 0 4px 16px rgba(26,86,219,0.25); flex-shrink: 0; }
+  .header-titles h1 { font-size: 26px; font-weight: 700; color: var(--primary-dark); letter-spacing: 1px; }
+  .header-titles .subtitle { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+  .header-search { display: flex; border: 2px solid var(--border); border-radius: 50px; overflow: hidden; background: #fff; transition: border-color var(--transition); flex-shrink: 0; }
+  .header-search:focus-within { border-color: var(--primary); }
+  .header-search input { border: none; outline: none; padding: 10px 18px; width: 240px; font-size: 14px; font-family: inherit; }
+  .header-search button { background: var(--primary); color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-size: 14px; font-family: inherit; }
+  .header-search button:hover { background: var(--primary-dark); }
+
+  .main-nav { background: var(--primary); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+  .main-nav .container { display: flex; align-items: center; }
+  .main-nav .nav-list { display: flex; align-items: center; }
+  .main-nav .nav-list > li { position: relative; }
+  .main-nav .nav-list > li > a { display: block; padding: 14px 24px; color: rgba(255,255,255,0.92); font-size: 15px; font-weight: 500; white-space: nowrap; transition: all var(--transition); letter-spacing: 0.5px; }
+  .main-nav .nav-list > li > a:hover, .main-nav .nav-list > li.active > a { background: rgba(255,255,255,0.15); color: #fff; }
+  .main-nav .nav-list > li.active > a { border-bottom: 3px solid #fff; padding-bottom: 11px; }
+  .main-nav .nav-dropdown { position: absolute; top: 100%; left: 0; background: #fff; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); border-radius: 0 0 var(--radius) var(--radius); opacity: 0; visibility: hidden; transform: translateY(4px); transition: all 0.2s ease; z-index: 1001; overflow: hidden; }
+  .main-nav .nav-list > li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-dropdown a { display: block; padding: 10px 18px; color: var(--text); font-size: 13px; border-bottom: 1px solid #f1f5f9; transition: all var(--transition); }
+  .nav-dropdown a:hover { background: var(--primary-light); color: var(--primary); padding-left: 22px; }
+  .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; margin-left: auto; }
+  .menu-toggle span { display: block; width: 26px; height: 2.5px; background: #fff; border-radius: 2px; transition: all 0.3s ease; }
+  .menu-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .menu-toggle.open span:nth-child(2) { opacity: 0; }
+  .menu-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  .breadcrumb { background: #fff; border-bottom: 1px solid var(--border); }
+  .breadcrumb .container { padding: 12px 20px; font-size: 13px; color: var(--text-light); display: flex; gap: 8px; align-items: center; }
+  .breadcrumb a { color: var(--primary); }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { color: #94a3b8; }
+
+  .page-body { padding: 32px 0; }
+  .page-body .container { display: grid; grid-template-columns: 240px 1fr; gap: 28px; }
+
+  .sidebar { display: flex; flex-direction: column; gap: 4px; }
+  .sidebar-title { font-size: 18px; font-weight: 700; color: #fff; background: var(--primary); padding: 16px 20px; border-radius: var(--radius) var(--radius) 0 0; text-align: center; letter-spacing: 1px; }
+  .sidebar-nav { background: #fff; border: 1px solid var(--border); border-radius: 0 0 var(--radius) var(--radius); overflow: hidden; }
+  .sidebar-nav a { display: flex; align-items: center; justify-content: space-between; padding: 13px 20px; font-size: 14px; color: var(--text); border-bottom: 1px solid #f1f5f9; transition: all var(--transition); }
+  .sidebar-nav a:last-child { border-bottom: none; }
+  .sidebar-nav a:hover, .sidebar-nav a.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+  .sidebar-nav a::after { content: "›"; font-size: 16px; color: #cbd5e1; }
+  .sidebar-nav a.active::after { color: var(--primary); }
+
+  .main-area { display: flex; flex-direction: column; gap: 24px; }
+  .card { background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+  .card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); background: linear-gradient(90deg, #f8fafc, #fff); }
+  .card-header h3 { font-size: 16px; color: var(--text); display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .card-header h3::before { content: ""; width: 4px; height: 18px; background: var(--primary); border-radius: 2px; }
+  .card-body { padding: 20px; }
+
+  /* 服务卡片网格 */
+  .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .service-card { background: var(--bg); border-radius: var(--radius); padding: 24px 18px; text-align: center; border: 1px solid transparent; transition: all var(--transition); cursor: pointer; }
+  .service-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+  .service-card .svc-icon { font-size: 36px; margin-bottom: 10px; }
+  .service-card h4 { font-size: 15px; margin-bottom: 6px; color: var(--text); }
+  .service-card p { font-size: 12px; color: var(--text-light); line-height: 1.6; }
+  .service-card .svc-badge { display: inline-block; margin-top: 8px; padding: 3px 10px; border-radius: 50px; font-size: 11px; font-weight: 600; }
+  .badge-online { background: #d1fae5; color: #065f46; }
+  .badge-counter { background: #dbeafe; color: #1e40af; }
+  .badge-phone { background: #ffedd5; color: #9a3412; }
+
+  /* 办事流程 */
+  .steps-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; align-items: start; }
+  .step-item { text-align: center; position: relative; }
+  .step-circle { width: 48px; height: 48px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; margin: 0 auto 10px; position: relative; z-index: 1; }
+  .step-item:not(:last-child)::after { content: ""; position: absolute; top: 24px; left: 60%; width: 80%; height: 2px; background: linear-gradient(90deg, var(--primary), var(--primary-light)); z-index: 0; }
+  .step-item h4 { font-size: 13px; color: var(--text); }
+  .step-item p { font-size: 11px; color: var(--text-light); margin-top: 4px; }
+
+  /* 表格 */
+  .info-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .info-table th, .info-table td { padding: 10px 14px; border: 1px solid var(--border); text-align: left; }
+  .info-table th { background: var(--bg); font-weight: 600; color: var(--text); width: 130px; white-space: nowrap; }
+  .info-table td { color: var(--text-light); }
+
+  /* 下载列表 */
+  .file-list li { padding: 12px 0; border-bottom: 1px dashed #e2e8f0; display: flex; align-items: center; gap: 12px; }
+  .file-list li:last-child { border-bottom: none; }
+  .file-list .file-icon { font-size: 20px; flex-shrink: 0; }
+  .file-list .file-info { flex: 1; min-width: 0; }
+  .file-list .file-name { font-size: 14px; color: var(--text); transition: color var(--transition); }
+  .file-list .file-name:hover { color: var(--primary); }
+  .file-list .file-meta { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+  .file-list .file-dl { padding: 5px 12px; background: var(--primary-light); color: var(--primary); border-radius: 3px; font-size: 12px; white-space: nowrap; transition: all var(--transition); }
+  .file-list .file-dl:hover { background: var(--primary); color: #fff; }
+
+  /* 网点卡片 */
+  .outlet-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .outlet-card { background: var(--bg); border-radius: var(--radius); padding: 18px; border: 1px solid var(--border); }
+  .outlet-card h4 { font-size: 15px; color: var(--text); margin-bottom: 8px; }
+  .outlet-card p { font-size: 12px; color: var(--text-light); margin-bottom: 4px; }
+
+  .site-footer { background: #0b1424; color: #94a3b8; padding: 36px 20px 24px; font-size: 13px; }
+  .footer-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; margin-bottom: 24px; }
+  .footer-grid h4 { color: #fff; font-size: 15px; margin-bottom: 14px; font-weight: 600; }
+  .footer-grid a { color: #94a3b8; display: block; margin-bottom: 6px; transition: color 0.2s; font-size: 13px; }
+  .footer-grid a:hover { color: #fff; }
+  .footer-contact p { margin-bottom: 6px; display: flex; gap: 6px; align-items: flex-start; }
+  .footer-bottom { max-width: var(--max-width); margin: 0 auto; padding-top: 18px; border-top: 1px solid #1e293b; text-align: center; font-size: 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+  @media (max-width: 900px) {
+    .page-body .container { grid-template-columns: 1fr; }
+    .sidebar { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .sidebar-title { grid-column: 1/-1; border-radius: var(--radius) var(--radius) 0 0; }
+    .sidebar-nav { display: contents; }
+    .sidebar-nav a { border: 1px solid var(--border); border-radius: var(--radius); justify-content: center; padding: 10px; font-size: 12px; }
+    .sidebar-nav a::after { display: none; }
+    .service-grid { grid-template-columns: repeat(2, 1fr); }
+    .steps-row { grid-template-columns: repeat(3, 1fr); }
+    .step-item:nth-child(3)::after { display: none; }
+    .outlet-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .top-toolbar .container { justify-content: center; }
+    .site-header .container { justify-content: center; text-align: center; }
+    .header-titles h1 { font-size: 20px; }
+    .header-search input { width: 160px; }
+    .main-nav .nav-list { display: none; }
+    .menu-toggle { display: flex; }
+    .main-nav .nav-list.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--primary-dark); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .main-nav .nav-list.open .nav-dropdown { position: static; opacity: 1; visibility: visible; background: rgba(0,0,0,0.1); box-shadow: none; transform: none; border-radius: 0; }
+    .main-nav .nav-list.open .nav-dropdown a { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.1); }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .service-grid { grid-template-columns: 1fr; }
+    .steps-row { grid-template-columns: repeat(2, 1fr); }
+    .step-item:nth-child(2)::after { display: none; }
+    .sidebar { grid-template-columns: repeat(2, 1fr); }
+    .header-titles h1 { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-toolbar">
+  <div class="container">
+    <div class="toolbar-links">
+      <a href="#">中国政府网</a><span>|</span><a href="#">住建部网</a><span>|</span><a href="#">湖南省政府门户</a><span>|</span><a href="#">湘潭市政府网</a>
+    </div>
+    <span id="currentDate"></span>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container">
+    <div class="header-brand">
+      <div class="header-logo">💧</div>
+      <div class="header-titles"><h1>湘潭市中环水务有限公司</h1><p class="subtitle">安全供水 · 优质服务 · 绿色发展</p></div>
+    </div>
+    <div class="header-search"><input type="text" placeholder="搜索办事服务…"><button>🔍 搜索</button></div>
+  </div>
+</header>
+
+<nav class="main-nav" id="mainNav">
+  <div class="container">
+    <ul class="nav-list" id="navList">
+      <li><a href="index.html">网站首页</a></li>
+      <li><a href="xinxi-gongkai.html">信息公开</a></li>
+      <li class="active">
+        <a href="banshi-fuwu.html">办事服务</a>
+        <div class="nav-dropdown">
+          <a href="#guide">新装开户</a><a href="#pay">水费缴纳</a><a href="#change">过户变更</a><a href="#repair">故障报修</a>
+        </div>
+      </li>
+      <li><a href="hudong-jiaoliu.html">互动交流</a></li>
+      <li><a href="zhuanti-zhuanlan.html">专题专栏</a></li>
+      <li><a href="lianxi-women.html">联系我们</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <div class="container"><a href="index.html">首页</a><span>/</span><span>办事服务</span></div>
+</div>
+
+<main class="page-body">
+  <div class="container">
+    <aside class="sidebar">
+      <div class="sidebar-title">办事服务</div>
+      <nav class="sidebar-nav">
+        <a href="#guide" class="active">新装开户</a>
+        <a href="#pay">水费缴纳</a>
+        <a href="#change">过户变更</a>
+        <a href="#repair">故障报修</a>
+        <a href="#download">下载专区</a>
+        <a href="#outlets">服务网点</a>
+        <a href="#flow">办事流程</a>
+      </nav>
+    </aside>
+
+    <div class="main-area">
+
+      <!-- 快捷服务入口 -->
+      <div class="card">
+        <div class="card-header"><h3>常用服务</h3></div>
+        <div class="card-body">
+          <div class="service-grid">
+            <div class="service-card"><div class="svc-icon">📝</div><h4>新装开户</h4><p>居民、企业新装自来水申请，3个工作日办结</p><span class="svc-badge badge-online">可在线办理</span></div>
+            <div class="service-card"><div class="svc-icon">💳</div><h4>在线缴费</h4><p>微信公众号/支付宝多渠道便捷缴费</p><span class="svc-badge badge-online">可在线办理</span></div>
+            <div class="service-card"><div class="svc-icon">🔄</div><h4>过户变更</h4><p>用水账户更名、过户，需携带证件至营业厅</p><span class="svc-badge badge-counter">需到窗口</span></div>
+            <div class="service-card"><div class="svc-icon">🔧</div><h4>故障报修</h4><p>管网故障、水压异常，30分钟内响应</p><span class="svc-badge badge-phone">电话/在线</span></div>
+            <div class="service-card"><div class="svc-icon">📊</div><h4>用量查询</h4><p>查询近12个月用水明细及缴费记录</p><span class="svc-badge badge-online">可在线办理</span></div>
+            <div class="service-card"><div class="svc-icon">🏠</div><h4>验表申请</h4><p>水表计量争议校验，7个工作日出具报告</p><span class="svc-badge badge-counter">需到窗口</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 办事流程 -->
+      <div class="card" id="flow">
+        <div class="card-header"><h3>新装开户流程</h3></div>
+        <div class="card-body">
+          <div class="steps-row">
+            <div class="step-item"><div class="step-circle">1</div><h4>提交申请</h4><p>线上或营业厅提交资料</p></div>
+            <div class="step-item"><div class="step-circle">2</div><h4>受理审核</h4><p>1个工作日内完成审核</p></div>
+            <div class="step-item"><div class="step-circle">3</div><h4>现场勘查</h4><p>24小时内工程师上门</p></div>
+            <div class="step-item"><div class="step-circle">4</div><h4>施工安装</h4><p>专业团队标准化施工</p></div>
+            <div class="step-item"><div class="step-circle">5</div><h4>验收通水</h4><p>水质检测合格即通水</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 新装开户详细 -->
+      <div class="card" id="guide">
+        <div class="card-header"><h3>新装开户指南</h3></div>
+        <div class="card-body">
+          <table class="info-table">
+            <tr><th>办理对象</th><td>湘潭市城区范围内需要新装自来水接入的居民、企事业单位及商业用户</td></tr>
+            <tr><th>所需材料（居民）</th><td>① 身份证原件及复印件 ② 房产证或购房合同原件及复印件 ③ 填写《用水申请表》</td></tr>
+            <tr><th>所需材料（企业）</th><td>① 营业执照副本复印件（加盖公章）② 法人身份证复印件 ③ 经办人身份证原件 ④ 授权委托书 ⑤ 用水需求说明</td></tr>
+            <tr><th>办理渠道</th><td>① 微信公众号"湘潭中环水务"在线申请 ② 各营业厅现场办理 ③ 拨打客服热线预约上门办理</td></tr>
+            <tr><th>办理时限</th><td>受理后1个工作日内审核；审核通过后24小时内上门勘查；施工安装一般2-5个工作日（视工程量）</td></tr>
+            <tr><th>收费标准</th><td>勘察设计费：免费 &nbsp;|&nbsp; 安装工程费：按实结算，详见《工程预算书》</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- 水费缴纳 -->
+      <div class="card" id="pay">
+        <div class="card-header"><h3>水费缴纳方式</h3></div>
+        <div class="card-body">
+          <table class="info-table">
+            <tr><th>微信公众号</th><td>关注"湘潭中环水务"→ 绑定户号 → 在线缴费，支持微信支付</td></tr>
+            <tr><th>支付宝</th><td>搜索"湘潭中环水务"生活号 → 绑定户号 → 在线缴费</td></tr>
+            <tr><th>银行代扣</th><td>携带身份证和银行卡至营业厅办理银行代扣协议，每月自动扣款</td></tr>
+            <tr><th>银行APP</th><td>工商银行、建设银行、农业银行、中国银行等手机APP均可缴费</td></tr>
+            <tr><th>营业厅现场</th><td>各服务网点窗口支持现金、刷卡、扫码支付</td></tr>
+            <tr><th>账单周期</th><td>每月1日生成上月账单，每月15日前缴纳上月水费，逾期将产生违约金</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- 过户变更 -->
+      <div class="card" id="change">
+        <div class="card-header"><h3>过户变更办理</h3></div>
+        <div class="card-body">
+          <table class="info-table">
+            <tr><th>适用情形</th><td>房屋买卖、继承、赠与等导致用水户主变更</td></tr>
+            <tr><th>所需材料</th><td>① 新业主身份证原件及复印件 ② 房产证原件及复印件 ③ 填写《用水户变更申请表》④ 原用户确认书（或相关证明）</td></tr>
+            <tr><th>办理地点</th><td>各营业厅窗口现场办理（需新业主本人到场）</td></tr>
+            <tr><th>办理时限</th><td>材料齐全，即时办结</td></tr>
+            <tr><th>注意事项</th><td>办理前需结清所有欠费；如有历史欠费，需原用户或新用户缴清后方可办理</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- 故障报修 -->
+      <div class="card" id="repair">
+        <div class="card-header"><h3>故障报修指南</h3></div>
+        <div class="card-body">
+          <table class="info-table">
+            <tr><th>报修范围</th><td>管网爆管、漏水、水压异常、水质异常、水表故障、阀门损坏等</td></tr>
+            <tr><th>24小时热线</th><td>0731-5828-XXXX（全年无休）</td></tr>
+            <tr><th>微信公众号</th><td>"湘潭中环水务" → "一键报修" → 上传照片定位故障</td></tr>
+            <tr><th>响应承诺</th><td>管网爆管：30分钟内到达现场；一般故障：2小时内响应；计划性维修：提前24小时发布停水通知</td></tr>
+            <tr><th>维修费用</th><td>公共管网：免费维修；户内设施：按收费标准收取材料费</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- 下载专区 -->
+      <div class="card" id="download">
+        <div class="card-header"><h3>下载专区</h3></div>
+        <div class="card-body">
+          <ul class="file-list">
+            <li><span class="file-icon">📄</span><div class="file-info"><a href="#" class="file-name">居民用水申请表</a><div class="file-meta">PDF格式 &nbsp;|&nbsp; 大小：256KB</div></div><a href="#" class="file-dl">下载</a></li>
+            <li><span class="file-icon">📄</span><div class="file-info"><a href="#" class="file-name">企业用水申请表</a><div class="file-meta">PDF格式 &nbsp;|&nbsp; 大小：312KB</div></div><a href="#" class="file-dl">下载</a></li>
+            <li><span class="file-icon">📄</span><div class="file-info"><a href="#" class="file-name">用水户变更申请表</a><div class="file-meta">PDF格式 &nbsp;|&nbsp; 大小：198KB</div></div><a href="#" class="file-dl">下载</a></li>
+            <li><span class="file-icon">📄</span><div class="file-info"><a href="#" class="file-name">银行代扣协议</a><div class="file-meta">PDF格式 &nbsp;|&nbsp; 大小：145KB</div></div><a href="#" class="file-dl">下载</a></li>
+            <li><span class="file-icon">📄</span><div class="file-info"><a href="#" class="file-name">办事服务指南（2026版）</a><div class="file-meta">PDF格式 &nbsp;|&nbsp; 大小：2.1MB</div></div><a href="#" class="file-dl">下载</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 服务网点 -->
+      <div class="card" id="outlets">
+        <div class="card-header"><h3>服务网点</h3></div>
+        <div class="card-body">
+          <div class="outlet-grid">
+            <div class="outlet-card">
+              <h4>🏢 雨湖营业厅（总厅）</h4>
+              <p>📍 雨湖区韶山东路88号水务大厦一楼</p>
+              <p>🕐 周一至周五 8:30-17:30 &nbsp;|&nbsp; 周六 9:00-15:00</p>
+              <p>📞 0731-5828-1101</p>
+            </div>
+            <div class="outlet-card">
+              <h4>🏢 岳塘营业厅</h4>
+              <p>📍 岳塘区建设南路218号</p>
+              <p>🕐 周一至周五 8:30-17:30 &nbsp;|&nbsp; 周六 9:00-15:00</p>
+              <p>📞 0731-5828-1102</p>
+            </div>
+            <div class="outlet-card">
+              <h4>🏢 九华营业厅</h4>
+              <p>📍 九华经开区富洲路1号</p>
+              <p>🕐 周一至周五 8:30-17:00 &nbsp;|&nbsp; 周六 9:00-12:00</p>
+              <p>📞 0731-5828-1103</p>
+            </div>
+            <div class="outlet-card">
+              <h4>🏢 昭山营业厅</h4>
+              <p>📍 昭山示范区芙蓉大道56号</p>
+              <p>🕐 周一至周五 8:30-17:00 &nbsp;|&nbsp; 周六休息</p>
+              <p>📞 0731-5828-1104</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-contact">
+      <h4>湘潭市中环水务有限公司</h4>
+      <p>📍 地址：湖南省湘潭市雨湖区韶山东路88号水务大厦</p>
+      <p>📞 24小时客服热线：0731-5828-XXXX</p>
+      <p>✉️ 电子邮箱：service@xtzhsw.com</p>
+    </div>
+    <div><h4>快速导航</h4>
+      <a href="index.html">网站首页</a><a href="xinxi-gongkai.html">信息公开</a><a href="hudong-jiaoliu.html">互动交流</a><a href="zhuanti-zhuanlan.html">专题专栏</a>
+    </div>
+    <div><h4>服务直达</h4>
+      <a href="#">在线缴费</a><a href="#">水质公告</a><a href="#">停水通知</a><a href="#">故障报修</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>主办单位：湘潭市中环水务有限公司</span>
+    <span>湘ICP备2025XXXXXXXX号-1</span>
+    <span>湘公网安备 43030202000XXX号</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('currentDate').textContent = (function(){
+    var d = new Date();
+    var w = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+    return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 '+w[d.getDay()];
+  })();
+  document.getElementById('menuToggle').addEventListener('click', function(){
+    this.classList.toggle('open'); document.getElementById('navList').classList.toggle('open');
+  });
+</script>
+</body>
+</html>

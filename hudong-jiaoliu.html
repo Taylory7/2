@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>互动交流 — 湘潭市中环水务有限公司</title>
+<style>
+  :root {
+    --primary: #1a56db; --primary-dark: #0f3dab; --primary-light: #e8f0fe;
+    --accent: #0891b2; --white: #ffffff; --text: #1e293b; --text-light: #64748b;
+    --bg: #f8fafc; --bg-card: #ffffff; --border: #e2e8f0;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+    --radius: 6px; --max-width: 1200px; --transition: 0.25s ease;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; font-size: 14px; }
+  a { text-decoration: none; color: inherit; }
+  ul { list-style: none; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+  .top-toolbar { background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-size: 12px; color: var(--text-light); }
+  .top-toolbar .container { display: flex; justify-content: space-between; align-items: center; padding: 6px 20px; flex-wrap: wrap; gap: 8px; }
+  .top-toolbar .toolbar-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .top-toolbar a { color: var(--text-light); }
+  .top-toolbar a:hover { color: var(--primary); }
+
+  .site-header { background: linear-gradient(135deg, #fff 0%, #f0f7ff 100%); border-bottom: 3px solid var(--primary); }
+  .site-header .container { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; gap: 24px; flex-wrap: wrap; }
+  .header-brand { display: flex; align-items: center; gap: 16px; }
+  .header-logo { width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff; box-shadow: 0 4px 16px rgba(26,86,219,0.25); flex-shrink: 0; }
+  .header-titles h1 { font-size: 26px; font-weight: 700; color: var(--primary-dark); letter-spacing: 1px; }
+  .header-titles .subtitle { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+  .header-search { display: flex; border: 2px solid var(--border); border-radius: 50px; overflow: hidden; background: #fff; transition: border-color var(--transition); flex-shrink: 0; }
+  .header-search:focus-within { border-color: var(--primary); }
+  .header-search input { border: none; outline: none; padding: 10px 18px; width: 240px; font-size: 14px; font-family: inherit; }
+  .header-search button { background: var(--primary); color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-size: 14px; font-family: inherit; }
+  .header-search button:hover { background: var(--primary-dark); }
+
+  .main-nav { background: var(--primary); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+  .main-nav .container { display: flex; align-items: center; }
+  .main-nav .nav-list { display: flex; align-items: center; }
+  .main-nav .nav-list > li { position: relative; }
+  .main-nav .nav-list > li > a { display: block; padding: 14px 24px; color: rgba(255,255,255,0.92); font-size: 15px; font-weight: 500; white-space: nowrap; transition: all var(--transition); letter-spacing: 0.5px; }
+  .main-nav .nav-list > li > a:hover, .main-nav .nav-list > li.active > a { background: rgba(255,255,255,0.15); color: #fff; }
+  .main-nav .nav-list > li.active > a { border-bottom: 3px solid #fff; padding-bottom: 11px; }
+  .main-nav .nav-dropdown { position: absolute; top: 100%; left: 0; background: #fff; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); border-radius: 0 0 var(--radius) var(--radius); opacity: 0; visibility: hidden; transform: translateY(4px); transition: all 0.2s ease; z-index: 1001; overflow: hidden; }
+  .main-nav .nav-list > li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-dropdown a { display: block; padding: 10px 18px; color: var(--text); font-size: 13px; border-bottom: 1px solid #f1f5f9; transition: all var(--transition); }
+  .nav-dropdown a:hover { background: var(--primary-light); color: var(--primary); padding-left: 22px; }
+  .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; margin-left: auto; }
+  .menu-toggle span { display: block; width: 26px; height: 2.5px; background: #fff; border-radius: 2px; transition: all 0.3s ease; }
+  .menu-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .menu-toggle.open span:nth-child(2) { opacity: 0; }
+  .menu-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  .breadcrumb { background: #fff; border-bottom: 1px solid var(--border); }
+  .breadcrumb .container { padding: 12px 20px; font-size: 13px; color: var(--text-light); display: flex; gap: 8px; align-items: center; }
+  .breadcrumb a { color: var(--primary); }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { color: #94a3b8; }
+
+  .page-body { padding: 32px 0; }
+  .page-body .container { display: grid; grid-template-columns: 240px 1fr; gap: 28px; }
+
+  .sidebar { display: flex; flex-direction: column; gap: 4px; }
+  .sidebar-title { font-size: 18px; font-weight: 700; color: #fff; background: var(--primary); padding: 16px 20px; border-radius: var(--radius) var(--radius) 0 0; text-align: center; letter-spacing: 1px; }
+  .sidebar-nav { background: #fff; border: 1px solid var(--border); border-radius: 0 0 var(--radius) var(--radius); overflow: hidden; }
+  .sidebar-nav a { display: flex; align-items: center; justify-content: space-between; padding: 13px 20px; font-size: 14px; color: var(--text); border-bottom: 1px solid #f1f5f9; transition: all var(--transition); }
+  .sidebar-nav a:last-child { border-bottom: none; }
+  .sidebar-nav a:hover, .sidebar-nav a.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+  .sidebar-nav a::after { content: "›"; font-size: 16px; color: #cbd5e1; }
+  .sidebar-nav a.active::after { color: var(--primary); }
+
+  .main-area { display: flex; flex-direction: column; gap: 24px; }
+  .card { background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+  .card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); background: linear-gradient(90deg, #f8fafc, #fff); }
+  .card-header h3 { font-size: 16px; color: var(--text); display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .card-header h3::before { content: ""; width: 4px; height: 18px; background: var(--primary); border-radius: 2px; }
+  .card-body { padding: 20px; }
+
+  /* 互动入口网格 */
+  .interact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .interact-card { background: var(--bg); border-radius: var(--radius); padding: 24px 16px; text-align: center; border: 1px solid transparent; transition: all var(--transition); cursor: pointer; }
+  .interact-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+  .interact-card .int-icon { font-size: 34px; margin-bottom: 10px; }
+  .interact-card h4 { font-size: 15px; margin-bottom: 6px; color: var(--text); }
+  .interact-card p { font-size: 12px; color: var(--text-light); line-height: 1.6; }
+
+  /* 表单 */
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: var(--text); }
+  .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 11px 14px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 14px; font-family: inherit; outline: none; transition: all var(--transition); background: #f8fafc; }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(26,86,219,0.06); }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .btn-submit { width: 100%; padding: 13px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; font-size: 15px; font-weight: 600; border: none; border-radius: var(--radius); cursor: pointer; transition: all var(--transition); font-family: inherit; letter-spacing: 0.5px; }
+  .btn-submit:hover { box-shadow: 0 6px 20px rgba(37,99,235,0.3); transform: translateY(-1px); }
+  .btn-submit:active { transform: scale(0.98); }
+
+  /* 满意度调查 */
+  .survey-item { padding: 16px 0; border-bottom: 1px solid #f1f5f9; }
+  .survey-item:last-child { border-bottom: none; }
+  .survey-question { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .survey-options { display: flex; gap: 10px; flex-wrap: wrap; }
+  .survey-opt { padding: 7px 18px; border: 2px solid var(--border); border-radius: 50px; cursor: pointer; font-size: 13px; transition: all var(--transition); background: #fff; }
+  .survey-opt:hover, .survey-opt.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+  .survey-stars { display: flex; gap: 6px; }
+  .survey-stars .star { font-size: 28px; cursor: pointer; color: #e2e8f0; transition: color 0.15s; }
+  .survey-stars .star.active { color: #f59e0b; }
+
+  /* 留言列表 */
+  .msg-list li { padding: 14px 0; border-bottom: 1px dashed #e2e8f0; display: flex; gap: 14px; }
+  .msg-list li:last-child { border-bottom: none; }
+  .msg-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary-light); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .msg-content { flex: 1; }
+  .msg-content .msg-header { display: flex; gap: 10px; align-items: center; margin-bottom: 4px; }
+  .msg-content .msg-name { font-weight: 600; font-size: 13px; }
+  .msg-content .msg-date { font-size: 11px; color: #94a3b8; }
+  .msg-content .msg-text { font-size: 13px; color: var(--text-light); line-height: 1.6; margin-bottom: 4px; }
+  .msg-content .msg-reply { background: var(--bg); padding: 10px 14px; border-radius: var(--radius); font-size: 12px; color: var(--text); border-left: 3px solid var(--primary); }
+  .msg-content .msg-reply strong { color: var(--primary); }
+
+  /* 分页 */
+  .pagination { display: flex; justify-content: center; gap: 6px; margin-top: 16px; }
+  .pagination button { padding: 6px 12px; border: 1px solid var(--border); background: #fff; border-radius: 3px; cursor: pointer; font-size: 13px; color: var(--text); transition: all var(--transition); font-family: inherit; }
+  .pagination button:hover { border-color: var(--primary); color: var(--primary); }
+  .pagination button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  .site-footer { background: #0b1424; color: #94a3b8; padding: 36px 20px 24px; font-size: 13px; }
+  .footer-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; margin-bottom: 24px; }
+  .footer-grid h4 { color: #fff; font-size: 15px; margin-bottom: 14px; font-weight: 600; }
+  .footer-grid a { color: #94a3b8; display: block; margin-bottom: 6px; transition: color 0.2s; font-size: 13px; }
+  .footer-grid a:hover { color: #fff; }
+  .footer-contact p { margin-bottom: 6px; display: flex; gap: 6px; align-items: flex-start; }
+  .footer-bottom { max-width: var(--max-width); margin: 0 auto; padding-top: 18px; border-top: 1px solid #1e293b; text-align: center; font-size: 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+  @media (max-width: 900px) {
+    .page-body .container { grid-template-columns: 1fr; }
+    .sidebar { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .sidebar-title { grid-column: 1/-1; border-radius: var(--radius) var(--radius) 0 0; }
+    .sidebar-nav { display: contents; }
+    .sidebar-nav a { border: 1px solid var(--border); border-radius: var(--radius); justify-content: center; padding: 10px; font-size: 12px; }
+    .sidebar-nav a::after { display: none; }
+    .interact-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .top-toolbar .container { justify-content: center; }
+    .site-header .container { justify-content: center; text-align: center; }
+    .header-titles h1 { font-size: 20px; }
+    .header-search input { width: 160px; }
+    .main-nav .nav-list { display: none; }
+    .menu-toggle { display: flex; }
+    .main-nav .nav-list.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--primary-dark); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .main-nav .nav-list.open .nav-dropdown { position: static; opacity: 1; visibility: visible; background: rgba(0,0,0,0.1); box-shadow: none; transform: none; border-radius: 0; }
+    .main-nav .nav-list.open .nav-dropdown a { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.1); }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .interact-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .sidebar { grid-template-columns: repeat(2, 1fr); }
+    .header-titles h1 { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-toolbar">
+  <div class="container">
+    <div class="toolbar-links">
+      <a href="#">中国政府网</a><span>|</span><a href="#">住建部网</a><span>|</span><a href="#">湖南省政府门户</a><span>|</span><a href="#">湘潭市政府网</a>
+    </div>
+    <span id="currentDate"></span>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container">
+    <div class="header-brand">
+      <div class="header-logo">💧</div>
+      <div class="header-titles"><h1>湘潭市中环水务有限公司</h1><p class="subtitle">安全供水 · 优质服务 · 绿色发展</p></div>
+    </div>
+    <div class="header-search"><input type="text" placeholder="搜索互动交流内容…"><button>🔍 搜索</button></div>
+  </div>
+</header>
+
+<nav class="main-nav" id="mainNav">
+  <div class="container">
+    <ul class="nav-list" id="navList">
+      <li><a href="index.html">网站首页</a></li>
+      <li><a href="xinxi-gongkai.html">信息公开</a></li>
+      <li><a href="banshi-fuwu.html">办事服务</a></li>
+      <li class="active">
+        <a href="hudong-jiaoliu.html">互动交流</a>
+        <div class="nav-dropdown">
+          <a href="#mailbox">经理信箱</a><a href="#consult">在线咨询</a><a href="#survey">满意度调查</a><a href="#solicit">民意征集</a>
+        </div>
+      </li>
+      <li><a href="zhuanti-zhuanlan.html">专题专栏</a></li>
+      <li><a href="lianxi-women.html">联系我们</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <div class="container"><a href="index.html">首页</a><span>/</span><span>互动交流</span></div>
+</div>
+
+<main class="page-body">
+  <div class="container">
+    <aside class="sidebar">
+      <div class="sidebar-title">互动交流</div>
+      <nav class="sidebar-nav">
+        <a href="#mailbox" class="active">经理信箱</a>
+        <a href="#consult">在线咨询</a>
+        <a href="#survey">满意度调查</a>
+        <a href="#solicit">民意征集</a>
+        <a href="#messages">留言公开</a>
+      </nav>
+    </aside>
+
+    <div class="main-area">
+
+      <!-- 互动入口 -->
+      <div class="card">
+        <div class="card-header"><h3>互动交流渠道</h3></div>
+        <div class="card-body">
+          <div class="interact-grid">
+            <div class="interact-card"><div class="int-icon">✉️</div><h4>经理信箱</h4><p>直接向公司领导反映问题与建议，每件必复</p></div>
+            <div class="interact-card"><div class="int-icon">💬</div><h4>在线咨询</h4><p>用水疑问即时解答，工作日2小时内回复</p></div>
+            <div class="interact-card"><div class="int-icon">📊</div><h4>满意度调查</h4><p>参与供水服务满意度评价，帮助我们改进</p></div>
+            <div class="interact-card"><div class="int-icon">📢</div><h4>民意征集</h4><p>参与重大决策意见征集，共建美好水务</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 经理信箱 -->
+      <div class="card" id="mailbox">
+        <div class="card-header"><h3>经理信箱</h3></div>
+        <div class="card-body">
+          <p style="color:var(--text-light); font-size:13px; margin-bottom:16px;">欢迎您向公司领导反映问题、提出建议。我们将严格保密您的个人信息，并在5个工作日内回复。</p>
+          <form id="mailboxForm">
+            <div class="form-row">
+              <div class="form-group"><label>姓名 *</label><input type="text" placeholder="请输入您的姓名" required></div>
+              <div class="form-group"><label>联系电话 *</label><input type="tel" placeholder="请输入联系电话" required></div>
+            </div>
+            <div class="form-group"><label>信件主题 *</label>
+              <select required><option value="">请选择信件主题</option><option>供水质量</option><option>服务投诉</option><option>意见建议</option><option>管网问题</option><option>水费疑问</option><option>其他</option></select>
+            </div>
+            <div class="form-group"><label>信件内容 *</label><textarea placeholder="请详细描述您的问题或建议（不少于20字）" required></textarea></div>
+            <button type="submit" class="btn-submit">📨 提交信件</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- 在线咨询 -->
+      <div class="card" id="consult">
+        <div class="card-header"><h3>在线咨询</h3></div>
+        <div class="card-body">
+          <p style="color:var(--text-light); font-size:13px; margin-bottom:16px;">对用水服务有任何疑问？请填写以下表单，客服人员将在工作日2小时内回复。</p>
+          <form id="consultForm">
+            <div class="form-row">
+              <div class="form-group"><label>姓名 *</label><input type="text" placeholder="请输入您的姓名" required></div>
+              <div class="form-group"><label>联系电话</label><input type="tel" placeholder="选填，方便我们联系您"></div>
+            </div>
+            <div class="form-group"><label>咨询类型 *</label>
+              <select required><option value="">请选择咨询类型</option><option>水费账单</option><option>开户流程</option><option>水质问题</option><option>水压问题</option><option>智能水表</option><option>其他</option></select>
+            </div>
+            <div class="form-group"><label>咨询内容 *</label><textarea placeholder="请描述您需要咨询的问题" required></textarea></div>
+            <button type="submit" class="btn-submit">💬 提交咨询</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- 满意度调查 -->
+      <div class="card" id="survey">
+        <div class="card-header"><h3>供水服务满意度调查</h3></div>
+        <div class="card-body">
+          <p style="color:var(--text-light); font-size:13px; margin-bottom:16px;">本季度满意度调查正在进行中，感谢您的参与！调查截至2026年6月30日。</p>
+          <div class="survey-item">
+            <div class="survey-question">1. 您对目前供水水质的满意度如何？</div>
+            <div class="survey-stars" data-survey="q1">
+              <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+            </div>
+          </div>
+          <div class="survey-item">
+            <div class="survey-question">2. 您对供水水压稳定性的满意度如何？</div>
+            <div class="survey-stars" data-survey="q2">
+              <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+            </div>
+          </div>
+          <div class="survey-item">
+            <div class="survey-question">3. 您对客服热线响应速度的满意度如何？</div>
+            <div class="survey-stars" data-survey="q3">
+              <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+            </div>
+          </div>
+          <div class="survey-item">
+            <div class="survey-question">4. 您对线上缴费便捷性的满意度如何？</div>
+            <div class="survey-stars" data-survey="q4">
+              <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+            </div>
+          </div>
+          <div class="survey-item">
+            <div class="survey-question">5. 您对抢修维修服务的满意度如何？</div>
+            <div class="survey-stars" data-survey="q5">
+              <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:16px;"><label>您还有哪些意见或建议？</label><textarea placeholder="请在此输入您的宝贵建议（选填）" style="min-height:80px;"></textarea></div>
+          <button class="btn-submit">📊 提交评价</button>
+        </div>
+      </div>
+
+      <!-- 民意征集 -->
+      <div class="card" id="solicit">
+        <div class="card-header"><h3>民意征集</h3></div>
+        <div class="card-body">
+          <ul class="msg-list">
+            <li>
+              <div class="msg-avatar">📢</div>
+              <div class="msg-content">
+                <div class="msg-header"><span class="msg-name">关于调整居民用水阶梯价格的意见征集</span><span class="msg-date">征集时间：2026-05-01 至 2026-06-30</span></div>
+                <div class="msg-text">根据市发改委工作部署，拟对城区居民生活用水阶梯价格进行调整。现面向社会公开征求意见。调整方案详见附件。</div>
+                <a href="#" style="color:var(--primary); font-size:12px;">查看详情 &gt;</a>
+              </div>
+            </li>
+            <li>
+              <div class="msg-avatar">📢</div>
+              <div class="msg-content">
+                <div class="msg-header"><span class="msg-name">《湘潭市二次供水管理办法（征求意见稿）》</span><span class="msg-date">征集时间：2026-04-15 至 2026-05-31</span></div>
+                <div class="msg-text">为进一步规范我市二次供水管理，保障居民用水安全，我司草拟了《湘潭市二次供水管理办法》，现向社会公开征求意见。</div>
+                <a href="#" style="color:var(--primary); font-size:12px;">查看详情 &gt;</a>
+              </div>
+            </li>
+            <li>
+              <div class="msg-avatar">📢</div>
+              <div class="msg-content">
+                <div class="msg-header"><span class="msg-name">老旧小区供水管网改造计划（2026-2028）征求意见</span><span class="msg-date">征集时间：2026-03-01 至 2026-04-30（已结束）</span></div>
+                <div class="msg-text">本次征集共收到有效建议78条，采纳32条。改造计划已在原有基础上优化调整，增加昭山示范区3个老旧小区纳入首批改造范围。</div>
+                <a href="#" style="color:var(--primary); font-size:12px;">查看结果 &gt;</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 留言公开 -->
+      <div class="card" id="messages">
+        <div class="card-header"><h3>留言公开</h3><a href="#" style="font-size:12px;color:var(--text-light);">更多 &gt;</a></div>
+        <div class="card-body">
+          <ul class="msg-list">
+            <li>
+              <div class="msg-avatar">👤</div>
+              <div class="msg-content">
+                <div class="msg-header"><span class="msg-name">王先生</span><span class="msg-date">2026-05-18</span></div>
+                <div class="msg-text">岳塘区书院路小区水压偏低，早晚高峰时段尤为明显，望解决。</div>
+                <div class="msg-reply"><strong>【回复】</strong> 经排查，该区域因管网老化导致水压不足，已纳入2026年第三批管网改造计划，预计8月施工。临时措施：已调整周边阀门增大供水压力。如有问题请致电0731-5828-XXXX。&nbsp;&nbsp;<span style="color:#94a3b8;">回复时间：2026-05-20</span></div>
+              </div>
+            </li>
+            <li>
+              <div class="msg-avatar">👤</div>
+              <div class="msg-content">
+                <div class="msg-header"><span class="msg-name">李女士</span><span class="msg-date">2026-05-12</span></div>
+                <div class="msg-text">请问微信公众号如何绑定户号？我试了几次都提示"户号不存在"。</div>
+                <div class="msg-reply"><strong>【回复】</strong> 您好，户号为10位数字，可在水费账单左上角找到。如无法绑定，请致电客服热线提供您的姓名和地址，工作人员将协助查询户号。&nbsp;&nbsp;<span style="color:#94a3b8;">回复时间：2026-05-12</span></div>
+              </div>
+            </li>
+            <li>
+              <div class="msg-avatar">👤</div>
+              <div class="msg-content">
+                <div class="msg-header"><span class="msg-name">刘先生</span><span class="msg-date">2026-05-08</span></div>
+                <div class="msg-text">建议在九华片区增设一个营业网点，目前去最近的营业厅要开车半小时。</div>
+                <div class="msg-reply"><strong>【回复】</strong> 感谢您的建议！九华营业厅（富洲路1号）已于2025年12月正式营业，提供全业务办理服务。地址和服务时间详见"办事服务—服务网点"。&nbsp;&nbsp;<span style="color:#94a3b8;">回复时间：2026-05-09</span></div>
+              </div>
+            </li>
+          </ul>
+          <div class="pagination">
+            <button>‹</button><button class="active">1</button><button>2</button><button>3</button><button>4</button><button>›</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-contact">
+      <h4>湘潭市中环水务有限公司</h4>
+      <p>📍 地址：湖南省湘潭市雨湖区韶山东路88号水务大厦</p>
+      <p>📞 24小时客服热线：0731-5828-XXXX</p>
+      <p>✉️ 电子邮箱：service@xtzhsw.com</p>
+    </div>
+    <div><h4>快速导航</h4>
+      <a href="index.html">网站首页</a><a href="xinxi-gongkai.html">信息公开</a><a href="banshi-fuwu.html">办事服务</a><a href="zhuanti-zhuanlan.html">专题专栏</a>
+    </div>
+    <div><h4>服务直达</h4>
+      <a href="#">在线缴费</a><a href="#">水质公告</a><a href="#">停水通知</a><a href="#">故障报修</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>主办单位：湘潭市中环水务有限公司</span>
+    <span>湘ICP备2025XXXXXXXX号-1</span>
+    <span>湘公网安备 43030202000XXX号</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('currentDate').textContent = (function(){
+    var d = new Date();
+    var w = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+    return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 '+w[d.getDay()];
+  })();
+  document.getElementById('menuToggle').addEventListener('click', function(){
+    this.classList.toggle('open'); document.getElementById('navList').classList.toggle('open');
+  });
+
+  // 星星评分
+  document.querySelectorAll('.survey-stars').forEach(function(group){
+    var stars = group.querySelectorAll('.star');
+    stars.forEach(function(star){
+      star.addEventListener('click', function(){
+        var val = parseInt(this.dataset.val);
+        stars.forEach(function(s, i){ s.classList.toggle('active', i < val); });
+      });
+    });
+  });
+
+  // 表单提交模拟
+  document.querySelectorAll('form').forEach(function(f){
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = this.querySelector('.btn-submit');
+      var orig = btn.textContent;
+      btn.textContent = '✅ 提交成功！感谢您的参与';
+      btn.style.background = '#22c55e';
+      setTimeout(function(){ btn.textContent = orig; btn.style.background = ''; f.reset(); }, 2500);
+    });
+  });
+</script>
+</body>
+</html>

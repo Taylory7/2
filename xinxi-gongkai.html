@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>信息公开 — 湘潭市中环水务有限公司</title>
+<style>
+  :root {
+    --primary: #1a56db;
+    --primary-dark: #0f3dab;
+    --primary-light: #e8f0fe;
+    --accent: #0891b2;
+    --white: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --bg: #f8fafc;
+    --bg-card: #ffffff;
+    --border: #e2e8f0;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+    --radius: 6px;
+    --max-width: 1200px;
+    --transition: 0.25s ease;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+    color: var(--text); background: var(--bg); line-height: 1.7; font-size: 14px;
+  }
+  a { text-decoration: none; color: inherit; }
+  ul { list-style: none; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+  /* ====== 顶部工具条 ====== */
+  .top-toolbar { background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-size: 12px; color: var(--text-light); }
+  .top-toolbar .container { display: flex; justify-content: space-between; align-items: center; padding: 6px 20px; flex-wrap: wrap; gap: 8px; }
+  .top-toolbar .toolbar-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .top-toolbar a { color: var(--text-light); transition: color var(--transition); }
+  .top-toolbar a:hover { color: var(--primary); }
+
+  /* ====== 头部 ====== */
+  .site-header { background: linear-gradient(135deg, #fff 0%, #f0f7ff 100%); border-bottom: 3px solid var(--primary); }
+  .site-header .container { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; gap: 24px; flex-wrap: wrap; }
+  .header-brand { display: flex; align-items: center; gap: 16px; }
+  .header-logo { width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff; box-shadow: 0 4px 16px rgba(26,86,219,0.25); flex-shrink: 0; }
+  .header-titles h1 { font-size: 26px; font-weight: 700; color: var(--primary-dark); letter-spacing: 1px; }
+  .header-titles .subtitle { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+  .header-search { display: flex; border: 2px solid var(--border); border-radius: 50px; overflow: hidden; background: #fff; transition: border-color var(--transition); flex-shrink: 0; }
+  .header-search:focus-within { border-color: var(--primary); }
+  .header-search input { border: none; outline: none; padding: 10px 18px; width: 240px; font-size: 14px; font-family: inherit; }
+  .header-search button { background: var(--primary); color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-size: 14px; font-family: inherit; transition: background var(--transition); }
+  .header-search button:hover { background: var(--primary-dark); }
+
+  /* ====== 主导航 ====== */
+  .main-nav { background: var(--primary); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+  .main-nav .container { display: flex; align-items: center; }
+  .main-nav .nav-list { display: flex; align-items: center; }
+  .main-nav .nav-list > li { position: relative; }
+  .main-nav .nav-list > li > a { display: block; padding: 14px 24px; color: rgba(255,255,255,0.92); font-size: 15px; font-weight: 500; white-space: nowrap; transition: all var(--transition); letter-spacing: 0.5px; }
+  .main-nav .nav-list > li > a:hover,
+  .main-nav .nav-list > li.active > a { background: rgba(255,255,255,0.15); color: #fff; }
+  .main-nav .nav-list > li.active > a { border-bottom: 3px solid #fff; padding-bottom: 11px; }
+  .main-nav .nav-dropdown { position: absolute; top: 100%; left: 0; background: #fff; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); border-radius: 0 0 var(--radius) var(--radius); opacity: 0; visibility: hidden; transform: translateY(4px); transition: all 0.2s ease; z-index: 1001; overflow: hidden; }
+  .main-nav .nav-list > li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-dropdown a { display: block; padding: 10px 18px; color: var(--text); font-size: 13px; border-bottom: 1px solid #f1f5f9; transition: all var(--transition); }
+  .nav-dropdown a:hover { background: var(--primary-light); color: var(--primary); padding-left: 22px; }
+
+  .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; margin-left: auto; }
+  .menu-toggle span { display: block; width: 26px; height: 2.5px; background: #fff; border-radius: 2px; transition: all 0.3s ease; }
+  .menu-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .menu-toggle.open span:nth-child(2) { opacity: 0; }
+  .menu-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* ====== 面包屑 ====== */
+  .breadcrumb { background: #fff; border-bottom: 1px solid var(--border); }
+  .breadcrumb .container { padding: 12px 20px; font-size: 13px; color: var(--text-light); display: flex; gap: 8px; align-items: center; }
+  .breadcrumb a { color: var(--primary); }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { color: #94a3b8; }
+
+  /* ====== 主体布局 ====== */
+  .page-body { padding: 32px 0; }
+  .page-body .container { display: grid; grid-template-columns: 240px 1fr; gap: 28px; }
+
+  /* ====== 侧栏导航 ====== */
+  .sidebar { display: flex; flex-direction: column; gap: 4px; }
+  .sidebar-title { font-size: 18px; font-weight: 700; color: #fff; background: var(--primary); padding: 16px 20px; border-radius: var(--radius) var(--radius) 0 0; text-align: center; letter-spacing: 1px; }
+  .sidebar-nav { background: #fff; border: 1px solid var(--border); border-radius: 0 0 var(--radius) var(--radius); overflow: hidden; }
+  .sidebar-nav a { display: flex; align-items: center; justify-content: space-between; padding: 13px 20px; font-size: 14px; color: var(--text); border-bottom: 1px solid #f1f5f9; transition: all var(--transition); }
+  .sidebar-nav a:last-child { border-bottom: none; }
+  .sidebar-nav a:hover,
+  .sidebar-nav a.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+  .sidebar-nav a::after { content: "›"; font-size: 16px; color: #cbd5e1; }
+  .sidebar-nav a.active::after { color: var(--primary); }
+
+  /* ====== 主内容 ====== */
+  .main-area { display: flex; flex-direction: column; gap: 24px; }
+  .card { background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+  .card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); background: linear-gradient(90deg, #f8fafc, #fff); }
+  .card-header h3 { font-size: 16px; color: var(--text); display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .card-header h3::before { content: ""; width: 4px; height: 18px; background: var(--primary); border-radius: 2px; }
+  .card-header .more-link { font-size: 12px; color: var(--text-light); transition: color var(--transition); }
+  .card-header .more-link:hover { color: var(--primary); }
+  .card-body { padding: 20px; }
+
+  /* 公开目录 */
+  .disclosure-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .disclosure-item { background: var(--bg); border-radius: var(--radius); padding: 18px 14px; text-align: center; transition: all var(--transition); border: 1px solid transparent; cursor: pointer; }
+  .disclosure-item:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .disclosure-item .d-icon { font-size: 28px; margin-bottom: 8px; }
+  .disclosure-item .d-label { font-size: 13px; font-weight: 600; color: var(--text); }
+  .disclosure-item .d-count { font-size: 11px; color: var(--text-light); margin-top: 4px; }
+
+  /* 表格 */
+  .info-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .info-table th, .info-table td { padding: 10px 14px; border: 1px solid var(--border); text-align: left; }
+  .info-table th { background: var(--bg); font-weight: 600; white-space: nowrap; color: var(--text); width: 120px; }
+  .info-table td { color: var(--text-light); }
+
+  /* 文件列表 */
+  .file-list li { padding: 12px 0; border-bottom: 1px dashed #e2e8f0; display: flex; align-items: center; gap: 12px; }
+  .file-list li:last-child { border-bottom: none; }
+  .file-list .file-icon { font-size: 20px; flex-shrink: 0; }
+  .file-list .file-info { flex: 1; min-width: 0; }
+  .file-list .file-name { font-size: 14px; color: var(--text); transition: color var(--transition); }
+  .file-list .file-name:hover { color: var(--primary); }
+  .file-list .file-meta { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+  .file-list .file-dl { padding: 5px 12px; background: var(--primary-light); color: var(--primary); border-radius: 3px; font-size: 12px; white-space: nowrap; transition: all var(--transition); }
+  .file-list .file-dl:hover { background: var(--primary); color: #fff; }
+
+  /* 页签切换 */
+  .tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 16px; }
+  .tab-btn { padding: 10px 22px; background: none; border: none; font-size: 14px; cursor: pointer; color: var(--text-light); font-family: inherit; position: relative; transition: all var(--transition); }
+  .tab-btn:hover { color: var(--primary); }
+  .tab-btn.active { color: var(--primary); font-weight: 600; }
+  .tab-btn.active::after { content: ""; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: var(--primary); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* 分页 */
+  .pagination { display: flex; justify-content: center; gap: 6px; margin-top: 16px; }
+  .pagination button { padding: 6px 12px; border: 1px solid var(--border); background: #fff; border-radius: 3px; cursor: pointer; font-size: 13px; color: var(--text); transition: all var(--transition); font-family: inherit; }
+  .pagination button:hover { border-color: var(--primary); color: var(--primary); }
+  .pagination button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  /* 页脚 */
+  .site-footer { background: #0b1424; color: #94a3b8; padding: 36px 20px 24px; font-size: 13px; }
+  .footer-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; margin-bottom: 24px; }
+  .footer-grid h4 { color: #fff; font-size: 15px; margin-bottom: 14px; font-weight: 600; }
+  .footer-grid a { color: #94a3b8; display: block; margin-bottom: 6px; transition: color 0.2s; font-size: 13px; }
+  .footer-grid a:hover { color: #fff; }
+  .footer-contact p { margin-bottom: 6px; display: flex; gap: 6px; align-items: flex-start; }
+  .footer-bottom { max-width: var(--max-width); margin: 0 auto; padding-top: 18px; border-top: 1px solid #1e293b; text-align: center; font-size: 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+  /* 响应式 */
+  @media (max-width: 900px) {
+    .page-body .container { grid-template-columns: 1fr; }
+    .sidebar { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .sidebar-title { grid-column: 1/-1; border-radius: var(--radius) var(--radius) 0 0; }
+    .sidebar-nav { display: contents; }
+    .sidebar-nav a { border: 1px solid var(--border); border-radius: var(--radius); justify-content: center; padding: 10px; font-size: 12px; }
+    .sidebar-nav a::after { display: none; }
+    .disclosure-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .top-toolbar .container { justify-content: center; }
+    .site-header .container { justify-content: center; text-align: center; }
+    .header-titles h1 { font-size: 20px; }
+    .header-search input { width: 160px; }
+    .main-nav .nav-list { display: none; }
+    .menu-toggle { display: flex; }
+    .main-nav .nav-list.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--primary-dark); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .main-nav .nav-list.open .nav-dropdown { position: static; opacity: 1; visibility: visible; background: rgba(0,0,0,0.1); box-shadow: none; transform: none; border-radius: 0; }
+    .main-nav .nav-list.open .nav-dropdown a { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.1); }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .disclosure-grid { grid-template-columns: 1fr; }
+    .sidebar { grid-template-columns: repeat(2, 1fr); }
+    .header-titles h1 { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 顶部工具条 -->
+<div class="top-toolbar">
+  <div class="container">
+    <div class="toolbar-links">
+      <a href="#">中国政府网</a><span>|</span>
+      <a href="#">住建部网</a><span>|</span>
+      <a href="#">湖南省政府门户</a><span>|</span>
+      <a href="#">湘潭市政府网</a><span>|</span>
+      <a href="#">中国城镇供水排水协会</a>
+    </div>
+    <span id="currentDate"></span>
+  </div>
+</div>
+
+<!-- 头部 -->
+<header class="site-header">
+  <div class="container">
+    <div class="header-brand">
+      <div class="header-logo">💧</div>
+      <div class="header-titles">
+        <h1>湘潭市中环水务有限公司</h1>
+        <p class="subtitle">安全供水 · 优质服务 · 绿色发展</p>
+      </div>
+    </div>
+    <div class="header-search">
+      <input type="text" placeholder="搜索信息公开内容…">
+      <button type="button">🔍 搜索</button>
+    </div>
+  </div>
+</header>
+
+<!-- 主导航 -->
+<nav class="main-nav" id="mainNav">
+  <div class="container">
+    <ul class="nav-list" id="navList">
+      <li><a href="index.html">网站首页</a></li>
+      <li class="active">
+        <a href="xinxi-gongkai.html">信息公开</a>
+        <div class="nav-dropdown">
+          <a href="#org">机构职能</a><a href="#leader">领导信息</a>
+          <a href="#policy">政策法规</a><a href="#water-quality">水质公告</a>
+          <a href="#bidding">招标采购</a><a href="#finance">财政信息</a>
+        </div>
+      </li>
+      <li><a href="banshi-fuwu.html">办事服务</a></li>
+      <li><a href="hudong-jiaoliu.html">互动交流</a></li>
+      <li><a href="zhuanti-zhuanlan.html">专题专栏</a></li>
+      <li><a href="lianxi-women.html">联系我们</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- 面包屑 -->
+<div class="breadcrumb">
+  <div class="container">
+    <a href="index.html">首页</a><span>/</span><span>信息公开</span>
+  </div>
+</div>
+
+<!-- 主体 -->
+<main class="page-body">
+  <div class="container">
+
+    <!-- 侧栏 -->
+    <aside class="sidebar">
+      <div class="sidebar-title">信息公开</div>
+      <nav class="sidebar-nav">
+        <a href="#org" class="active">机构职能</a>
+        <a href="#leader">领导信息</a>
+        <a href="#policy">政策法规</a>
+        <a href="#water-quality">水质公告</a>
+        <a href="#bidding">招标采购</a>
+        <a href="#finance">财政信息</a>
+        <a href="#price">供水价格</a>
+        <a href="#report">年度报告</a>
+      </nav>
+    </aside>
+
+    <!-- 主内容 -->
+    <div class="main-area">
+
+      <!-- 公开目录 -->
+      <div class="card">
+        <div class="card-header"><h3>信息公开目录</h3></div>
+        <div class="card-body">
+          <div class="disclosure-grid">
+            <div class="disclosure-item"><div class="d-icon">🏛️</div><div class="d-label">机构职能</div><div class="d-count">12条信息</div></div>
+            <div class="disclosure-item"><div class="d-icon">👤</div><div class="d-label">领导信息</div><div class="d-count">8条信息</div></div>
+            <div class="disclosure-item"><div class="d-icon">📜</div><div class="d-label">政策法规</div><div class="d-count">36条信息</div></div>
+            <div class="disclosure-item"><div class="d-icon">🔬</div><div class="d-label">水质公告</div><div class="d-count">60条信息</div></div>
+            <div class="disclosure-item"><div class="d-icon">📋</div><div class="d-label">招标采购</div><div class="d-count">45条信息</div></div>
+            <div class="disclosure-item"><div class="d-icon">💰</div><div class="d-label">财政信息</div><div class="d-count">20条信息</div></div>
+            <div class="disclosure-item"><div class="d-icon">💧</div><div class="d-label">供水价格</div><div class="d-count">6条信息</div></div>
+            <div class="disclosure-item"><div class="d-icon">📊</div><div class="d-label">年度报告</div><div class="d-count">10条信息</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 机构职能 -->
+      <div class="card" id="org">
+        <div class="card-header"><h3>机构职能</h3></div>
+        <div class="card-body">
+          <table class="info-table">
+            <tr><th>单位名称</th><td>湘潭市中环水务有限公司</td></tr>
+            <tr><th>单位性质</th><td>国有控股有限责任公司</td></tr>
+            <tr><th>成立时间</th><td>2004年3月</td></tr>
+            <tr><th>注册资本</th><td>人民币叁亿贰仟万元整</td></tr>
+            <tr><th>法定代表人</th><td>张建国</td></tr>
+            <tr><th>办公地址</th><td>湖南省湘潭市雨湖区韶山东路88号水务大厦</td></tr>
+            <tr><th>主要职能</th><td>承担湘潭市市区及周边乡镇的自来水生产与供应；负责城市供水管网的建设、维护与管理；开展水质检测与监测；提供供水相关的技术咨询与服务。</td></tr>
+            <tr><th>内设机构</th><td>办公室、财务部、生产技术部、管网管理部、客户服务中心、水质检测中心、物资采购部、安全监管部、信息中心、党群工作部</td></tr>
+            <tr><th>服务热线</th><td>0731-5828-XXXX（24小时）</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- 领导信息 -->
+      <div class="card" id="leader">
+        <div class="card-header"><h3>领导信息</h3></div>
+        <div class="card-body">
+          <table class="info-table">
+            <tr><th>张建国</th><td>党委书记、董事长</td><td>主持公司全面工作，分管审计部</td></tr>
+            <tr><th>李明华</th><td>党委副书记、总经理</td><td>主持生产经营管理工作，分管办公室、财务部</td></tr>
+            <tr><th>王志强</th><td>党委委员、副总经理</td><td>分管生产技术部、水质检测中心、安全生产</td></tr>
+            <tr><th>陈丽芳</th><td>党委委员、副总经理</td><td>分管客户服务中心、管网管理部、营业所</td></tr>
+            <tr><th>刘伟东</th><td>党委委员、纪委书记</td><td>分管纪检监察、党群工作部</td></tr>
+            <tr><th>赵文博</th><td>总工程师</td><td>分管智慧水务建设、技术研发、信息中心</td></tr>
+            <tr><th>周晓燕</th><td>总会计师</td><td>分管财务管理、预算编制、物资采购部</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- 政策法规 — 带页签切换 -->
+      <div class="card" id="policy">
+        <div class="card-header"><h3>政策法规</h3><a href="#" class="more-link">更多 &gt;</a></div>
+        <div class="card-body">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="tab-laws">法律法规</button>
+            <button class="tab-btn" data-tab="tab-rules">部门规章</button>
+            <button class="tab-btn" data-tab="tab-standards">技术标准</button>
+            <button class="tab-btn" data-tab="tab-local">地方政策</button>
+          </div>
+          <div class="tab-panel active" id="tab-laws">
+            <ul class="file-list">
+              <li><span class="file-icon">📄</span><div class="file-info"><a href="#" class="file-name">中华人民共和国水法（2016年修订）</a><div class="file-meta">发布：全国人大常委会 &nbsp;|&nbsp; 施行：2016-09-01</div></div><a href="#" class="file-dl">查阅</a></li>
+              <li><span class="file-icon">📄</span><div class="file-info"><a href="#" class="file-name">中华人民共和国水污染防治法（2017年修订）</a><div class="file-meta">发布：全国人大常委会 &nbsp;|&nbsp; 施行：2018-01-01</div></div><a href="#" class="file-dl">查阅</a></li>
+              <li><span class="file-icon">📄</span><div class="file-info"><a href="#" class="file-name">城市供水条例（2020年修订）</a><div class="file-meta">发布：国务院 &nbsp;|&nbsp; 施行：2020-05-01</div></div><a href="#" class="file-dl">查阅</a></li>
+              <li><span class="file-icon">📄</span><div class="file-info"><a href="#" class="file-name">生活饮用水卫生监督管理办法</a><div class="file-meta">发布：住建部/卫生部 &nbsp;|&nbsp; 施行：2016-07-01</div></div><a href="#" class="file-dl">查阅</a></li>
+            </ul>
+          </div>
+          <div class="tab-panel" id="tab-rules">
+            <ul class="file-list">
+              <li><span class="file-icon">📄</span><div class="file-info"><a href="#" class="file-name">城市供水水质管理规定</a><div class="file-meta">发布：住建部 &nbsp;|&nbsp; 施行：2021-03-01</div></div><a href="#" class="file-dl">查阅</a></li>
+              <li><span class="file-icon">📄</span><div class="file-info"><a href="#" class="file-name">城镇供水管网漏损控制及评定标准</a><div class="file-meta">发布：住建部 &nbsp;|&nbsp; 施行：2022-06-01</div></div><a href="#" class="file-dl">查阅</a></li>
+            </ul>
+          </div>
+          <div class="tab-panel" id="tab-standards">
+            <ul class="file-list">
+              <li><span class="file-icon">📄</span><div class="file-info"><a href="#" class="file-name">生活饮用水卫生标准 GB 5749-2022</a><div class="file-meta">发布：国家卫健委 &nbsp;|&nbsp; 施行：2023-04-01</div></div><a href="#" class="file-dl">查阅</a></li>
+              <li><span class="file-icon">📄</span><div class="file-info"><a href="#" class="file-name">二次供水设施卫生规范 GB 17051</a><div class="file-meta">发布：国家卫健委 &nbsp;|&nbsp; 施行：2020-01-01</div></div><a href="#" class="file-dl">查阅</a></li>
+            </ul>
+          </div>
+          <div class="tab-panel" id="tab-local">
+            <ul class="file-list">
+              <li><span class="file-icon">📄</span><div class="file-info"><a href="#" class="file-name">湖南省城镇供水管理办法</a><div class="file-meta">发布：湖南省政府 &nbsp;|&nbsp; 施行：2021-07-01</div></div><a href="#" class="file-dl">查阅</a></li>
+              <li><span class="file-icon">📄</span><div class="file-info"><a href="#" class="file-name">湘潭市城市供水用水管理条例</a><div class="file-meta">发布：湘潭市政府 &nbsp;|&nbsp; 施行：2022-01-01</div></div><a href="#" class="file-dl">查阅</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 水质公告 -->
+      <div class="card" id="water-quality">
+        <div class="card-header"><h3>水质公告</h3><a href="#" class="more-link">更多 &gt;</a></div>
+        <div class="card-body">
+          <ul class="file-list">
+            <li><span class="file-icon">📊</span><div class="file-info"><a href="#" class="file-name">2026年5月出厂水水质检测报告</a><div class="file-meta">检测日期：2026-05-15 &nbsp;|&nbsp; 106项指标全部达标 &nbsp;|&nbsp; 达标率 100%</div></div><a href="#" class="file-dl">下载</a></li>
+            <li><span class="file-icon">📊</span><div class="file-info"><a href="#" class="file-name">2026年5月管网末梢水水质检测报告</a><div class="file-meta">采样点：全市12个监测点 &nbsp;|&nbsp; 达标率 99.8%</div></div><a href="#" class="file-dl">下载</a></li>
+            <li><span class="file-icon">📊</span><div class="file-info"><a href="#" class="file-name">2026年4月出厂水水质检测报告</a><div class="file-meta">检测日期：2026-04-15 &nbsp;|&nbsp; 106项指标全部达标</div></div><a href="#" class="file-dl">下载</a></li>
+            <li><span class="file-icon">📊</span><div class="file-info"><a href="#" class="file-name">2026年第一季度水源水质监测报告</a><div class="file-meta">水源：湘江湘潭段 &nbsp;|&nbsp; 水质类别：II类</div></div><a href="#" class="file-dl">下载</a></li>
+          </ul>
+          <div class="pagination">
+            <button>‹</button><button class="active">1</button><button>2</button><button>3</button><button>4</button><button>5</button><button>›</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 招标采购 -->
+      <div class="card" id="bidding">
+        <div class="card-header"><h3>招标采购</h3><a href="#" class="more-link">更多 &gt;</a></div>
+        <div class="card-body">
+          <ul class="file-list">
+            <li><span class="file-icon">📋</span><div class="file-info"><a href="#" class="file-name">2026年度智能水表采购项目中标结果公示</a><div class="file-meta">公告日期：2026-05-16 &nbsp;|&nbsp; 中标单位：XX仪表科技有限公司</div></div><a href="#" class="file-dl">下载</a></li>
+            <li><span class="file-icon">📋</span><div class="file-info"><a href="#" class="file-name">第三水厂深度处理工艺改造设备采购招标公告</a><div class="file-meta">报名截止：2026-06-10 &nbsp;|&nbsp; 开标时间：2026-06-20</div></div><a href="#" class="file-dl">下载</a></li>
+            <li><span class="file-icon">📋</span><div class="file-info"><a href="#" class="file-name">管网GIS信息系统建设项目招标公告</a><div class="file-meta">报名截止：2026-05-30 &nbsp;|&nbsp; 开标时间：2026-06-08</div></div><a href="#" class="file-dl">下载</a></li>
+            <li><span class="file-icon">📋</span><div class="file-info"><a href="#" class="file-name">2026-2027年度管道材料框架协议采购公告</a><div class="file-meta">报名截止：2026-06-15 &nbsp;|&nbsp; 资格预审</div></div><a href="#" class="file-dl">下载</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 财政信息 -->
+      <div class="card" id="finance">
+        <div class="card-header"><h3>财政信息</h3></div>
+        <div class="card-body">
+          <ul class="file-list">
+            <li><span class="file-icon">💰</span><div class="file-info"><a href="#" class="file-name">2025年度部门决算公开</a><div class="file-meta">发布时间：2026-03-15</div></div><a href="#" class="file-dl">下载</a></li>
+            <li><span class="file-icon">💰</span><div class="file-info"><a href="#" class="file-name">2026年度部门预算公开</a><div class="file-meta">发布时间：2026-01-20</div></div><a href="#" class="file-dl">下载</a></li>
+            <li><span class="file-icon">💰</span><div class="file-info"><a href="#" class="file-name">2025年度"三公"经费支出情况公示</a><div class="file-meta">发布时间：2026-02-28</div></div><a href="#" class="file-dl">下载</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 供水价格 -->
+      <div class="card" id="price">
+        <div class="card-header"><h3>供水价格</h3></div>
+        <div class="card-body">
+          <table class="info-table">
+            <tr><th>居民生活用水</th><td>第一阶梯（≤15吨/月）：2.80元/吨</td><td>第二阶梯（16-25吨）：3.64元/吨</td><td>第三阶梯（＞25吨）：5.60元/吨</td></tr>
+            <tr><th>非居民用水</th><td>工业用水：3.50元/吨</td><td>行政事业用水：3.20元/吨</td><td>经营服务用水：4.00元/吨</td></tr>
+            <tr><th>特种用水</th><td colspan="3">洗浴、洗车等：6.80元/吨</td></tr>
+            <tr><th>污水处理费</th><td colspan="3">居民：0.95元/吨 &nbsp;|&nbsp; 非居民：1.40元/吨（随水费代征）</td></tr>
+            <tr><th>备注</th><td colspan="3">以上价格依据湘潭市发改委《关于调整城区供水价格的通知》（潭发改价〔2025〕18号）执行</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- 年度报告 -->
+      <div class="card" id="report">
+        <div class="card-header"><h3>年度报告</h3></div>
+        <div class="card-body">
+          <ul class="file-list">
+            <li><span class="file-icon">📊</span><div class="file-info"><a href="#" class="file-name">2025年度企业社会责任报告</a><div class="file-meta">发布时间：2026-03-15</div></div><a href="#" class="file-dl">下载</a></li>
+            <li><span class="file-icon">📊</span><div class="file-info"><a href="#" class="file-name">2025年度供水服务年度报告</a><div class="file-meta">发布时间：2026-02-20</div></div><a href="#" class="file-dl">下载</a></li>
+            <li><span class="file-icon">📊</span><div class="file-info"><a href="#" class="file-name">2024年度企业社会责任报告</a><div class="file-meta">发布时间：2025-03-10</div></div><a href="#" class="file-dl">下载</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- 页脚 -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-contact">
+      <h4>湘潭市中环水务有限公司</h4>
+      <p>📍 地址：湖南省湘潭市雨湖区韶山东路88号水务大厦</p>
+      <p>📞 24小时客服热线：0731-5828-XXXX</p>
+      <p>✉️ 电子邮箱：service@xtzhsw.com</p>
+    </div>
+    <div>
+      <h4>快速导航</h4>
+      <a href="index.html">网站首页</a>
+      <a href="banshi-fuwu.html">办事服务</a>
+      <a href="hudong-jiaoliu.html">互动交流</a>
+      <a href="zhuanti-zhuanlan.html">专题专栏</a>
+    </div>
+    <div>
+      <h4>服务直达</h4>
+      <a href="#">在线缴费</a><a href="#">水质公告</a><a href="#">停水通知</a><a href="#">故障报修</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>主办单位：湘潭市中环水务有限公司</span>
+    <span>湘ICP备2025XXXXXXXX号-1</span>
+    <span>湘公网安备 43030202000XXX号</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('currentDate').textContent = (function(){
+    const d = new Date();
+    const w = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+    return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 '+w[d.getDay()];
+  })();
+
+  // 移动端菜单
+  document.getElementById('menuToggle').addEventListener('click', function(){
+    this.classList.toggle('open');
+    document.getElementById('navList').classList.toggle('open');
+  });
+
+  // 页签切换
+  document.querySelectorAll('.tab-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var tabGroup = this.parentElement;
+      tabGroup.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+      this.classList.add('active');
+      var card = tabGroup.parentElement;
+      card.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+      card.querySelector('#' + this.dataset.tab).classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

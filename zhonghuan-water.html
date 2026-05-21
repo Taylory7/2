@@ -1,0 +1,1788 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>湘潭市中环水务有限公司 — 守护每一滴水，润泽湘潭城</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-light: #dbeafe;
+    --accent: #0284c7;
+    --cyan: #06b6d4;
+    --white: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --bg: #f0f9ff;
+    --bg-warm: #f8fafc;
+    --border: #e2e8f0;
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --shadow-lg: 0 12px 48px rgba(0,0,0,0.12);
+    --shadow-xl: 0 24px 64px rgba(0,0,0,0.16);
+    --radius: 14px;
+    --radius-sm: 10px;
+    --max-width: 1200px;
+    --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+    background: var(--white);
+  }
+
+  /* ==================== 滚动显示动画 ==================== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ==================== 导航栏 ==================== */
+  .navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 18px 0;
+    transition: all var(--transition);
+    background: transparent;
+  }
+  .navbar.scrolled {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    box-shadow: 0 2px 24px rgba(0,0,0,0.10);
+    padding: 10px 0;
+  }
+  .navbar .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: color var(--transition);
+    letter-spacing: 0.5px;
+  }
+  .navbar.scrolled .logo { color: var(--primary); }
+  .logo-icon {
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+  .logo-icon::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.5), transparent 70%);
+  }
+  .navbar.scrolled .logo-icon { background: var(--primary-light); }
+  .nav-links {
+    display: flex;
+    gap: 34px;
+    list-style: none;
+    align-items: center;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,0.88);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+    padding: 4px 0;
+  }
+  .nav-links a::after {
+    content: ""; position: absolute;
+    bottom: -4px; left: 0; width: 0; height: 2px;
+    background: #fff; transition: width 0.3s ease;
+    border-radius: 1px;
+  }
+  .nav-links a:hover::after { width: 100%; }
+  .navbar.scrolled .nav-links a { color: var(--text); }
+  .navbar.scrolled .nav-links a::after { background: var(--primary); }
+  .navbar.scrolled .nav-links a:hover { color: var(--primary); }
+
+  .menu-toggle {
+    display: none;
+    flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 6px;
+    z-index: 1001;
+  }
+  .menu-toggle span {
+    display: block;
+    width: 28px; height: 2.5px;
+    background: #fff; border-radius: 3px;
+    transition: all 0.3s ease;
+  }
+  .navbar.scrolled .menu-toggle span { background: var(--primary); }
+  .menu-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .menu-toggle.open span:nth-child(2) { opacity: 0; }
+  .menu-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* ==================== 主视觉 Hero ==================== */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f2b6e 0%, #1e40af 15%, #2563eb 40%, #0ea5e9 65%, #22d3ee 85%, #e0f2fe 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 28px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  /* 动态光晕 */
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -60%; left: -20%;
+    width: 140%; height: 140%;
+    background:
+      radial-gradient(circle at 20% 60%, rgba(255,255,255,0.10) 0%, transparent 45%),
+      radial-gradient(circle at 75% 25%, rgba(255,255,255,0.12) 0%, transparent 40%),
+      radial-gradient(circle at 50% 80%, rgba(34,211,238,0.15) 0%, transparent 50%);
+    animation: heroGlow 8s ease-in-out infinite alternate;
+  }
+  @keyframes heroGlow {
+    0% { transform: scale(1) rotate(0deg); }
+    100% { transform: scale(1.08) rotate(2deg); }
+  }
+
+  /* 浮动水滴粒子 */
+  .water-drops {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  }
+  .drop {
+    position: absolute;
+    width: 8px; height: 8px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    animation: floatUp linear infinite;
+  }
+  .drop::after {
+    content: "";
+    position: absolute;
+    top: -2px; left: 2px;
+    width: 4px; height: 4px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 50%;
+  }
+  @keyframes floatUp {
+    0% {
+      transform: translateY(0) translateX(0) scale(1);
+      opacity: 0;
+    }
+    5% { opacity: 1; }
+    50% { opacity: 0.8; }
+    95% { opacity: 0.2; }
+    100% {
+      transform: translateY(-100vh) translateX(40px) scale(0.2);
+      opacity: 0;
+    }
+  }
+
+  /* 涟漪 */
+  .ripple-ring {
+    position: absolute;
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+    animation: rippleExpand 5s ease-out infinite;
+  }
+  @keyframes rippleExpand {
+    0% { width: 40px; height: 40px; opacity: 0.5; }
+    100% { width: 600px; height: 600px; opacity: 0; }
+  }
+
+  .hero-content {
+    position: relative; z-index: 1;
+    max-width: 780px;
+  }
+  .hero-badge {
+    display: inline-block;
+    padding: 8px 22px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 50px;
+    color: rgba(255,255,255,0.9);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 28px;
+    backdrop-filter: blur(8px);
+    animation: fadeInDown 0.8s ease;
+  }
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero h1 {
+    font-size: clamp(40px, 7vw, 68px);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 24px;
+    letter-spacing: -1.5px;
+    animation: fadeInDown 0.8s ease 0.15s both;
+  }
+  .hero h1 span {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: clamp(16px, 2.2vw, 19px);
+    color: rgba(255,255,255,0.82);
+    margin-bottom: 40px;
+    line-height: 1.8;
+    animation: fadeInDown 0.8s ease 0.3s both;
+  }
+  .hero-buttons {
+    display: flex; gap: 18px; flex-wrap: wrap; justify-content: center;
+    animation: fadeInDown 0.8s ease 0.45s both;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 15px 34px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .btn:hover::after { opacity: 1; }
+  .btn-primary {
+    background: #fff;
+    color: var(--primary);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  }
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.22);
+  }
+  .btn-outline {
+    background: transparent;
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.45);
+  }
+  .btn-outline:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: #fff;
+    transform: translateY(-2px);
+  }
+
+  .hero-wave {
+    position: absolute;
+    bottom: -2px; left: 0; right: 0;
+    z-index: 2;
+  }
+  .hero-wave svg { display: block; width: 100%; height: auto; }
+
+  /* ==================== 通用 section ==================== */
+  section { padding: 100px 28px; position: relative; }
+  section:nth-child(even) { background: var(--white); }
+  section:nth-child(odd) { background: var(--bg); }
+
+  .section-header {
+    text-align: center; margin-bottom: 64px;
+  }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 18px;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 13px; font-weight: 600;
+    border-radius: 50px;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+  }
+  .section-header h2 {
+    font-size: clamp(30px, 4.5vw, 44px);
+    font-weight: 700; color: var(--text);
+    margin-bottom: 14px;
+    letter-spacing: -0.5px;
+  }
+  .section-header p {
+    color: var(--text-light);
+    font-size: 17px; max-width: 580px; margin: 0 auto;
+    line-height: 1.7;
+  }
+  .section-divider {
+    width: 60px; height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--cyan));
+    border-radius: 2px;
+    margin: 14px auto 0;
+  }
+
+  .container { max-width: var(--max-width); margin: 0 auto; }
+
+  /* ==================== 服务流程 ==================== */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    position: relative;
+  }
+  .process-grid::before {
+    content: "";
+    position: absolute;
+    top: 48px; left: 15%; right: 15%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary-light), var(--cyan), var(--primary-light), transparent);
+    z-index: 0;
+  }
+  .process-step {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .process-icon {
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    background: var(--white);
+    box-shadow: var(--shadow);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    margin: 0 auto 20px;
+    position: relative;
+    transition: all var(--transition);
+    border: 3px solid transparent;
+  }
+  .process-step:hover .process-icon {
+    border-color: var(--primary);
+    transform: scale(1.08);
+    box-shadow: var(--shadow-lg);
+  }
+  .process-number {
+    position: absolute;
+    top: -6px; right: -6px;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff;
+    font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .process-step h3 { font-size: 18px; margin-bottom: 8px; color: var(--text); }
+  .process-step p { color: var(--text-light); font-size: 14px; line-height: 1.7; }
+
+  /* ==================== 特性卡片 ==================== */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+  }
+  .feature-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 40px 32px;
+    box-shadow: var(--shadow);
+    transition: all var(--transition);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid transparent;
+  }
+  .feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--cyan), var(--accent));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease;
+  }
+  .feature-card:hover::before { transform: scaleX(1); }
+  .feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--border);
+  }
+  .feature-icon {
+    width: 72px; height: 72px;
+    background: linear-gradient(135deg, #eff6ff, #e0f2fe);
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 30px;
+    margin: 0 auto 22px;
+    transition: all var(--transition);
+    position: relative;
+  }
+  .feature-icon::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, var(--primary), var(--cyan));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .feature-card:hover .feature-icon::after { opacity: 1; }
+  .feature-card:hover .feature-icon { background: var(--white); }
+  .feature-card h3 { font-size: 21px; margin-bottom: 10px; color: var(--text); }
+  .feature-card p { color: var(--text-light); font-size: 15px; line-height: 1.75; }
+
+  /* ==================== 关于我们 ==================== */
+  .about-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .about-image {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  .about-image .img-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, #1e40af, #3b82f6, #0ea5e9);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-image .img-placeholder::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.2) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 40%);
+  }
+  .about-image .water-icon-large {
+    font-size: 120px;
+    position: relative;
+    z-index: 1;
+    animation: gentleFloat 4s ease-in-out infinite;
+  }
+  @keyframes gentleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+  .about-badge {
+    position: absolute;
+    bottom: 24px; right: 24px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    padding: 16px 22px;
+    border-radius: var(--radius-sm);
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .about-badge .badge-number { font-size: 36px; font-weight: 800; color: var(--primary); }
+  .about-badge .badge-label { font-size: 13px; color: var(--text-light); }
+
+  .about-text h3 { font-size: 28px; margin-bottom: 18px; color: var(--text); }
+  .about-text p { color: var(--text-light); margin-bottom: 14px; line-height: 1.85; font-size: 15px; }
+  .about-text .about-highlights {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .about-highlight-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 14px 16px;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+  }
+  .about-highlight-item:hover {
+    border-left-color: var(--primary);
+    background: #fff;
+    box-shadow: var(--shadow);
+  }
+  .about-highlight-item .hl-icon { font-size: 20px; flex-shrink: 0; }
+
+  /* ==================== 数据统计 ==================== */
+  .stats {
+    background: linear-gradient(135deg, #0f2b6e, #1e40af, #2563eb);
+    color: #fff;
+    padding: 88px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stats::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 50%, rgba(255,255,255,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(34,211,238,0.08) 0%, transparent 40%);
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 40px;
+    text-align: center;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .stat-item {
+    padding: 20px;
+    transition: transform 0.3s;
+  }
+  .stat-item:hover { transform: translateY(-6px); }
+  .stat-icon { font-size: 36px; margin-bottom: 12px; }
+  .stat-item .stat-number {
+    font-size: clamp(44px, 7vw, 60px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .stat-item .stat-label { font-size: 16px; opacity: 0.75; margin-top: 8px; font-weight: 500; }
+  .stat-item .stat-suffix { font-size: 34px; font-weight: 700; }
+
+  /* ==================== 客户评价轮播 ==================== */
+  .testimonials-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .testimonials-viewport {
+    overflow: hidden;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+  }
+  .testimonial-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .testimonial-card {
+    min-width: 100%;
+    background: var(--white);
+    padding: 48px 44px;
+    text-align: center;
+  }
+  .testimonial-card .quote-icon {
+    font-size: 48px;
+    line-height: 1;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--primary), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .testimonial-card .avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #93c5fd, #3b82f6);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; color: #fff;
+    margin: 0 auto 18px;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.3);
+  }
+  .testimonial-card .quote {
+    font-size: 17px; color: var(--text);
+    font-style: italic; line-height: 1.9;
+    margin-bottom: 20px;
+  }
+  .testimonial-card .stars {
+    color: #f59e0b; font-size: 18px;
+    margin-bottom: 14px; letter-spacing: 3px;
+  }
+  .testimonial-card .author { font-weight: 700; color: var(--text); font-size: 16px; }
+  .testimonial-card .role { font-size: 13px; color: var(--text-light); }
+
+  .carousel-controls {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    margin-top: 28px;
+  }
+  .carousel-btn {
+    width: 46px; height: 46px;
+    border-radius: 50%; border: 2px solid var(--border);
+    background: var(--white); cursor: pointer;
+    font-size: 18px; color: var(--text);
+    transition: all 0.25s;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow);
+  }
+  .carousel-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    box-shadow: 0 4px 16px rgba(37,99,235,0.2);
+    transform: scale(1.05);
+  }
+  .carousel-dots {
+    display: flex; gap: 10px;
+  }
+  .carousel-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%; background: var(--border);
+    border: none; cursor: pointer;
+    transition: all 0.35s ease;
+  }
+  .carousel-dot.active {
+    background: var(--primary);
+    width: 32px; border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+  }
+
+  /* 进度条 */
+  .carousel-progress {
+    width: 100%; height: 4px;
+    background: var(--border); border-radius: 2px;
+    margin-top: 20px; overflow: hidden;
+  }
+  .carousel-progress-bar {
+    height: 100%; background: var(--primary);
+    border-radius: 2px;
+    transition: width 0.1s linear;
+  }
+
+  /* ==================== 定价表 ==================== */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+    align-items: start;
+  }
+  .pricing-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 40px 32px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    position: relative;
+    transition: all var(--transition);
+    border: 2px solid transparent;
+    overflow: hidden;
+  }
+  .pricing-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary), var(--cyan));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease;
+  }
+  .pricing-card:hover::before { transform: scaleX(1); }
+  .pricing-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-xl); }
+  .pricing-card.featured {
+    border-color: var(--primary);
+    box-shadow: 0 8px 40px rgba(37,99,235,0.18);
+    transform: scale(1.04);
+  }
+  .pricing-card.featured:hover { transform: scale(1.04) translateY(-6px); }
+  .pricing-badge {
+    position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    color: #fff;
+    padding: 7px 22px; border-radius: 50px;
+    font-size: 13px; font-weight: 700;
+    box-shadow: 0 4px 16px rgba(245,158,11,0.35);
+    letter-spacing: 0.5px;
+  }
+  .pricing-icon { font-size: 42px; margin-bottom: 14px; }
+  .pricing-card h3 { font-size: 23px; margin-bottom: 8px; }
+  .pricing-card .price {
+    font-size: 52px; font-weight: 800; color: var(--primary);
+    margin: 14px 0;
+    line-height: 1;
+  }
+  .pricing-card .price small { font-size: 16px; font-weight: 400; color: var(--text-light); }
+  .pricing-card .features-list {
+    list-style: none; text-align: left;
+    margin: 28px 0 24px;
+  }
+  .pricing-card .features-list li {
+    padding: 11px 0; border-bottom: 1px solid #f1f5f9;
+    color: var(--text-light); font-size: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .pricing-card .features-list li::before {
+    content: "✓"; color: #22c55e; font-weight: 700;
+    width: 22px; height: 22px;
+    background: #f0fdf4;
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .pricing-card .btn { width: 100%; justify-content: center; }
+
+  /* ==================== FAQ ==================== */
+  .faq-list {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .faq-item {
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+  }
+  .faq-item:hover { border-color: var(--border); }
+  .faq-item.open { box-shadow: var(--shadow-lg); border-color: var(--primary-light); }
+  .faq-question {
+    width: 100%;
+    padding: 20px 24px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    text-align: left;
+    font-family: inherit;
+  }
+  .faq-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    transition: all 0.35s ease;
+    font-weight: 700;
+  }
+  .faq-item.open .faq-icon {
+    background: var(--primary);
+    color: #fff;
+    transform: rotate(45deg);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s ease, padding 0.45s ease;
+  }
+  .faq-item.open .faq-answer {
+    max-height: 300px;
+  }
+  .faq-answer-inner {
+    padding: 0 24px 22px;
+    color: var(--text-light);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  /* ==================== 公告通知 ==================== */
+  .news-ticker {
+    background: linear-gradient(90deg, #eff6ff, #f0f9ff, #ecfeff);
+    border-radius: var(--radius-sm);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 800px;
+    margin: 0 auto 48px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .news-ticker-label {
+    background: var(--primary);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .news-ticker-content {
+    overflow: hidden;
+    flex: 1;
+    position: relative;
+    height: 24px;
+  }
+  .news-ticker-track {
+    display: flex;
+    flex-direction: column;
+    animation: tickerScroll 12s ease-in-out infinite;
+  }
+  .news-ticker-item {
+    height: 24px;
+    line-height: 24px;
+    font-size: 14px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  @keyframes tickerScroll {
+    0%, 25% { transform: translateY(0); }
+    33%, 58% { transform: translateY(-24px); }
+    66%, 91% { transform: translateY(-48px); }
+    100% { transform: translateY(0); }
+  }
+
+  /* ==================== 联系表单 ==================== */
+  .contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .contact-info { padding-top: 8px; }
+  .contact-info h3 { font-size: 26px; margin-bottom: 18px; color: var(--text); }
+  .contact-info > p { color: var(--text-light); margin-bottom: 28px; line-height: 1.85; font-size: 15px; }
+  .contact-info .info-item {
+    display: flex; gap: 14px; margin-bottom: 20px; font-size: 15px;
+    align-items: flex-start;
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    transition: all 0.3s;
+    background: transparent;
+  }
+  .contact-info .info-item:hover {
+    background: var(--bg);
+  }
+  .contact-info .info-icon {
+    width: 44px; height: 44px;
+    background: var(--primary-light);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .contact-info .info-text strong {
+    display: block; color: var(--text); margin-bottom: 2px; font-size: 14px;
+  }
+  .contact-info .info-text span { color: var(--text-light); font-size: 14px; }
+
+  .contact-form {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 36px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+  }
+  .form-group { margin-bottom: 20px; }
+  .form-group label {
+    display: block; font-size: 14px; font-weight: 600;
+    margin-bottom: 7px; color: var(--text);
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%; padding: 13px 18px;
+    border: 2px solid var(--border); border-radius: var(--radius-sm);
+    font-size: 15px; font-family: inherit;
+    transition: all 0.25s;
+    outline: none;
+    background: #f8fafc;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--primary);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(37,99,235,0.08);
+  }
+  .form-group textarea { resize: vertical; min-height: 110px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .btn-submit {
+    width: 100%; padding: 15px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff; font-size: 16px; font-weight: 600;
+    border: none; border-radius: var(--radius-sm); cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.5px;
+  }
+  .btn-submit:hover {
+    box-shadow: 0 6px 24px rgba(37,99,235,0.35);
+    transform: translateY(-1px);
+  }
+  .btn-submit:active { transform: scale(0.98); }
+
+  /* ==================== 页脚 ==================== */
+  .footer {
+    background: #0b1424;
+    color: #94a3b8;
+    padding: 64px 28px 28px;
+    position: relative;
+  }
+  .footer::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  }
+  .footer-grid {
+    max-width: var(--max-width); margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 44px;
+  }
+  .footer h4 { color: #fff; font-size: 16px; margin-bottom: 18px; letter-spacing: 0.3px; }
+  .footer a {
+    color: #94a3b8; text-decoration: none;
+    font-size: 14px; display: block; margin-bottom: 10px;
+    transition: all 0.2s;
+  }
+  .footer a:hover { color: #fff; transform: translateX(3px); }
+  .footer-about p { font-size: 14px; line-height: 1.85; margin-bottom: 14px; }
+  .footer-social {
+    display: flex; gap: 12px; margin-top: 16px;
+  }
+  .footer-social a {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: all 0.3s;
+  }
+  .footer-social a:hover {
+    background: var(--primary);
+    transform: translateY(-2px);
+  }
+  .footer-bottom {
+    max-width: var(--max-width); margin: 0 auto;
+    text-align: center; padding-top: 26px;
+    border-top: 1px solid #1e293b;
+    font-size: 13px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+
+  /* ==================== 回到顶部 ==================== */
+  .back-to-top {
+    position: fixed;
+    bottom: 32px; right: 32px;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff;
+    border: none; cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 6px 24px rgba(37,99,235,0.4);
+    z-index: 999;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: all 0.35s ease;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .back-to-top:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(37,99,235,0.5);
+  }
+
+  /* 水纹动画按钮 */
+  .ripple-btn {
+    position: relative;
+    overflow: hidden;
+  }
+  .ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    pointer-events: none;
+  }
+  @keyframes ripple {
+    to { transform: scale(4); opacity: 0; }
+  }
+
+  /* ==================== 响应式 ==================== */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .menu-toggle { display: flex; }
+    .nav-links.open {
+      display: flex; flex-direction: column;
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(20px);
+      padding: 20px 28px; gap: 18px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+      border-radius: 0 0 var(--radius) var(--radius);
+    }
+    .nav-links.open a { color: var(--text) !important; font-size: 16px; }
+
+    .process-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .process-grid::before { display: none; }
+
+    .about-wrapper { grid-template-columns: 1fr; }
+    .contact-wrapper { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+
+    .pricing-card.featured { transform: none; }
+    .pricing-card.featured:hover { transform: translateY(-6px); }
+
+    .hero h1 { font-size: clamp(32px, 8vw, 48px); }
+
+    .footer-bottom { flex-direction: column; text-align: center; }
+  }
+
+  @media (max-width: 480px) {
+    .process-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .hero-buttons { flex-direction: column; align-items: center; }
+    .hero-buttons .btn { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== 导航栏 ==================== -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <a href="#" class="logo">
+      <span class="logo-icon">💧</span>
+      中环水务
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#process">服务流程</a></li>
+      <li><a href="#features">服务优势</a></li>
+      <li><a href="#about">关于我们</a></li>
+      <li><a href="#pricing">服务方案</a></li>
+      <li><a href="#faq">常见问题</a></li>
+      <li><a href="#contact">联系我们</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ==================== 主视觉 ==================== -->
+<header class="hero">
+  <!-- 浮动水滴 -->
+  <div class="water-drops" id="waterDrops" aria-hidden="true"></div>
+  <!-- 涟漪 -->
+  <div class="ripple-ring" style="top: 25%; left: 15%; animation-delay: 0s;" aria-hidden="true"></div>
+  <div class="ripple-ring" style="top: 60%; left: 75%; animation-delay: 2s;" aria-hidden="true"></div>
+  <div class="ripple-ring" style="top: 40%; left: 50%; animation-delay: 4s;" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">💧 湘潭市重点供水企业 · 服务百万市民</div>
+    <h1>守护每一滴水<br><span>润泽湘潭城</span></h1>
+    <p>湘潭市中环水务有限公司致力于为全市人民提供安全、优质、稳定的供水服务。以科技赋能水务管理，用责任守护生命之源，二十二年如一日。</p>
+    <div class="hero-buttons">
+      <a href="#contact" class="btn btn-primary ripple-btn">💬 立即咨询</a>
+      <a href="#features" class="btn btn-outline">🔍 了解更多</a>
+    </div>
+  </div>
+
+  <!-- 波浪 -->
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path fill="#f0f9ff" d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,40 L1440,120 L0,120 Z"/>
+      <path fill="#ffffff" fill-opacity="0.6" d="M0,80 C240,20 480,120 720,80 C960,40 1200,100 1440,60 L1440,120 L0,120 Z"/>
+    </svg>
+  </div>
+</header>
+
+<!-- ==================== 公告通知 ==================== -->
+<section style="padding: 40px 28px; background: var(--white);">
+  <div class="container">
+    <div class="news-ticker reveal">
+      <span class="news-ticker-label">📢 最新公告</span>
+      <div class="news-ticker-content">
+        <div class="news-ticker-track">
+          <span class="news-ticker-item">🔧 5月22日雨湖区韶山路管网升级，部分区域水压降低，预计晚间恢复</span>
+          <span class="news-ticker-item">✅ 5月水质检测报告已发布，所有指标均符合国家标准</span>
+          <span class="news-ticker-item">🎉 "智慧水务2.0"平台正式上线，微信可实时查看用水数据</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 服务流程 ==================== -->
+<section id="process" style="background: var(--bg);">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">⚙️ 服务流程</span>
+      <h2>四步轻松接入</h2>
+      <p>简单、透明、高效的服务流程，让您省心省力</p>
+      <div class="section-divider"></div>
+    </div>
+    <div class="process-grid">
+      <div class="process-step reveal reveal-delay-1">
+        <div class="process-icon">
+          <span class="process-number">1</span>
+          📋
+        </div>
+        <h3>提交申请</h3>
+        <p>在线或电话提交用水需求，客服即时响应确认</p>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="process-icon">
+          <span class="process-number">2</span>
+          🔍
+        </div>
+        <h3>现场勘查</h3>
+        <p>24小时内工程师上门评估，制定最优供水方案</p>
+      </div>
+      <div class="process-step reveal reveal-delay-3">
+        <div class="process-icon">
+          <span class="process-number">3</span>
+          🛠️
+        </div>
+        <h3>施工安装</h3>
+        <p>专业团队高效施工，智能水表、管网一站式接入</p>
+      </div>
+      <div class="process-step reveal reveal-delay-4">
+        <div class="process-icon">
+          <span class="process-number">4</span>
+          ✅
+        </div>
+        <h3>通水验收</h3>
+        <p>水质检测合格后正式通水，进入常态化服务保障</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 特性展示 ==================== -->
+<section id="features">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">⭐ 为什么选择我们</span>
+      <h2>专业水务服务，全方位保障</h2>
+      <p>深耕湘潭二十二年，以技术创新和服务品质赢得百万市民信赖</p>
+      <div class="section-divider"></div>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon">🔬</div>
+        <h3>智能水质监测</h3>
+        <p>采用国际领先的在线监测系统，24小时实时监控水源地、水厂、管网水质，106项指标全时覆盖，确保每一滴水都符合国家饮用水标准。</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon">⚡</div>
+        <h3>智慧管网调度</h3>
+        <p>基于大数据和AI算法优化供水管网压力，智能调节水泵运行，降低漏损率至8%以下，实现精准高效的城市供水调度。</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-icon">🛠️</div>
+        <h3>30分钟应急响应</h3>
+        <p>建立覆盖全城的抢修服务网络，承诺管道故障30分钟内到达现场，2小时内恢复供水，全年无休守护市民用水安全。</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon">📱</div>
+        <h3>掌上智慧营业厅</h3>
+        <p>微信/支付宝双平台支持在线缴费、用量查询、账单推送、停水通知，足不出户办理所有用水业务，方便快捷。</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon">🌱</div>
+        <h3>绿色节能环保</h3>
+        <p>引入光伏发电、雨水回收等绿色技术应用于水厂运营，单位供水能耗降低25%，践行可持续发展理念。</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-icon">🏅</div>
+        <h3>省级示范单位</h3>
+        <p>连续8年获评"湖南省供水行业先进单位"，水质综合达标率99.8%，客户满意度连续5年保持在95%以上。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 关于我们 ==================== -->
+<section id="about" style="background: var(--bg);">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">🏢 关于我们</span>
+      <h2>二十二年深耕，只为每一滴放心水</h2>
+      <p>湘潭市中环水务有限公司成立于2004年</p>
+      <div class="section-divider"></div>
+    </div>
+    <div class="about-wrapper">
+      <div class="about-image reveal reveal-delay-1">
+        <div class="img-placeholder">
+          <span class="water-icon-large">💧</span>
+        </div>
+        <div class="about-badge">
+          <div class="badge-number">22<span style="font-size:18px;">年</span></div>
+          <div class="badge-label">深耕湘潭水务</div>
+        </div>
+      </div>
+      <div class="about-text reveal reveal-delay-2">
+        <h3>湘潭市重点供水企业</h3>
+        <p>公司成立于2004年，是湘潭市主要的供水企业，承担着市区及周边乡镇的自来水生产与供应任务。日供水能力达60万吨，服务面积覆盖全市主要城区。</p>
+        <p>我们始终坚持"水质为先、服务为本"的经营理念，持续投入技术研发和基础设施建设，累计投入超过12亿元用于管网改造和水厂升级。</p>
+        <div class="about-highlights">
+          <div class="about-highlight-item">
+            <span class="hl-icon">🏆</span>
+            <span>省级文明单位</span>
+          </div>
+          <div class="about-highlight-item">
+            <span class="hl-icon">🔬</span>
+            <span>CNAS认证实验室</span>
+          </div>
+          <div class="about-highlight-item">
+            <span class="hl-icon">🌍</span>
+            <span>ISO 14001环境认证</span>
+          </div>
+          <div class="about-highlight-item">
+            <span class="hl-icon">🛡️</span>
+            <span>ISO 45001安全认证</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 数据统计 ==================== -->
+<section id="stats" class="stats">
+  <div class="stats-grid">
+    <div class="stat-item reveal">
+      <div class="stat-icon">👥</div>
+      <div class="stat-number"><span class="count" data-target="120">0</span><span class="stat-suffix">万</span></div>
+      <div class="stat-label">服务人口</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-icon">💎</div>
+      <div class="stat-number"><span class="count" data-target="998">0</span><span class="stat-suffix">‰</span></div>
+      <div class="stat-label">水质达标率</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-icon">🔄</div>
+      <div class="stat-number"><span class="count" data-target="365">0</span><span class="stat-suffix">天</span></div>
+      <div class="stat-label">全年稳定供水</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-icon">📅</div>
+      <div class="stat-number"><span class="count" data-target="22">0</span><span class="stat-suffix">年</span></div>
+      <div class="stat-label">行业深耕经验</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 客户评价轮播 ==================== -->
+<section id="testimonials" style="background: var(--white);">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">💬 客户心声</span>
+      <h2>他们信赖中环水务</h2>
+      <p>来自居民、企业和社区的真实评价</p>
+      <div class="section-divider"></div>
+    </div>
+    <div class="testimonials-wrapper reveal">
+      <div class="testimonials-viewport">
+        <div class="testimonial-track" id="testimonialTrack">
+          <div class="testimonial-card">
+            <div class="quote-icon">❝</div>
+            <div class="avatar">👤</div>
+            <p class="quote">"住在这个小区十年了，从没停过一次水。水质清甜，烧水壶都没有水垢。中环水务的服务真的很让人放心！"</p>
+            <div class="stars">★★★★★</div>
+            <div class="author">李建国</div>
+            <div class="role">雨湖区 · 居民</div>
+          </div>
+          <div class="testimonial-card">
+            <div class="quote-icon">❝</div>
+            <div class="avatar">🏭</div>
+            <p class="quote">"作为用水大户，中环水务为我们定制了专属供水方案，还定期上门检测水质，专业程度远超我们预期，合作非常愉快。"</p>
+            <div class="stars">★★★★★</div>
+            <div class="author">王海明</div>
+            <div class="role">湘潭钢铁集团 · 设备主管</div>
+          </div>
+          <div class="testimonial-card">
+            <div class="quote-icon">❝</div>
+            <div class="avatar">🏘️</div>
+            <p class="quote">"老旧小区管网改造项目完成得非常出色，水压稳了、水质好了，居民满意度大幅提升。感谢中环团队的专业付出与担当。"</p>
+            <div class="stars">★★★★★</div>
+            <div class="author">张美华</div>
+            <div class="role">岳塘区云峰社区 · 书记</div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn" id="prevBtn" aria-label="上一条">←</button>
+        <div class="carousel-dots" id="carouselDots"></div>
+        <button class="carousel-btn" id="nextBtn" aria-label="下一条">→</button>
+      </div>
+      <div class="carousel-progress">
+        <div class="carousel-progress-bar" id="carouselProgressBar"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 定价方案 ==================== -->
+<section id="pricing" style="background: var(--bg);">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">💰 服务方案</span>
+      <h2>灵活的用水解决方案</h2>
+      <p>无论家庭、企业还是市政单位，总有一款适合您</p>
+      <div class="section-divider"></div>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card reveal reveal-delay-1">
+        <div class="pricing-icon">🏠</div>
+        <h3>居民用水</h3>
+        <div class="price">¥2.8<small>/吨起</small></div>
+        <ul class="features-list">
+          <li>阶梯水价，用得越多越优惠</li>
+          <li>免费上门安装智能水表</li>
+          <li>微信公众号实时查费缴费</li>
+          <li>每月水质检测报告推送</li>
+          <li>24小时客服热线支持</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary ripple-btn">立即开户</a>
+      </div>
+      <div class="pricing-card featured reveal reveal-delay-2">
+        <span class="pricing-badge">🔥 最受欢迎</span>
+        <div class="pricing-icon">🏢</div>
+        <h3>企业定制</h3>
+        <div class="price">¥3.5<small>/吨起</small></div>
+        <ul class="features-list">
+          <li>专属客户经理一对一服务</li>
+          <li>定制化供水方案设计</li>
+          <li>季度水质全面检测分析</li>
+          <li>管网巡检与维护保养</li>
+          <li>应急供水保障方案</li>
+          <li>用水效率优化咨询</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary ripple-btn">获取方案</a>
+      </div>
+      <div class="pricing-card reveal reveal-delay-3">
+        <div class="pricing-icon">🏛️</div>
+        <h3>市政合作</h3>
+        <div class="price">面议</div>
+        <ul class="features-list">
+          <li>城市管网规划与建设</li>
+          <li>大型水利工程项目合作</li>
+          <li>老旧管网改造升级</li>
+          <li>智慧水务平台搭建</li>
+          <li>PPP特许经营合作模式</li>
+        </ul>
+        <a href="#contact" class="btn btn-outline" style="border-color: var(--primary); color: var(--primary); width: 100%; justify-content: center;">洽谈合作</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 常见问题 ==================== -->
+<section id="faq" style="background: var(--white);">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">❓ 常见问题</span>
+      <h2>您可能想了解</h2>
+      <p>关于用水服务的常见疑问解答</p>
+      <div class="section-divider"></div>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>如何办理新装水表开户？</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          您可通过三种方式办理：① 携带身份证和房产证明到就近营业厅办理；② 关注"湘潭中环水务"微信公众号在线申请；③ 拨打客服热线预约上门办理。一般3个工作日内完成安装通水。
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>水费账单如何查询和缴纳？</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          支持多渠道缴费：微信公众号、支付宝生活号、各银行手机APP、营业厅现场缴费。账单每月自动推送，您也可以在公众号内查询近12个月的用水明细和缴费记录。
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>遇到停水或水压不足怎么办？</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          请先查看公众号"停水通知"确认是否为计划停水。如属突发故障，请立即拨打24小时抢修热线0731-5828-XXXX，我们将30分钟内响应。紧急情况可通过公众号"一键报修"定位上报。
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>水质有问题该如何反馈？</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          如发现水质异常（浑浊、异味、颜色异常等），请立即致电客服热线或通过公众号"水质反馈"通道上报。我们将安排专人上门取样检测，48小时内出具检测报告并告知处理结果。
+        </div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>企业用户可以享受哪些增值服务？</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          企业用户除基础供水外，还可享受：专属客户经理、季度水质深度检测、管网定期巡检、应急备用供水方案、用水效率审计、节水改造建议等增值服务。具体请咨询企业服务专线。
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 联系表单 ==================== -->
+<section id="contact" style="background: var(--bg);">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">📞 联系我们</span>
+      <h2>让我们为您服务</h2>
+      <p>留下您的需求，我们将在1个工作日内与您联系</p>
+      <div class="section-divider"></div>
+    </div>
+    <div class="contact-wrapper">
+      <div class="contact-info reveal reveal-delay-1">
+        <h3>湘潭市中环水务有限公司</h3>
+        <p>公司成立于2004年，是湘潭市主要的供水企业，承担着市区及周边乡镇的自来水生产与供应任务。我们始终坚持"水质为先、服务为本"的经营理念。</p>
+        <div class="info-item">
+          <span class="info-icon">📍</span>
+          <div class="info-text">
+            <strong>公司地址</strong>
+            <span>湖南省湘潭市雨湖区韶山东路88号水务大厦</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">📞</span>
+          <div class="info-text">
+            <strong>客服热线</strong>
+            <span>0731-5828-XXXX（24小时服务）</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">✉️</span>
+          <div class="info-text">
+            <strong>电子邮箱</strong>
+            <span>service@xtzhsw.com</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">🕐</span>
+          <div class="info-text">
+            <strong>营业时间</strong>
+            <span>周一至周五 8:30-17:30，周六 9:00-15:00</span>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form reveal reveal-delay-2" id="contactForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">姓名 *</label>
+            <input type="text" id="name" placeholder="请输入您的姓名" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">联系电话 *</label>
+            <input type="tel" id="phone" placeholder="请输入联系电话" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="type">咨询类型</label>
+          <select id="type">
+            <option value="">请选择咨询类型</option>
+            <option value="居民用水">居民用水</option>
+            <option value="企业用水">企业用水</option>
+            <option value="管网报修">管网报修</option>
+            <option value="水质反馈">水质反馈</option>
+            <option value="市政合作">市政合作</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">需求描述</label>
+          <textarea id="message" placeholder="请简要描述您的需求或问题..."></textarea>
+        </div>
+        <button type="submit" class="btn-submit ripple-btn">📨 提交需求</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 页脚 ==================== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-about">
+      <h4>💧 湘潭市中环水务有限公司</h4>
+      <p>成立于2004年，湘潭市重点供水企业。二十二年来始终秉持"水质为先、服务为本"的理念，为百万湘潭市民提供安全优质的供水服务。</p>
+      <div class="footer-social">
+        <a href="#" aria-label="微信" title="微信公众号">💬</a>
+        <a href="#" aria-label="支付宝" title="支付宝生活号">🔵</a>
+        <a href="#" aria-label="企业微信" title="企业微信">💼</a>
+        <a href="#" aria-label="微博" title="官方微博">📢</a>
+      </div>
+    </div>
+    <div>
+      <h4>快速链接</h4>
+      <a href="#process">服务流程</a>
+      <a href="#features">服务优势</a>
+      <a href="#pricing">服务方案</a>
+      <a href="#contact">联系我们</a>
+    </div>
+    <div>
+      <h4>服务支持</h4>
+      <a href="#">在线缴费</a>
+      <a href="#">水质公告</a>
+      <a href="#">停水通知</a>
+      <a href="#">常见问题</a>
+    </div>
+    <div>
+      <h4>关注我们</h4>
+      <a href="#">微信公众号</a>
+      <a href="#">支付宝生活号</a>
+      <a href="#">企业微信</a>
+      <a href="#">官方微博</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 湘潭市中环水务有限公司 版权所有</span>
+    <span>湘ICP备XXXXXXXX号 | 湘公网安备 XXXXXXXXXXXX号</span>
+  </div>
+</footer>
+
+<!-- 回到顶部 -->
+<button class="back-to-top" id="backToTop" aria-label="回到顶部" title="回到顶部">↑</button>
+
+<script>
+  /* ==================== 导航栏滚动变色 ==================== */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  /* ==================== 移动端菜单 ==================== */
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    menuToggle.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      menuToggle.classList.remove('open');
+    });
+  });
+
+  /* ==================== 浮动水滴 ==================== */
+  (function createDrops() {
+    const container = document.getElementById('waterDrops');
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < 28; i++) {
+      const drop = document.createElement('div');
+      drop.className = 'drop';
+      drop.style.left = Math.random() * 100 + '%';
+      drop.style.top = (60 + Math.random() * 40) + '%';
+      drop.style.width = drop.style.height = (4 + Math.random() * 12) + 'px';
+      drop.style.animationDuration = (6 + Math.random() * 14) + 's';
+      drop.style.animationDelay = Math.random() * 12 + 's';
+      drop.style.opacity = (0.15 + Math.random() * 0.35);
+      fragment.appendChild(drop);
+    }
+    container.appendChild(fragment);
+  })();
+
+  /* ==================== 滚动显示动画 ==================== */
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  /* ==================== 数字递增动画 ==================== */
+  function animateCount(el) {
+    const target = +el.dataset.target;
+    const duration = 2200;
+    const startTime = performance.now();
+
+    function tick(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      el.textContent = Math.floor(target * eased);
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const countObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.count').forEach(el => animateCount(el));
+        countObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+  const statsSection = document.getElementById('stats');
+  if (statsSection) countObserver.observe(statsSection);
+
+  /* ==================== 客户评价轮播 ==================== */
+  (function() {
+    const track = document.getElementById('testimonialTrack');
+    const cards = track.children;
+    const total = cards.length;
+    let current = 0;
+    let intervalId;
+    const autoDelay = 5000;
+
+    // 创建导航点
+    const dotsContainer = document.getElementById('carouselDots');
+    for (let i = 0; i < total; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', '第' + (i + 1) + '条评价');
+      dot.addEventListener('click', () => goTo(i));
+      dotsContainer.appendChild(dot);
+    }
+    const dots = dotsContainer.children;
+
+    // 进度条
+    const progressBar = document.getElementById('carouselProgressBar');
+    let progressStart = 0;
+    let progressRAF;
+
+    function startProgress() {
+      progressStart = performance.now();
+      progressBar.style.transition = 'none';
+      progressBar.style.width = '0%';
+      cancelAnimationFrame(progressRAF);
+
+      function update(now) {
+        const elapsed = now - progressStart;
+        const pct = Math.min((elapsed / autoDelay) * 100, 100);
+        progressBar.style.width = pct + '%';
+        if (pct < 100) progressRAF = requestAnimationFrame(update);
+      }
+      progressRAF = requestAnimationFrame(update);
+    }
+
+    function goTo(index) {
+      current = (index + total) % total;
+      track.style.transform = 'translateX(-' + (current * 100) + '%)';
+      for (let i = 0; i < total; i++) dots[i].classList.toggle('active', i === current);
+      // 重置自动轮播
+      clearInterval(intervalId);
+      intervalId = setInterval(() => goTo(current + 1), autoDelay);
+      startProgress();
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+
+    startProgress();
+    intervalId = setInterval(() => goTo(current + 1), autoDelay);
+  })();
+
+  /* ==================== FAQ 手风琴 ==================== */
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      // 关闭所有
+      document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+      // 如果之前未打开，则打开当前
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  /* ==================== 水纹按钮效果 ==================== */
+  document.querySelectorAll('.ripple-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple-effect';
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+      this.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
+    });
+  });
+
+  /* ==================== 回到顶部按钮 ==================== */
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    backToTop.classList.toggle('visible', window.scrollY > 600);
+  });
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ==================== 联系表单提交 ==================== */
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('.btn-submit');
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = '✅ 已提交，我们会尽快联系您';
+    btn.style.background = '#22c55e';
+    setTimeout(() => {
+      btn.innerHTML = originalHTML;
+      btn.style.background = '';
+      this.reset();
+    }, 2500);
+  });
+</script>
+
+</body>
+</html>

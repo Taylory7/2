@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>媒体聚焦 — 湘潭市中环水务有限公司</title>
+<style>
+  :root {
+    --primary: #1a56db; --primary-dark: #0f3dab; --primary-light: #e8f0fe; --accent: #0891b2;
+    --white: #ffffff; --text: #1e293b; --text-light: #64748b; --bg: #f8fafc; --bg-card: #ffffff;
+    --border: #e2e8f0; --shadow: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+    --radius: 6px; --max-width: 1200px; --transition: 0.25s ease;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; font-size: 14px; }
+  a { text-decoration: none; color: inherit; } ul { list-style: none; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+  .top-toolbar { background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-size: 12px; color: var(--text-light); }
+  .top-toolbar .container { display: flex; justify-content: space-between; align-items: center; padding-top: 6px; padding-bottom: 6px; flex-wrap: wrap; gap: 8px; }
+  .top-toolbar .toolbar-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .top-toolbar a { color: var(--text-light); transition: color var(--transition); }
+  .top-toolbar a:hover { color: var(--primary); }
+
+  .site-header { background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%); border-bottom: 3px solid var(--primary); }
+  .site-header .container { display: flex; align-items: center; justify-content: space-between; padding-top: 18px; padding-bottom: 18px; gap: 24px; flex-wrap: wrap; }
+  .header-brand { display: flex; align-items: center; gap: 16px; }
+  .header-logo { width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff; box-shadow: 0 4px 16px rgba(26,86,219,0.25); flex-shrink: 0; }
+  .header-titles h1 { font-size: 26px; font-weight: 700; color: var(--primary-dark); letter-spacing: 1px; }
+  .header-titles .subtitle { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+  .header-search { display: flex; border: 2px solid var(--border); border-radius: 50px; overflow: hidden; background: #fff; transition: border-color var(--transition); flex-shrink: 0; }
+  .header-search:focus-within { border-color: var(--primary); }
+  .header-search input { border: none; outline: none; padding: 10px 18px; width: 240px; font-size: 14px; font-family: inherit; }
+  .header-search button { background: var(--primary); color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-size: 14px; font-family: inherit; transition: background var(--transition); }
+  .header-search button:hover { background: var(--primary-dark); }
+
+  .main-nav { background: var(--primary); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+  .main-nav .container { display: flex; align-items: center; }
+  .main-nav .nav-list { display: flex; align-items: center; }
+  .main-nav .nav-list > li { position: relative; }
+  .main-nav .nav-list > li > a { display: block; padding: 14px 24px; color: rgba(255,255,255,0.92); font-size: 15px; font-weight: 500; white-space: nowrap; transition: all var(--transition); letter-spacing: 0.5px; }
+  .main-nav .nav-list > li > a:hover, .main-nav .nav-list > li.active > a { background: rgba(255,255,255,0.15); color: #fff; }
+  .main-nav .nav-list > li.active > a { border-bottom: 3px solid #fff; padding-bottom: 11px; }
+  .main-nav .nav-dropdown { position: absolute; top: 100%; left: 0; background: #fff; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); border-radius: 0 0 var(--radius) var(--radius); opacity: 0; visibility: hidden; transform: translateY(4px); transition: all 0.2s ease; z-index: 1001; overflow: hidden; }
+  .main-nav .nav-list > li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-dropdown a { display: block; padding: 10px 18px; color: var(--text); font-size: 13px; border-bottom: 1px solid #f1f5f9; transition: all var(--transition); }
+  .nav-dropdown a:hover { background: var(--primary-light); color: var(--primary); padding-left: 22px; }
+  .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; margin-left: auto; }
+  .menu-toggle span { display: block; width: 26px; height: 2.5px; background: #fff; border-radius: 2px; transition: all 0.3s ease; }
+  .menu-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .menu-toggle.open span:nth-child(2) { opacity: 0; }
+  .menu-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  .breadcrumb-bar { background: #fff; border-bottom: 1px solid var(--border); }
+  .breadcrumb-bar .container { display: flex; align-items: center; padding-top: 10px; padding-bottom: 10px; font-size: 13px; color: var(--text-light); gap: 6px; }
+  .breadcrumb-bar a { color: var(--text-light); transition: color var(--transition); }
+  .breadcrumb-bar a:hover { color: var(--primary); }
+  .breadcrumb-bar .sep { color: #94a3b8; }
+  .breadcrumb-bar .current { color: var(--primary); font-weight: 500; }
+
+  .main-content { padding: 32px 0; }
+  .main-content .container { display: grid; grid-template-columns: 1fr 320px; gap: 24px; }
+
+  .card { background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+  .card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); background: linear-gradient(90deg, #f8fafc, #fff); }
+  .card-header h3 { font-size: 16px; color: var(--text); display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .card-header h3::before { content: ""; width: 4px; height: 18px; background: var(--primary); border-radius: 2px; }
+  .card-body { padding: 16px 20px; }
+
+  /* 媒体来源标签筛选 */
+  .source-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .source-tabs .src-btn { padding: 6px 16px; font-size: 13px; border: 1px solid var(--border); border-radius: 50px; background: #fff; color: var(--text-light); cursor: pointer; font-family: inherit; transition: all var(--transition); }
+  .source-tabs .src-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .source-tabs .src-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  /* 媒体文章列表 */
+  .media-item { padding: 18px 0; border-bottom: 1px dashed #e2e8f0; display: flex; gap: 16px; align-items: flex-start; }
+  .media-item:last-child { border-bottom: none; }
+  .media-source-badge { flex-shrink: 0; width: 72px; height: 72px; border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #fff; line-height: 1.3; text-align: center; }
+  .src-hnrb { background: linear-gradient(135deg, #dc2626, #ef4444); }
+  .src-hw { background: linear-gradient(135deg, #e67e22, #f39c12); }
+  .src-xtrb { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+  .src-zgslb { background: linear-gradient(135deg, #0891b2, #06b6d4); }
+  .src-hnjsb { background: linear-gradient(135deg, #7c3aed, #8b5cf6); }
+  .src-xwlb { background: linear-gradient(135deg, #059669, #10b981); }
+  .src-rmw { background: linear-gradient(135deg, #db2777, #ec4899); }
+  .media-info { flex: 1; min-width: 0; }
+  .media-info h4 { font-size: 16px; color: var(--text); margin-bottom: 6px; line-height: 1.5; transition: color var(--transition); cursor: pointer; }
+  .media-info h4:hover { color: var(--primary); }
+  .media-info .media-desc { font-size: 13px; color: var(--text-light); line-height: 1.6; margin-bottom: 8px; }
+  .media-info .media-meta { font-size: 12px; color: #94a3b8; display: flex; gap: 16px; flex-wrap: wrap; }
+  .media-tag { font-size: 11px; padding: 2px 8px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; }
+
+  .pagination { display: flex; justify-content: center; gap: 8px; padding: 24px 0 8px; flex-wrap: wrap; }
+  .pagination a, .pagination span { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--radius); font-size: 13px; border: 1px solid var(--border); background: #fff; color: var(--text); transition: all var(--transition); cursor: pointer; }
+  .pagination a:hover { border-color: var(--primary); color: var(--primary); }
+  .pagination a.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .pagination .page-info { font-size: 13px; color: var(--text-light); display: flex; align-items: center; margin: 0 8px; }
+
+  /* 侧边栏 */
+  .content-right { display: flex; flex-direction: column; gap: 24px; }
+  .side-card { background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+  .side-card .sc-header { padding: 12px 16px; border-bottom: 1px solid var(--border); background: linear-gradient(90deg, #f8fafc, #fff); font-size: 15px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 6px; }
+  .side-card .sc-header::before { content: ""; width: 4px; height: 16px; background: var(--primary); border-radius: 2px; }
+  .side-card .sc-body { padding: 12px 16px; }
+  .side-list li { padding: 8px 0; border-bottom: 1px dashed #e2e8f0; font-size: 13px; }
+  .side-list li:last-child { border-bottom: none; }
+  .side-list a { color: var(--text); transition: color var(--transition); display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .side-list a:hover { color: var(--primary); }
+
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat-item { text-align: center; padding: 14px 8px; background: var(--bg); border-radius: var(--radius); }
+  .stat-item .stat-num { font-size: 22px; font-weight: 700; color: var(--primary); }
+  .stat-item .stat-label { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+
+  .site-footer { background: #0b1424; color: #94a3b8; padding: 36px 20px 24px; font-size: 13px; }
+  .footer-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; margin-bottom: 24px; }
+  .footer-grid h4 { color: #fff; font-size: 15px; margin-bottom: 14px; font-weight: 600; }
+  .footer-grid a { color: #94a3b8; display: block; margin-bottom: 6px; transition: color 0.2s; font-size: 13px; }
+  .footer-grid a:hover { color: #fff; }
+  .footer-contact p { margin-bottom: 6px; display: flex; gap: 6px; align-items: flex-start; }
+  .footer-bottom { max-width: var(--max-width); margin: 0 auto; padding-top: 18px; border-top: 1px solid #1e293b; text-align: center; font-size: 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+  @media (max-width: 900px) {
+    .main-content .container { grid-template-columns: 1fr; }
+    .content-right { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  }
+  @media (max-width: 768px) {
+    .top-toolbar .container { justify-content: center; text-align: center; }
+    .site-header .container { justify-content: center; text-align: center; }
+    .header-search input { width: 160px; }
+    .header-titles h1 { font-size: 20px; }
+    .main-nav .nav-list { display: none; }
+    .menu-toggle { display: flex; }
+    .main-nav .nav-list.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--primary-dark); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .main-nav .nav-list.open .nav-dropdown { position: static; opacity: 1; visibility: visible; background: rgba(0,0,0,0.1); box-shadow: none; transform: none; border-radius: 0; }
+    .main-nav .nav-list.open .nav-dropdown a { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.1); }
+    .media-item { flex-direction: column; gap: 10px; }
+    .media-source-badge { width: auto; height: 32px; flex-direction: row; padding: 0 14px; border-radius: 50px; font-size: 12px; }
+    .content-right { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .header-titles h1 { font-size: 18px; }
+    .header-brand { flex-direction: column; text-align: center; }
+    .source-tabs .src-btn { padding: 5px 10px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-toolbar">
+  <div class="container">
+    <div class="toolbar-links">
+      <a href="#">中国政府网</a><span>|</span><a href="#">住建部网</a><span>|</span><a href="#">湖南省政府门户</a><span>|</span><a href="#">湘潭市政府网</a><span>|</span><a href="#">中国城镇供水排水协会</a>
+    </div>
+    <span id="currentDate"></span>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container">
+    <div class="header-brand">
+      <div class="header-logo">💧</div>
+      <div class="header-titles">
+        <h1>湘潭市中环水务有限公司</h1>
+        <p class="subtitle">Xiangtan Zhonghuan Water Co., Ltd. — 安全供水 · 优质服务 · 绿色发展</p>
+      </div>
+    </div>
+    <div class="header-search">
+      <input type="text" placeholder="搜索媒体报道…">
+      <button type="button">🔍 搜索</button>
+    </div>
+  </div>
+</header>
+
+<nav class="main-nav" id="mainNav">
+  <div class="container">
+    <ul class="nav-list" id="navList">
+      <li><a href="index.html">网站首页</a></li>
+      <li><a href="xinxi-gongkai.html">信息公开</a><div class="nav-dropdown"><a href="xinxi-gongkai.html#org">机构职能</a><a href="xinxi-gongkai.html#leader">领导信息</a><a href="xinxi-gongkai.html#policy">政策法规</a><a href="xinxi-gongkai.html#water-quality">水质公告</a><a href="xinxi-gongkai.html#bidding">招标采购</a><a href="xinxi-gongkai.html#finance">财政信息</a></div></li>
+      <li><a href="banshi-fuwu.html">办事服务</a><div class="nav-dropdown"><a href="banshi-fuwu.html#guide">新装开户</a><a href="banshi-fuwu.html#pay">水费缴纳</a><a href="banshi-fuwu.html#change">过户变更</a><a href="banshi-fuwu.html#repair">故障报修</a><a href="banshi-fuwu.html#download">下载专区</a></div></li>
+      <li><a href="hudong-jiaoliu.html">互动交流</a><div class="nav-dropdown"><a href="hudong-jiaoliu.html#mailbox">经理信箱</a><a href="hudong-jiaoliu.html#consult">在线咨询</a><a href="hudong-jiaoliu.html#survey">满意度调查</a><a href="hudong-jiaoliu.html#solicit">民意征集</a></div></li>
+      <li><a href="zhuanti-zhuanlan.html">专题专栏</a><div class="nav-dropdown"><a href="zhuanti-zhuanlan.html#smart-water">智慧水务</a><a href="zhuanti-zhuanlan.html#save-water">节水宣传</a><a href="zhuanti-zhuanlan.html#safety">安全生产</a><a href="zhuanti-zhuanlan.html#party">党建园地</a></div></li>
+      <li><a href="lianxi-women.html">联系我们</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="breadcrumb-bar">
+  <div class="container">
+    <a href="index.html">首页</a><span class="sep">&gt;</span><span class="current">媒体聚焦</span>
+  </div>
+</div>
+
+<main class="main-content">
+  <div class="container">
+    <div class="content-left">
+      <div class="card">
+        <div class="card-header"><h3>媒体聚焦</h3></div>
+        <div class="card-body">
+          <!-- 媒体来源标签 -->
+          <div class="source-tabs" id="sourceTabs">
+            <button class="src-btn active" data-src="all">全部</button>
+            <button class="src-btn" data-src="hnrb">湖南日报</button>
+            <button class="src-btn" data-src="hw">红网</button>
+            <button class="src-btn" data-src="xtrb">湘潭日报</button>
+            <button class="src-btn" data-src="zgslb">中国水利报</button>
+            <button class="src-btn" data-src="tv">电视新闻</button>
+            <button class="src-btn" data-src="other">其他媒体</button>
+          </div>
+
+          <div id="mediaList">
+            <div class="media-item" data-src="hnrb">
+              <div class="media-source-badge src-hnrb">湖南<br>日报</div>
+              <div class="media-info">
+                <h4>湘潭中环水务：以"智慧水"润泽"幸福城"</h4>
+                <p class="media-desc">5月20日，《湖南日报》第4版整版报道。记者从智慧水务调度中心、水质检测实验室到管网抢修一线，全景式展现湘潭中环水务以科技赋能、品质服务守护城市供水安全的生动实践。文章称，湘潭中环水务的数字化转型经验值得全省供水行业借鉴推广。</p>
+                <div class="media-meta"><span>📅 2026-05-20</span><span>📰 湖南日报 · 第4版</span><span>👁 3,256次</span></div>
+              </div>
+            </div>
+            <div class="media-item" data-src="hw">
+              <div class="media-source-badge src-hw">红网</div>
+              <div class="media-info">
+                <h4>连续8年获评省级先进单位，湘潭这家供水企业有何秘诀？</h4>
+                <p class="media-desc">5月13日红网深度报道。从"一个电话就上门"的服务承诺，到"从源头到龙头"的全流程水质管控，再到"让数据多跑路、群众少跑腿"的智慧服务体系建设——红网记者用一周时间深入采访，揭秘湘潭中环水务连续8年保持省级先进的金字招牌背后故事。</p>
+                <div class="media-meta"><span>📅 2026-05-13</span><span>📰 红网 · 深度</span><span>👁 5,876次</span></div>
+              </div>
+            </div>
+            <div class="media-item" data-src="xtrb">
+              <div class="media-source-badge src-xtrb">湘潭<br>日报</div>
+              <div class="media-info">
+                <h4>水质达标率99.8%的背后：一个水厂的24小时</h4>
+                <p class="media-desc">5月9日《湘潭日报》头版刊发。记者跟随第三水厂运转班组，记录下从凌晨4点原水进厂到深夜12点管网末梢水质监测的完整24小时。报道以真实细腻的笔触呈现了一线供水人的日常坚守与精益求精的职业精神。</p>
+                <div class="media-meta"><span>📅 2026-05-09</span><span>📰 湘潭日报 · 头版</span><span>👁 4,321次</span></div>
+              </div>
+            </div>
+            <div class="media-item" data-src="zgslb">
+              <div class="media-source-badge src-zgslb">中国<br>水利报</div>
+              <div class="media-info">
+                <h4>湘潭市大力推进供水管网智慧化改造</h4>
+                <p class="media-desc">5月5日《中国水利报》第2版。报道重点关注湘潭市近年来供水管网智慧化改造成效：岳塘区8.6公里老旧管网改造、全市管网GIS系统全覆盖、DMA分区计量漏损控制等，湘潭中环水务作为实施主体在其中发挥了关键作用。</p>
+                <div class="media-meta"><span>📅 2026-05-05</span><span>📰 中国水利报 · 第2版</span><span>👁 2,145次</span></div>
+              </div>
+            </div>
+            <div class="media-item" data-src="tv">
+              <div class="media-source-badge src-xwlb">湖南<br>卫视</div>
+              <div class="media-info">
+                <h4>湖南新闻联播：湘潭供水企业"绿色工厂"创建纪实</h4>
+                <p class="media-desc">4月28日湖南卫视《湖南新闻联播》播出2分30秒专题报道。节目组实地探访了我司光伏发电站、雨水回收系统、排泥水处理设施等绿色生产项目，称我司为"全省供水行业绿色发展的先行者"。</p>
+                <div class="media-meta"><span>📅 2026-04-28</span><span>📺 湖南卫视 · 新闻联播</span><span>👁 8,902次</span></div>
+              </div>
+            </div>
+            <div class="media-item" data-src="hw">
+              <div class="media-source-badge src-hw">红网</div>
+              <div class="media-info">
+                <h4>世界水日特写：300名市民走进湘潭一水厂探秘"一滴水的旅程"</h4>
+                <p class="media-desc">3月22日红网图文报道。在世界水日当天，湘潭中环水务举办水厂开放日活动，邀请300余名市民代表走进第一水厂，零距离参观取水、混凝、沉淀、过滤、消毒等全制水环节，增强了公众节水护水意识。</p>
+                <div class="media-meta"><span>📅 2026-03-22</span><span>📰 红网 · 图文</span><span>👁 6,543次</span></div>
+              </div>
+            </div>
+            <div class="media-item" data-src="xtrb">
+              <div class="media-source-badge src-xtrb">湘潭<br>日报</div>
+              <div class="media-info">
+                <h4>"指尖上的供水服务"——湘潭供水小程序3.0版用户体验记</h4>
+                <p class="media-desc">3月10日《湘潭日报》民生版报道。"湘潭供水"微信小程序3.0版上线后，记者以普通用户身份体验了在线缴费、报装进度查询、电子发票开具、用水异常预警等新功能，称"操作便捷、体验流畅"。</p>
+                <div class="media-meta"><span>📅 2026-03-10</span><span>📰 湘潭日报 · 民生版</span><span>👁 3,876次</span></div>
+              </div>
+            </div>
+            <div class="media-item" data-src="other">
+              <div class="media-source-badge src-rmw">人民<br>网</div>
+              <div class="media-info">
+                <h4>湘潭中环水务开展"我为群众办实事"系列活动取得显著成效</h4>
+                <p class="media-desc">2月15日人民网湖南频道报道。文章梳理了公司2025年以来开展的"我为群众办实事"系列活动：老旧小区供水设施免费检修、独居老人用水关爱行动、社区用水知识讲座等，累计服务群众超过2万人次。</p>
+                <div class="media-meta"><span>📅 2026-02-15</span><span>📰 人民网 · 湖南频道</span><span>👁 4,567次</span></div>
+              </div>
+            </div>
+            <div class="media-item" data-src="hnrb">
+              <div class="media-source-badge src-hnrb">湖南<br>日报</div>
+              <div class="media-info">
+                <h4>寒潮中的"逆行者"——湘潭供水抢修队24小时守护城市温暖</h4>
+                <p class="media-desc">2月21日《湖南日报》社会版。2月19日湘潭遭遇强寒潮，最低气温降至-3℃。报道记录了我司6支抢修队伍120余名队员在寒风中连续奋战保供水的感人故事。文章配发了抢修工人凌晨在冰冷的泥水中作业的现场图片。</p>
+                <div class="media-meta"><span>📅 2026-02-21</span><span>📰 湖南日报 · 社会版</span><span>👁 7,234次</span></div>
+              </div>
+            </div>
+            <div class="media-item" data-src="other">
+              <div class="media-source-badge src-hnjsb">中国<br>建设报</div>
+              <div class="media-info">
+                <h4>湘潭市积极探索二次供水管理新模式</h4>
+                <p class="media-desc">1月18日《中国建设报》报道。文章以湘潭市新近施行的《湘潭市二次供水管理办法》为切入点，介绍了湘潭中环水务在二次供水设施建设标准、运维管理和水质监测等方面的创新实践和先行探索。</p>
+                <div class="media-meta"><span>📅 2026-01-18</span><span>📰 中国建设报 · 第3版</span><span>👁 1,876次</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pagination">
+            <span>首页</span><span>上一页</span>
+            <a href="javascript:void(0)" class="active">1</a>
+            <a href="javascript:void(0)">2</a>
+            <a href="javascript:void(0)">3</a>
+            <a href="javascript:void(0)">下一页</a>
+            <a href="javascript:void(0)">末页</a>
+            <span class="page-info">共 3 页 / 28 条</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-right">
+      <div class="side-card">
+        <div class="sc-header">报道统计</div>
+        <div class="sc-body">
+          <div class="stat-grid">
+            <div class="stat-item"><div class="stat-num">28</div><div class="stat-label">年度报道</div></div>
+            <div class="stat-item"><div class="stat-num">12</div><div class="stat-label">省级以上</div></div>
+            <div class="stat-item"><div class="stat-num">7</div><div class="stat-label">电视报道</div></div>
+            <div class="stat-item"><div class="stat-num">9</div><div class="stat-label">网络媒体</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="sc-header">媒体报道排行</div>
+        <div class="sc-body">
+          <ul class="side-list">
+            <li><a href="#">🥇 湖南卫视：湘潭供水企业"绿色工厂"创建纪实</a></li>
+            <li><a href="#">🥈 湖南日报：寒潮中的"逆行者"</a></li>
+            <li><a href="#">🥉 红网：世界水日特写</a></li>
+            <li><a href="#">4 红网：连续8年获评先进单位，秘诀何在？</a></li>
+            <li><a href="#">5 人民网："我为群众办实事"</a></li>
+            <li><a href="#">6 湘潭日报：水质达标率99.8%的背后</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="sc-header">快速导航</div>
+        <div class="sc-body">
+          <ul class="side-list">
+            <li><a href="gongsi-yaowen.html">📰 公司要闻</a></li>
+            <li><a href="tongzhi-gonggao.html">📢 通知公告</a></li>
+            <li><a href="tupian-xinwen.html">📷 图片新闻</a></li>
+            <li><a href="zhuanti-zhuanlan.html">📌 专题专栏</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-contact">
+      <h4>湘潭市中环水务有限公司</h4>
+      <p>📍 地址：湖南省湘潭市雨湖区韶山东路88号水务大厦</p>
+      <p>📞 24小时客服热线：0731-5828-XXXX</p>
+      <p>✉️ 电子邮箱：service@xtzhsw.com</p>
+      <p>🕐 营业时间：周一至周五 8:30-17:30，周六 9:00-15:00</p>
+    </div>
+    <div><h4>快速导航</h4><a href="xinxi-gongkai.html">信息公开</a><a href="banshi-fuwu.html">办事服务</a><a href="hudong-jiaoliu.html">互动交流</a><a href="zhuanti-zhuanlan.html">专题专栏</a><a href="lianxi-women.html">联系我们</a></div>
+    <div><h4>服务直达</h4><a href="banshi-fuwu.html#pay">在线缴费</a><a href="xinxi-gongkai.html#water-quality">水质公告</a><a href="xinxi-gongkai.html#water-quality">停水通知</a><a href="banshi-fuwu.html#repair">故障报修</a><a href="banshi-fuwu.html#download">下载专区</a></div>
+  </div>
+  <div class="footer-bottom">
+    <span>主办单位：湘潭市中环水务有限公司</span><span>🏛️ 政府网站标识码：4303000057</span><span>湘ICP备2025XXXXXXXX号-1</span><span>湘公网安备 43030202000XXX号</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('currentDate').textContent = (function(){
+    var d = new Date();
+    var week = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+    return d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日 ' + week[d.getDay()];
+  })();
+
+  var menuToggle = document.getElementById('menuToggle');
+  var navList = document.getElementById('navList');
+  menuToggle.addEventListener('click', function(){
+    navList.classList.toggle('open');
+    menuToggle.classList.toggle('open');
+  });
+
+  /* 媒体来源筛选 */
+  document.getElementById('sourceTabs').addEventListener('click', function(e){
+    if (e.target.classList.contains('src-btn')) {
+      var btns = this.querySelectorAll('.src-btn');
+      btns.forEach(function(b){ b.classList.remove('active'); });
+      e.target.classList.add('active');
+      var src = e.target.dataset.src;
+      document.querySelectorAll('#mediaList .media-item').forEach(function(item){
+        item.style.display = (src === 'all' || item.dataset.src === src) ? '' : 'none';
+      });
+    }
+  });
+</script>
+</body>
+</html>
