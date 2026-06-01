@@ -258,6 +258,14 @@
       <div class="card">
         <div class="card-header"><h3>公司要闻</h3></div>
         <div class="card-body">
+          <div class="category-tabs" id="categoryTabs" style="margin-bottom:16px;">
+            <button class="cat-btn active" data-cat="all">全部</button>
+            <button class="cat-btn" data-cat="hot">头条</button>
+            <button class="cat-btn" data-cat="meeting">公司会议</button>
+            <button class="cat-btn" data-cat="project">重点项目</button>
+            <button class="cat-btn" data-cat="party">党群建设</button>
+          </div>
+          <div id="newsContainer">
           <!-- 第1页列表 -->
           <div class="news-page" id="page1">
             <div class="news-list-item">
@@ -462,6 +470,7 @@
             </div>
           </div>
 
+          </div><!-- /newsContainer -->
           <!-- 分页 -->
           <div class="pagination">
             <span>首页</span>
@@ -557,6 +566,7 @@
   </div>
 </footer>
 
+<script src="supabase-client.js"></script>
 <script>
   document.getElementById('currentDate').textContent = (function(){
     var d = new Date();
@@ -572,18 +582,94 @@
     menuToggle.classList.toggle('open');
   });
 
-  /* 分页 */
-  function showPage(n) {
-    [1,2,3].forEach(function(i){
-      document.getElementById('page' + i).style.display = i === n ? '' : 'none';
-    });
-    var links = document.querySelectorAll('.pagination a[onclick]');
-    links.forEach(function(a){
-      a.classList.remove('active');
-      if (parseInt(a.textContent) === n) a.classList.add('active');
-    });
-    window.scrollTo({ top: 300, behavior: 'smooth' });
+  /* 分页 — now handled by Supabase */
+</script>
+<script>
+(function() {
+  var PAGE_SIZE = 8;
+  var currentPage = 1;
+  var currentCat = 'all';
+  var tagClassMap = { hot: 'tag-hot', meeting: 'tag-meeting', project: 'tag-project', party: 'tag-party' };
+  var catNameMap = { hot: '头条', meeting: '公司会议', project: '重点项目', party: '党群建设' };
+
+  function esc(s) { var el = document.createElement('div'); el.textContent = s; return el.innerHTML; }
+
+  function renderItem(i) {
+    var tc = tagClassMap[i.category] || 'tag-meeting';
+    var cn = catNameMap[i.category] || i.category;
+    return '<div class="news-list-item"><div class="news-thumb">'+esc(i.icon_emoji)+'</div><div class="news-info"><h4>'+esc(i.title)+'</h4><div class="news-meta"><span>📅 '+i.published_at+'</span><span>👁 '+i.views.toLocaleString()+' 次浏览</span><span class="news-tag '+tc+'">'+cn+'</span></div><p class="news-desc">'+esc(i.summary)+'</p></div></div>';
   }
+
+  async function loadData(db) {
+    var container = document.getElementById('newsContainer');
+    if (!container) return;
+    var start = (currentPage - 1) * PAGE_SIZE;
+    var end = start + PAGE_SIZE - 1;
+    var query = db.from('news').select('*', { count: 'exact' }).order('published_at', { ascending: false }).range(start, end);
+    if (currentCat !== 'all') query = query.eq('category', currentCat);
+    var r = await query;
+    if (r.error || !r.data) return;
+    container.innerHTML = r.data.length ? r.data.map(renderItem).join('') : '<p style="text-align:center;padding:24px;color:#94a3b8;">暂无内容</p>';
+    renderPagination(r.count);
+  }
+
+  function renderPagination(total) {
+    var pg = document.querySelector('.pagination');
+    if (!pg) return;
+    var totalPages = Math.ceil(total / PAGE_SIZE) || 1;
+    var html = '';
+    for (var i = 1; i <= totalPages; i++) {
+      html += '<a href="javascript:void(0)"' + (i === currentPage ? ' class="active"' : '') + '>' + i + '</a>';
+    }
+    html += '<span class="page-info">共 ' + totalPages + ' 页 / ' + total + ' 条</span>';
+    pg.innerHTML = html;
+    var links = pg.querySelectorAll('a');
+    for (var j = 0; j < links.length; j++) {
+      (function(n){ links[j].addEventListener('click', function(e){ e.preventDefault(); currentPage=n; loadData(window.supabase); window.scrollTo({top:300,behavior:'smooth'}); }); })(parseInt(links[j].textContent));
+    }
+  }
+
+  async function loadSidebar(db) {
+    var now = new Date();
+    var monthStart = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-01';
+    var yearStart = now.getFullYear() + '-01-01';
+    var r1 = await db.from('news').select('*',{count:'exact',head:true}).gte('published_at',monthStart);
+    var r2 = await db.from('news').select('*',{count:'exact',head:true}).gte('published_at',yearStart);
+    var r3 = await db.from('news').select('*',{count:'exact',head:true});
+    var nums = document.querySelectorAll('.stat-item .stat-num');
+    if (nums.length >= 3) {
+      nums[0].textContent = r1.count || 0;
+      nums[1].textContent = r2.count || 0;
+      nums[2].textContent = r3.count || 0;
+    }
+    var r4 = await db.from('news').select('title,published_at').order('views',{ascending:false}).limit(8);
+    if (r4.data) {
+      var list = document.querySelector('.side-card:nth-child(2) .side-list');
+      if (list) {
+        list.innerHTML = r4.data.map(function(item,idx){
+          var color = idx < 3 ? ' style="color:#dc2626;font-weight:700;"' : '';
+          return '<li><a href="#"><span'+color+'>TOP'+(idx+1)+'</span> '+esc(item.title)+' <span class="hot-date">'+item.published_at.slice(5)+'</span></a></li>';
+        }).join('');
+      }
+    }
+  }
+
+  window.addEventListener('supabase:ready', function() {
+    var db = window.supabase;
+    loadData(db);
+    loadSidebar(db);
+  });
+
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('cat-btn')) {
+      document.querySelectorAll('#categoryTabs .cat-btn').forEach(function(b){ b.classList.remove('active'); });
+      e.target.classList.add('active');
+      currentCat = e.target.dataset.cat;
+      currentPage = 1;
+      if (window.supabase) loadData(window.supabase);
+    }
+  });
+})();
 </script>
 </body>
 </html>

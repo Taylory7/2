@@ -412,6 +412,7 @@
   </div>
 </footer>
 
+<script src="supabase-client.js"></script>
 <script>
   document.getElementById('currentDate').textContent = (function(){
     var d = new Date();
@@ -425,6 +426,74 @@
     navList.classList.toggle('open');
     menuToggle.classList.toggle('open');
   });
+</script>
+<script>
+(function() {
+  function esc(s) { var el = document.createElement('div'); el.textContent = s; return el.innerHTML; }
+
+  function renderCard(i) {
+    return '<div class="photo-card"><div class="photo-thumb" style="background:'+i.background_gradient+'">'+esc(i.icon_emoji)+'</div><div class="photo-info"><h4>'+esc(i.title)+'</h4><div class="photo-meta"><span>📅 '+i.published_at+'</span><span>👁 '+i.views+'</span></div></div></div>';
+  }
+
+  async function loadPhotos(db) {
+    // Featured main
+    var r1 = await db.from('photo_news').select('*').eq('is_featured_main',true).order('published_at',{ascending:false}).limit(1);
+    if (r1.data && r1.data.length) {
+      var fm = r1.data[0];
+      var mainEl = document.querySelector('.featured-main');
+      if (mainEl) {
+        mainEl.style.background = fm.background_gradient;
+        mainEl.innerHTML = '<div class="fm-icon">'+esc(fm.icon_emoji)+'</div><div class="fm-overlay"></div><div class="fm-content"><h3>'+esc(fm.title)+'</h3><p>📅 '+fm.published_at+' | 👁 '+fm.views.toLocaleString()+'次浏览</p></div>';
+      }
+    }
+    // Featured side
+    var r2 = await db.from('photo_news').select('*').eq('is_featured_side',true).order('published_at',{ascending:false}).limit(2);
+    if (r2.data) {
+      var sides = document.querySelectorAll('.featured-side-item');
+      r2.data.forEach(function(item, idx){
+        if (sides[idx]) {
+          sides[idx].style.background = item.background_gradient;
+          sides[idx].innerHTML = '<div class="fs-icon">'+esc(item.icon_emoji)+'</div><div class="fs-overlay"></div><div class="fs-label">'+esc(item.title)+'</div>';
+        }
+      });
+    }
+    // Recent albums
+    var r3 = await db.from('photo_news').select('*').eq('section','recent').eq('is_featured_main',false).eq('is_featured_side',false).order('published_at',{ascending:false}).limit(9);
+    if (r3.data) {
+      var grids = document.querySelectorAll('.photo-grid');
+      if (grids.length >= 1) grids[0].innerHTML = r3.data.map(renderCard).join('');
+    }
+    // History albums
+    var r4 = await db.from('photo_news').select('*').eq('section','history').order('published_at',{ascending:false}).limit(6);
+    if (r4.data) {
+      var grids = document.querySelectorAll('.photo-grid');
+      if (grids.length >= 2) grids[1].innerHTML = r4.data.map(renderCard).join('');
+    }
+    // Sidebar category counts
+    var r5 = await db.from('photo_news').select('album_category');
+    if (r5.data) {
+      var counts = {};
+      r5.data.forEach(function(p){ counts[p.album_category] = (counts[p.album_category]||0) + 1; });
+      var catLabels = { construction:'施工一线', conference:'会议活动', honor:'荣誉表彰', testing:'水质检测', public_open:'公众开放', emergency:'应急演练', culture:'企业文化', general:'其他' };
+      var items = document.querySelectorAll('.side-card:nth-child(2) .side-list li');
+      var keys = ['construction','conference','honor','testing','public_open','emergency','culture'];
+      keys.forEach(function(k, i){ if (items[i]) items[i].textContent = catLabels[k] + ' (' + (counts[k]||0) + ' 辑)'; });
+    }
+    // Hot albums
+    var r6 = await db.from('photo_news').select('title,views').order('views',{ascending:false}).limit(5);
+    if (r6.data) {
+      var lists = document.querySelectorAll('.side-list');
+      if (lists.length >= 2) {
+        lists[lists.length-1].innerHTML = r6.data.map(function(item,idx){
+          var color = idx < 3 ? ' style="color:#dc2626;font-weight:700;"' : '';
+          return '<li><a href="#"><span'+color+'>TOP'+(idx+1)+'</span> '+esc(item.title)+' <span style="color:#94a3b8;font-size:11px;">👁 '+item.views+'</span></a></li>';
+        }).join('');
+      }
+    }
+  }
+
+  window.addEventListener('supabase:ready', function() { loadPhotos(window.supabase); });
+})();
 </script>
 </body>
 </html>

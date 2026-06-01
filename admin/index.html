@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>仪表盘 — 后台管理</title>
+<style>
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 20px 18px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .stat-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .stat-icon-news { background: #dbeafe; }
+  .stat-icon-notices { background: #fee2e2; }
+  .stat-icon-photo { background: #d1fae5; }
+  .stat-icon-media { background: #ede9fe; }
+  .stat-icon-topics { background: #ffedd5; }
+  .stat-info h4 { font-size: 14px; color: var(--text-light); font-weight: 500; }
+  .stat-info .stat-num { font-size: 28px; font-weight: 700; color: var(--text); }
+  .recent-section {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .recent-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .recent-header::before {
+    content: "";
+    width: 4px; height: 18px;
+    background: var(--primary);
+    border-radius: 2px;
+  }
+  .recent-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .recent-table th {
+    background: #f8fafc;
+    padding: 10px 18px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-light);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .recent-table td {
+    padding: 10px 18px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .recent-table tr:last-child td { border-bottom: none; }
+  .recent-table .rec-title {
+    max-width: 400px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--text);
+  }
+  .recent-table .rec-type {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+  .type-news { background: #dbeafe; color: #1e40af; }
+  .type-notices { background: #fee2e2; color: #dc2626; }
+  .type-photo { background: #d1fae5; color: #047857; }
+  .type-media { background: #ede9fe; color: #6d28d9; }
+  .type-topics { background: #ffedd5; color: #c2410c; }
+  .loading-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-light);
+  }
+</style>
+</head>
+<body>
+
+<script src="admin-client.js"></script>
+<script>
+(function () {
+  var TOAST = window._adminClient.toast;
+
+  window.addEventListener('admin:unauth', function () {
+    window.location.href = 'login.html';
+  });
+
+  window.addEventListener('admin:ready', function () {
+    window._adminClient.renderShell('📊 仪表盘');
+    loadDashboard();
+  });
+
+  async function loadDashboard() {
+    var db = window._adminClient.getClient();
+    if (!db) return;
+
+    var adminContent = document.getElementById('adminContent');
+    if (!adminContent) return;
+
+    // Show loading
+    adminContent.innerHTML = '<div class="loading-state">⏳ 加载中…</div>';
+
+    // Fetch all counts in parallel
+    var tables = [
+      { key: 'news',      label: '公司要闻', icon: '📰', cls: 'stat-icon-news',    href: 'news.html' },
+      { key: 'notices',   label: '通知公告', icon: '📋', cls: 'stat-icon-notices',  href: 'notices.html' },
+      { key: 'photo_news',label: '图片新闻', icon: '🖼️', cls: 'stat-icon-photo',   href: 'photo-news.html' },
+      { key: 'media_coverage', label: '媒体聚焦', icon: '📺', cls: 'stat-icon-media', href: 'media.html' },
+      { key: 'topics',    label: '专题专栏', icon: '📌', cls: 'stat-icon-topics',  href: 'topics.html' },
+    ];
+
+    var countPromises = tables.map(function (t) {
+      return db.from(t.key).select('*', { count: 'exact', head: true }).then(function (r) {
+        return { key: t.key, count: r.count || 0, error: r.error };
+      });
+    });
+
+    var countResults = await Promise.all(countPromises);
+
+    // Fetch recent items from news and notices
+    var [recentNews, recentNotices] = await Promise.all([
+      db.from('news').select('title,published_at').order('published_at', { ascending: false }).limit(5),
+      db.from('notices').select('title,published_at').order('published_at', { ascending: false }).limit(5),
+    ]);
+
+    // Build stat cards
+    var statsHTML = '<div class="stats-grid">';
+    tables.forEach(function (t, i) {
+      var r = countResults[i];
+      var count = r ? r.count : '—';
+      statsHTML +=
+        '<div class="stat-card" onclick="location.href=\'' + t.href + '\'" style="cursor:pointer">' +
+          '<div class="stat-icon ' + t.cls + '">' + t.icon + '</div>' +
+          '<div class="stat-info">' +
+            '<h4>' + t.label + '</h4>' +
+            '<div class="stat-num">' + count + '</div>' +
+          '</div>' +
+        '</div>';
+    });
+    statsHTML += '</div>';
+
+    // Build recent items table
+    var recHTML =
+      '<div class="recent-section">' +
+        '<div class="recent-header">📝 最近发布</div>' +
+        '<table class="recent-table">' +
+          '<thead><tr><th>类型</th><th>标题</th><th>发布日期</th></tr></thead>' +
+          '<tbody>';
+
+    // Merge and sort recent items
+    var recentItems = [];
+    (recentNews.data || []).forEach(function (item) {
+      recentItems.push({ type: 'news', label: '公司要闻', cls: 'type-news', title: item.title, date: item.published_at });
+    });
+    (recentNotices.data || []).forEach(function (item) {
+      recentItems.push({ type: 'notices', label: '通知公告', cls: 'type-notices', title: item.title, date: item.published_at });
+    });
+    recentItems.sort(function (a, b) { return (b.date || '').localeCompare(a.date || ''); });
+
+    if (recentItems.length === 0) {
+      recHTML += '<tr><td colspan="3" style="text-align:center;color:var(--text-light);padding:24px;">暂无内容</td></tr>';
+    } else {
+      recentItems.forEach(function (item) {
+        recHTML +=
+          '<tr>' +
+            '<td><span class="rec-type ' + item.cls + '">' + item.label + '</span></td>' +
+            '<td><div class="rec-title">' + esc(item.title) + '</div></td>' +
+            '<td>' + (item.date || '—') + '</td>' +
+          '</tr>';
+      });
+    }
+
+    recHTML += '</tbody></table></div>';
+
+    adminContent.innerHTML = statsHTML + recHTML;
+  }
+
+  function esc(s) {
+    var el = document.createElement('div');
+    el.textContent = s || '';
+    return el.innerHTML;
+  }
+})();
+</script>
+
+</body>
+</html>

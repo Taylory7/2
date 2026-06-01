@@ -1088,6 +1088,7 @@
   </div>
 </footer>
 
+<script src="supabase-client.js"></script>
 <script>
   /* ==================== 日期显示 ==================== */
   (function() {
@@ -1141,6 +1142,72 @@
     document.getElementById('banner').addEventListener('mouseleave', startAuto);
     startAuto();
   })();
+</script>
+
+<script>
+(function() {
+  var categoryNames = { stop: '停水', announce: '公告', public: '公示', notify: '通知', urgent: '紧急' };
+
+  function formatDate(d) { if (!d) return ''; var p = d.split('-'); return p[1] + '-' + p[2]; }
+
+  function esc(s) { var el = document.createElement('div'); el.textContent = s; return el.innerHTML; }
+
+  window.addEventListener('supabase:ready', function() {
+    var db = window.supabase;
+    loadNews(db);
+    loadNotices(db);
+    loadPhotos(db);
+    loadMedia(db);
+    loadTopics(db);
+  });
+
+  async function loadNews(db) {
+    var el = document.querySelector('.card-row .card:first-child .news-list');
+    if (!el) return;
+    var r = await db.from('news').select('title,published_at').order('published_at',{ascending:false}).limit(5);
+    if (r.error || !r.data || !r.data.length) return;
+    el.innerHTML = r.data.map(function(i){ return '<li><span class="news-date">'+formatDate(i.published_at)+'</span><a href="#" class="news-title">'+esc(i.title)+'</a></li>'; }).join('');
+  }
+
+  async function loadNotices(db) {
+    var el = document.querySelector('.card-row .card:last-child .news-list');
+    if (!el) return;
+    var r = await db.from('notices').select('title,published_at,category').order('published_at',{ascending:false}).limit(5);
+    if (r.error || !r.data || !r.data.length) return;
+    el.innerHTML = r.data.map(function(i){ var c = categoryNames[i.category]||i.category; return '<li><span class="news-date">'+formatDate(i.published_at)+'</span><a href="#" class="news-title"><span class="news-tag tag-notice">'+c+'</span> '+esc(i.title)+'</a></li>'; }).join('');
+  }
+
+  async function loadPhotos(db) {
+    var el = document.querySelector('.image-news-grid');
+    if (!el) return;
+    var r = await db.from('photo_news').select('title,icon_emoji').eq('section','recent').order('published_at',{ascending:false}).limit(3);
+    if (r.error || !r.data || !r.data.length) return;
+    el.innerHTML = r.data.map(function(i){ return '<div class="image-news-item"><div class="image-news-thumb">'+esc(i.icon_emoji)+'</div><p>'+esc(i.title)+'</p></div>'; }).join('');
+  }
+
+  async function loadMedia(db) {
+    var cards = document.querySelectorAll('.content-left > .card');
+    var card = null;
+    for (var i = 0; i < cards.length; i++) {
+      var h3 = cards[i].querySelector('h3');
+      if (h3 && h3.textContent.indexOf('媒体聚焦') !== -1) { card = cards[i]; break; }
+    }
+    if (!card) return;
+    var el = card.querySelector('.news-list');
+    if (!el) return;
+    var r = await db.from('media_coverage').select('title,published_at,source_name').order('published_at',{ascending:false}).limit(4);
+    if (r.error || !r.data || !r.data.length) return;
+    el.innerHTML = r.data.map(function(i){ return '<li><span class="news-date">'+formatDate(i.published_at)+'</span><a href="#" class="news-title"><span class="news-tag tag-media">'+esc(i.source_name)+'</span> '+esc(i.title)+'</a></li>'; }).join('');
+  }
+
+  async function loadTopics(db) {
+    var el = document.querySelector('.topics-grid');
+    if (!el) return;
+    var r = await db.from('topics').select('*').order('sort_order').limit(6);
+    if (r.error || !r.data || !r.data.length) return;
+    el.innerHTML = r.data.map(function(i){ return '<div class="topic-card"><div class="topic-icon '+esc(i.icon_class)+'">'+esc(i.icon_emoji)+'</div><h4>'+esc(i.title)+'</h4><p>'+esc(i.subtitle)+'</p></div>'; }).join('');
+  }
+})();
 </script>
 
 </body>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>通知公告管理 — 后台管理</title>
+<style>
+  .toolbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; gap:12px; flex-wrap:wrap; }
+  .btn { padding:9px 18px; border:none; border-radius:var(--radius); font-size:14px; cursor:pointer; font-family:inherit; transition:all 0.2s; font-weight:500; }
+  .btn-primary { background:var(--primary); color:#fff; }
+  .btn-primary:hover { background:var(--primary-dark); }
+  .btn-outline { background:#fff; color:var(--primary); border:1px solid var(--primary); }
+  .btn-outline:hover { background:var(--primary); color:#fff; }
+  .btn-sm { padding:4px 10px; font-size:12px; }
+  .btn-danger { background:#fff; color:#dc2626; border:1px solid #dc2626; }
+  .btn-danger:hover { background:#dc2626; color:#fff; }
+  .btn-edit { background:#dbeafe; color:#1e40af; border:1px solid #93c5fd; }
+  .btn-edit:hover { background:#1e40af; color:#fff; }
+  .data-table-wrap { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); border:1px solid var(--border); overflow:auto; }
+  .data-table { width:100%; border-collapse:collapse; font-size:13px; min-width:700px; }
+  .data-table th { background:#f8fafc; padding:10px 12px; text-align:left; font-weight:600; color:var(--text-light); font-size:12px; white-space:nowrap; border-bottom:2px solid var(--border); }
+  .data-table td { padding:8px 12px; border-bottom:1px solid #f1f5f9; vertical-align:middle; }
+  .data-table tr:hover td { background:#f8fafc; }
+  .data-table .col-title { max-width:280px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+  .badge { font-size:11px; padding:2px 8px; border-radius:10px; white-space:nowrap; }
+  .badge-stop { background:#fee2e2; color:#dc2626; }
+  .badge-announce { background:#dbeafe; color:#2563eb; }
+  .badge-public { background:#d1fae5; color:#047857; }
+  .badge-notify { background:#ffedd5; color:#c2410c; }
+  .badge-urgent { background:#fce7f3; color:#be185d; font-weight:700; }
+  .pagination { display:flex; justify-content:center; align-items:center; gap:6px; padding:16px; flex-wrap:wrap; }
+  .pagination button { padding:6px 12px; border:1px solid var(--border); border-radius:4px; background:#fff; cursor:pointer; font-family:inherit; font-size:13px; transition:all 0.15s; }
+  .pagination button:hover { border-color:var(--primary); color:var(--primary); }
+  .pagination button.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+  .pagination button:disabled { opacity:0.4; cursor:not-allowed; }
+  .pagination .page-info { font-size:13px; color:var(--text-light); margin:0 8px; }
+
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:200; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .modal-overlay.hidden { display:none; }
+  .modal { background:#fff; border-radius:12px; box-shadow:0 16px 48px rgba(0,0,0,0.2); width:100%; max-width:580px; max-height:90vh; overflow-y:auto; }
+  .modal-header { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; background:#fff; z-index:1; }
+  .modal-header h3 { font-size:16px; font-weight:600; }
+  .modal-close { background:none; border:none; font-size:22px; cursor:pointer; color:var(--text-light); padding:4px 8px; line-height:1; }
+  .modal-close:hover { color:var(--text); }
+  .modal-body { padding:20px; }
+  .form-group { margin-bottom:14px; }
+  .form-group label { display:block; font-size:13px; font-weight:600; margin-bottom:4px; color:var(--text); }
+  .form-group input,.form-group select,.form-group textarea { width:100%; padding:8px 12px; border:1.5px solid var(--border); border-radius:var(--radius); font-size:14px; font-family:inherit; outline:none; transition:border-color 0.2s; }
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus { border-color:var(--primary); }
+  .form-group textarea { resize:vertical; min-height:80px; }
+  .form-group .help-text { font-size:11px; color:var(--text-light); margin-top:2px; }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .form-check { display:flex; align-items:center; gap:8px; }
+  .form-check input[type=checkbox] { width:auto; }
+  .form-actions { display:flex; justify-content:flex-end; gap:10px; padding-top:16px; border-top:1px solid var(--border); margin-top:4px; }
+
+  .confirm-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:300; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .confirm-overlay.hidden { display:none; }
+  .confirm-box { background:#fff; border-radius:12px; padding:28px 24px; max-width:420px; width:100%; text-align:center; box-shadow:0 16px 48px rgba(0,0,0,0.2); }
+  .confirm-box p { margin-bottom:20px; font-size:15px; line-height:1.6; }
+  .confirm-box .confirm-title { font-weight:700; color:#dc2626; font-size:16px; margin-bottom:8px; }
+  .confirm-actions { display:flex; gap:10px; justify-content:center; }
+</style>
+</head>
+<body>
+
+<div class="modal-overlay hidden" id="formModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">新建通知公告</h3>
+      <button class="modal-close" id="modalClose">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="itemForm" autocomplete="off">
+        <input type="hidden" id="fid">
+        <div class="form-row">
+          <div class="form-group">
+            <label>标题 *</label>
+            <input type="text" id="ftitle" required placeholder="请输入公告标题">
+          </div>
+          <div class="form-group">
+            <label>图标 Emoji</label>
+            <select id="ficon_emoji">
+              <option value="🚧">🚧 停水</option><option value="📋">📋 公告</option><option value="📊">📊 公示</option><option value="🔔">🔔 通知</option><option value="⚠️">⚠️ 紧急</option><option value="🕐">🕐 时间</option><option value="📖">📖 报告</option><option value="🚧">🚧 通告</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>分类</label>
+            <select id="fcategory">
+              <option value="stop">🚧 停水</option><option value="announce">📋 公告</option><option value="public">📊 公示</option><option value="notify">🔔 通知</option><option value="urgent">⚠️ 紧急</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>发布日期</label>
+            <input type="date" id="fpublished_at">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>补充信息</label>
+          <input type="text" id="fextra_info" placeholder="如：影响范围、中标金额等">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>浏览量</label>
+            <input type="number" id="fviews" value="0" min="0">
+          </div>
+          <div class="form-group">
+            <label>排序序号</label>
+            <input type="number" id="fsort_order" value="0" min="0">
+          </div>
+        </div>
+        <div class="form-check form-group">
+          <input type="checkbox" id="fis_featured">
+          <label for="fis_featured">标记为推荐</label>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" id="modalCancel">取消</button>
+          <button type="submit" class="btn btn-primary" id="modalSave">💾 保存</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="confirm-overlay hidden" id="confirmDialog">
+  <div class="confirm-box">
+    <div class="confirm-title">⚠️ 确认删除</div>
+    <p id="confirmMsg">确定要删除这条公告吗？此操作不可撤销。</p>
+    <div class="confirm-actions">
+      <button class="btn btn-outline" id="confirmCancel">取消</button>
+      <button class="btn btn-danger" id="confirmOk">确定删除</button>
+    </div>
+  </div>
+</div>
+
+<script src="admin-client.js"></script>
+<script>
+(function () {
+  var TOAST = window._adminClient.toast;
+  var PAGE_SIZE = 15;
+  var currentPage = 1;
+  var deleteId = null;
+  var catNames = { stop:'停水', announce:'公告', public:'公示', notify:'通知', urgent:'紧急' };
+  var catBadge = { stop:'badge-stop', announce:'badge-announce', public:'badge-public', notify:'badge-notify', urgent:'badge-urgent' };
+
+  window.addEventListener('admin:unauth', function () { window.location.href = 'login.html'; });
+  window.addEventListener('admin:ready', function () {
+    window._adminClient.renderShell('📋 通知公告管理');
+    document.getElementById('adminContent').innerHTML =
+      '<div class="toolbar">' +
+        '<h3 style="font-size:15px">📋 公告列表</h3>' +
+        '<button class="btn btn-primary" id="btnNew">＋ 新建公告</button>' +
+      '</div>' +
+      '<div class="data-table-wrap" id="tableWrap">' +
+        '<table class="data-table"><thead><tr>' +
+          '<th>ID</th><th>标题</th><th>分类</th><th>日期</th><th>浏览</th><th>操作</th>' +
+        '</tr></thead><tbody id="tableBody"></tbody></table>' +
+        '<div class="pagination" id="pagination"></div>' +
+      '</div>';
+    loadData();
+    document.getElementById('btnNew').addEventListener('click', function () { openForm(null); });
+    document.getElementById('modalClose').addEventListener('click', closeForm);
+    document.getElementById('modalCancel').addEventListener('click', closeForm);
+    document.getElementById('itemForm').addEventListener('submit', saveItem);
+    document.getElementById('confirmCancel').addEventListener('click', function () { document.getElementById('confirmDialog').classList.add('hidden'); });
+    document.getElementById('confirmOk').addEventListener('click', confirmDelete);
+  });
+
+  async function loadData() {
+    var db = window._adminClient.getClient();
+    var start = (currentPage - 1) * PAGE_SIZE;
+    var end = start + PAGE_SIZE - 1;
+    var r = await db.from('notices').select('*', { count: 'exact' }).order('published_at', { ascending: false }).range(start, end);
+    if (r.error) { TOAST('加载失败: ' + r.error.message, 'error'); return; }
+    renderTable(r.data);
+    renderPagination(r.count);
+  }
+
+  function renderTable(data) {
+    var tbody = document.getElementById('tableBody');
+    if (!data || !data.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-light);padding:32px;">暂无数据</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.map(function (r) {
+      return '<tr>' +
+        '<td>' + r.id + '</td>' +
+        '<td><div class="col-title">' + esc(r.icon_emoji) + ' ' + esc(r.title) + '</div></td>' +
+        '<td><span class="badge ' + (catBadge[r.category]||'') + '">' + (catNames[r.category]||r.category) + '</span></td>' +
+        '<td>' + (r.published_at || '—') + '</td>' +
+        '<td>' + (r.views || 0) + '</td>' +
+        '<td>' +
+          '<button class="btn btn-sm btn-edit" data-edit="' + r.id + '">✏️ 编辑</button> ' +
+          '<button class="btn btn-sm btn-danger" data-del="' + r.id + '">🗑 删除</button>' +
+        '</td>' +
+      '</tr>';
+    }).join('');
+    tbody.querySelectorAll('[data-edit]').forEach(function (btn) {
+      btn.addEventListener('click', function () { openForm(parseInt(this.dataset.edit)); });
+    });
+    tbody.querySelectorAll('[data-del]').forEach(function (btn) {
+      btn.addEventListener('click', function () { showDeleteConfirm(parseInt(this.dataset.del)); });
+    });
+  }
+
+  function renderPagination(total) {
+    var totalPages = Math.ceil(total / PAGE_SIZE) || 1;
+    var el = document.getElementById('pagination');
+    var html = '<button ' + (currentPage <= 1 ? 'disabled' : '') + ' id="btnPrev">上一页</button>';
+    for (var i = 1; i <= totalPages; i++) {
+      if (totalPages <= 7 || i === 1 || i === totalPages || Math.abs(i - currentPage) <= 1) {
+        html += '<button class="' + (i === currentPage ? 'active' : '') + '" data-page="' + i + '">' + i + '</button>';
+      } else if (i === 2 && currentPage > 3) html += '<button disabled>…</button>';
+      else if (i === totalPages - 1 && currentPage < totalPages - 2) html += '<button disabled>…</button>';
+    }
+    html += '<button ' + (currentPage >= totalPages ? 'disabled' : '') + ' id="btnNext">下一页</button>';
+    html += '<span class="page-info">共 ' + totalPages + ' 页 / ' + total + ' 条</span>';
+    el.innerHTML = html;
+    el.querySelectorAll('[data-page]').forEach(function (btn) {
+      btn.addEventListener('click', function () { currentPage = parseInt(this.dataset.page); loadData(); });
+    });
+    var prevBtn = el.querySelector('#btnPrev'), nextBtn = el.querySelector('#btnNext');
+    if (prevBtn) prevBtn.addEventListener('click', function () { if (currentPage > 1) { currentPage--; loadData(); } });
+    if (nextBtn) nextBtn.addEventListener('click', function () { if (currentPage < totalPages) { currentPage++; loadData(); } });
+  }
+
+  function openForm(id) {
+    var form = document.getElementById('itemForm');
+    form.reset();
+    document.getElementById('fid').value = '';
+    document.getElementById('fviews').value = '0';
+    document.getElementById('fsort_order').value = '0';
+    document.getElementById('fpublished_at').value = new Date().toISOString().slice(0, 10);
+
+    if (id) {
+      document.getElementById('modalTitle').textContent = '编辑通知公告';
+      var db = window._adminClient.getClient();
+      db.from('notices').select('*').eq('id', id).single().then(function (r) {
+        if (r.data) {
+          document.getElementById('fid').value = r.data.id;
+          document.getElementById('ftitle').value = r.data.title || '';
+          document.getElementById('ficon_emoji').value = r.data.icon_emoji || '📋';
+          document.getElementById('fcategory').value = r.data.category || 'announce';
+          document.getElementById('fextra_info').value = r.data.extra_info || '';
+          document.getElementById('fviews').value = r.data.views || 0;
+          document.getElementById('fsort_order').value = r.data.sort_order || 0;
+          document.getElementById('fpublished_at').value = r.data.published_at || '';
+          document.getElementById('fis_featured').checked = r.data.is_featured || false;
+        }
+      });
+    } else {
+      document.getElementById('modalTitle').textContent = '新建通知公告';
+    }
+    document.getElementById('formModal').classList.remove('hidden');
+  }
+
+  function closeForm() { document.getElementById('formModal').classList.add('hidden'); }
+
+  async function saveItem(e) {
+    e.preventDefault();
+    var db = window._adminClient.getClient();
+    var data = {
+      title: document.getElementById('ftitle').value.trim(),
+      icon_emoji: document.getElementById('ficon_emoji').value,
+      category: document.getElementById('fcategory').value,
+      extra_info: document.getElementById('fextra_info').value.trim(),
+      views: parseInt(document.getElementById('fviews').value) || 0,
+      sort_order: parseInt(document.getElementById('fsort_order').value) || 0,
+      published_at: document.getElementById('fpublished_at').value,
+      is_featured: document.getElementById('fis_featured').checked,
+    };
+    if (!data.title) { TOAST('请输入标题', 'error'); return; }
+
+    var id = document.getElementById('fid').value;
+    var r = id ? await db.from('notices').update(data).eq('id', parseInt(id)) : await db.from('notices').insert([data]);
+    if (r.error) { TOAST('保存失败: ' + r.error.message, 'error'); return; }
+    TOAST(id ? '更新成功！' : '创建成功！', 'success');
+    closeForm();
+    loadData();
+  }
+
+  function showDeleteConfirm(id) {
+    deleteId = id;
+    document.getElementById('confirmMsg').textContent = '确定要删除 ID 为 ' + id + ' 的公告吗？此操作不可撤销。';
+    document.getElementById('confirmDialog').classList.remove('hidden');
+  }
+
+  async function confirmDelete() {
+    if (!deleteId) return;
+    var r = await window._adminClient.getClient().from('notices').delete().eq('id', deleteId);
+    document.getElementById('confirmDialog').classList.add('hidden');
+    if (r.error) { TOAST('删除失败: ' + r.error.message, 'error'); return; }
+    TOAST('已删除', 'success');
+    deleteId = null;
+    loadData();
+  }
+
+  function esc(s) { var el = document.createElement('div'); el.textContent = s || ''; return el.innerHTML; }
+})();
+</script>
+
+</body>
+</html>

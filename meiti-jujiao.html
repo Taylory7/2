@@ -366,6 +366,7 @@
   </div>
 </footer>
 
+<script src="supabase-client.js"></script>
 <script>
   document.getElementById('currentDate').textContent = (function(){
     var d = new Date();
@@ -380,18 +381,83 @@
     menuToggle.classList.toggle('open');
   });
 
-  /* 媒体来源筛选 */
-  document.getElementById('sourceTabs').addEventListener('click', function(e){
+  /* 媒体来源筛选 — now handled by Supabase */
+</script>
+<script>
+(function() {
+  var PAGE_SIZE = 10;
+  var currentPage = 1;
+  var currentSrc = 'all';
+  var srcNames = { hnrb: '湖南日报', hw: '红网', xtrb: '湘潭日报', zgslb: '中国水利报', hntv: '湖南卫视', rmw: '人民网', hnjsb: '中国建设报', other: '其他媒体' };
+
+  function esc(s) { var el = document.createElement('div'); el.textContent = s; return el.innerHTML; }
+
+  function renderItem(i) {
+    var srcName = i.source_name || '';
+    var parts = srcName.replace(/(.{2})/g, '$1<br>');
+    return '<div class="media-item" data-src="'+i.source_slug+'"><div class="media-source-badge src-'+i.source_slug+'">'+parts+'</div><div class="media-info"><h4>'+esc(i.title)+'</h4><p class="media-desc">'+esc(i.summary)+'</p><div class="media-meta"><span>📅 '+i.published_at+'</span><span>📰 '+esc(i.publication_info)+'</span><span>👁 '+i.views.toLocaleString()+'次</span></div></div></div>';
+  }
+
+  async function loadData(db) {
+    var container = document.getElementById('mediaList');
+    if (!container) return;
+    var start = (currentPage - 1) * PAGE_SIZE;
+    var end = start + PAGE_SIZE - 1;
+    var query = db.from('media_coverage').select('*', { count: 'exact' }).order('published_at', { ascending: false }).range(start, end);
+    if (currentSrc !== 'all') query = query.eq('source_slug', currentSrc);
+    var r = await query;
+    if (r.error || !r.data) return;
+    container.innerHTML = r.data.length ? r.data.map(renderItem).join('') : '<p style="text-align:center;padding:24px;color:#94a3b8;">暂无内容</p>';
+    renderPagination(r.count);
+  }
+
+  function renderPagination(total) {
+    var pg = document.querySelector('.pagination');
+    if (!pg) return;
+    var totalPages = Math.ceil(total / PAGE_SIZE) || 1;
+    var html = '';
+    for (var i = 1; i <= totalPages; i++) {
+      html += '<a href="javascript:void(0)"' + (i === currentPage ? ' class="active"' : '') + '>' + i + '</a>';
+    }
+    html += '<span class="page-info">共 ' + totalPages + ' 页 / ' + total + ' 条</span>';
+    pg.innerHTML = html;
+    pg.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(e){ e.preventDefault(); currentPage=parseInt(this.textContent); loadData(window.supabase); window.scrollTo({top:300,behavior:'smooth'}); });
+    });
+  }
+
+  async function loadSidebar(db) {
+    var now = new Date();
+    var yearStart = now.getFullYear() + '-01-01';
+    var r1 = await db.from('media_coverage').select('*',{count:'exact',head:true}).gte('published_at',yearStart);
+    var r2 = await db.from('media_coverage').select('*',{count:'exact',head:true}).gte('published_at',yearStart).in('source_slug',['hnrb','hw','zgslb','rmw','hntv']);
+    var r3 = await db.from('media_coverage').select('*',{count:'exact',head:true}).eq('source_slug','hntv');
+    var r4 = await db.from('media_coverage').select('*',{count:'exact',head:true}).in('source_slug',['hw','rmw']);
+    var nums = document.querySelectorAll('.stat-item .stat-num');
+    if (nums.length >= 4) {
+      nums[0].textContent = r1.count || 0;
+      nums[1].textContent = r2.count || 0;
+      nums[2].textContent = r3.count || 0;
+      nums[3].textContent = r4.count || 0;
+    }
+  }
+
+  window.addEventListener('supabase:ready', function() {
+    var db = window.supabase;
+    loadData(db);
+    loadSidebar(db);
+  });
+
+  document.addEventListener('click', function(e) {
     if (e.target.classList.contains('src-btn')) {
-      var btns = this.querySelectorAll('.src-btn');
-      btns.forEach(function(b){ b.classList.remove('active'); });
+      document.querySelectorAll('#sourceTabs .src-btn').forEach(function(b){ b.classList.remove('active'); });
       e.target.classList.add('active');
-      var src = e.target.dataset.src;
-      document.querySelectorAll('#mediaList .media-item').forEach(function(item){
-        item.style.display = (src === 'all' || item.dataset.src === src) ? '' : 'none';
-      });
+      currentSrc = e.target.dataset.src;
+      currentPage = 1;
+      if (window.supabase) loadData(window.supabase);
     }
   });
+})();
 </script>
 </body>
 </html>
