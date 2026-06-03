@@ -167,7 +167,7 @@
 <div class="top-toolbar">
   <div class="container">
     <div class="toolbar-links">
-      <a href="#">中国政府网</a><span>|</span><a href="#">住建部网</a><span>|</span><a href="#">湖南省政府门户</a><span>|</span><a href="#">湘潭市政府网</a>
+      <a href="#">中国政府网</a><span>|</span><a href="#">住建部网</a><span>|</span><a href="#">湖南省政府门户</a><span>|</span><a href="#">湘潭市政府网</a><span>|</span><a href="#">中国城镇供水排水协会</a>
     </div>
     <span id="currentDate"></span>
   </div>
@@ -392,6 +392,23 @@
   document.getElementById('menuToggle').addEventListener('click', function(){
     this.classList.toggle('open'); document.getElementById('navList').classList.toggle('open');
   });
+</script>
+
+<!-- 搜索功能：跳转到 search.html -->
+<script>
+(function() {
+  var input = document.querySelector('.header-search input');
+  var btn = document.querySelector('.header-search button');
+  if (!input || !btn) return;
+  function doSearch() {
+    var q = input.value.trim();
+    if (q) location.href = 'search.html?q=' + encodeURIComponent(q) + '&type=services';
+  }
+  btn.addEventListener('click', doSearch);
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doSearch();
+  });
+})();
 </script>
 </body>
 </html>

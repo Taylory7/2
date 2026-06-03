@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>搜索结果 — 湘潭市中环水务有限公司</title>
+<style>
+  :root {
+    --primary: #1a56db;
+    --primary-dark: #0f3dab;
+    --primary-light: #e8f0fe;
+    --accent: #0891b2;
+    --white: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --bg: #f8fafc;
+    --bg-card: #ffffff;
+    --border: #e2e8f0;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+    --radius: 6px;
+    --max-width: 1200px;
+    --transition: 0.25s ease;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; font-size: 14px; }
+  a { text-decoration: none; color: inherit; }
+  ul { list-style: none; }
+  img { max-width: 100%; display: block; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+  /* 顶部工具条 */
+  .top-toolbar { background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-size: 12px; color: var(--text-light); }
+  .top-toolbar .container { display: flex; justify-content: space-between; align-items: center; padding-top: 6px; padding-bottom: 6px; flex-wrap: wrap; gap: 8px; }
+  .top-toolbar .toolbar-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .top-toolbar a { color: var(--text-light); transition: color var(--transition); }
+  .top-toolbar a:hover { color: var(--primary); }
+  .top-toolbar .toolbar-date { color: #94a3b8; }
+
+  /* 头部 */
+  .site-header { background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%); border-bottom: 3px solid var(--primary); }
+  .site-header .container { display: flex; align-items: center; justify-content: space-between; padding-top: 18px; padding-bottom: 18px; gap: 24px; flex-wrap: wrap; }
+  .header-brand { display: flex; align-items: center; gap: 16px; }
+  .header-logo { width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff; box-shadow: 0 4px 16px rgba(26,86,219,0.25); flex-shrink: 0; }
+  .header-titles h1 { font-size: 26px; font-weight: 700; color: var(--primary-dark); letter-spacing: 1px; }
+  .header-titles .subtitle { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+  .header-search { display: flex; border: 2px solid var(--border); border-radius: 50px; overflow: hidden; background: #fff; transition: border-color var(--transition); flex-shrink: 0; }
+  .header-search:focus-within { border-color: var(--primary); }
+  .header-search input { border: none; outline: none; padding: 10px 18px; width: 240px; font-size: 14px; font-family: inherit; }
+  .header-search button { background: var(--primary); color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-size: 14px; font-family: inherit; transition: background var(--transition); }
+  .header-search button:hover { background: var(--primary-dark); }
+
+  /* 主导航 */
+  .main-nav { background: var(--primary); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+  .main-nav .container { display: flex; align-items: center; }
+  .main-nav .nav-list { display: flex; align-items: center; }
+  .main-nav .nav-list > li { position: relative; }
+  .main-nav .nav-list > li > a { display: block; padding: 14px 24px; color: rgba(255,255,255,0.92); font-size: 15px; font-weight: 500; white-space: nowrap; transition: all var(--transition); letter-spacing: 0.5px; }
+  .main-nav .nav-list > li > a:hover, .main-nav .nav-list > li.active > a { background: rgba(255,255,255,0.15); color: #fff; }
+  .main-nav .nav-list > li.active > a { border-bottom: 3px solid #fff; padding-bottom: 11px; }
+  .main-nav .nav-dropdown { position: absolute; top: 100%; left: 0; background: #fff; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); border-radius: 0 0 var(--radius) var(--radius); opacity: 0; visibility: hidden; transform: translateY(4px); transition: all 0.2s ease; z-index: 1001; overflow: hidden; }
+  .main-nav .nav-list > li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-dropdown a { display: block; padding: 10px 18px; color: var(--text); font-size: 13px; border-bottom: 1px solid #f1f5f9; transition: all var(--transition); }
+  .nav-dropdown a:hover { background: var(--primary-light); color: var(--primary); padding-left: 22px; }
+  .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; margin-left: auto; }
+  .menu-toggle span { display: block; width: 26px; height: 2.5px; background: #fff; border-radius: 2px; transition: all 0.3s ease; }
+  .menu-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .menu-toggle.open span:nth-child(2) { opacity: 0; }
+  .menu-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* 面包屑 */
+  .breadcrumb-bar { background: #fff; border-bottom: 1px solid var(--border); }
+  .breadcrumb-bar .container { display: flex; align-items: center; padding-top: 10px; padding-bottom: 10px; font-size: 13px; color: var(--text-light); gap: 6px; }
+  .breadcrumb-bar a { color: var(--text-light); transition: color var(--transition); }
+  .breadcrumb-bar a:hover { color: var(--primary); }
+  .breadcrumb-bar .sep { color: #94a3b8; }
+  .breadcrumb-bar .current { color: var(--primary); font-weight: 500; }
+
+  /* 主内容 */
+  .main-content { padding: 32px 0; min-height: 60vh; }
+
+  /* 搜索栏区域 */
+  .search-hero { background: #fff; border-bottom: 1px solid var(--border); padding: 24px 0 20px; }
+  .search-hero .search-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .search-hero .search-label { font-size: 18px; font-weight: 600; color: var(--text); white-space: nowrap; }
+  .search-hero .search-input-wrap { flex: 1; display: flex; border: 2px solid var(--primary); border-radius: 50px; overflow: hidden; background: #fff; min-width: 280px; box-shadow: 0 0 0 3px rgba(26,86,219,0.08); }
+  .search-hero .search-input-wrap input { border: none; outline: none; padding: 12px 20px; flex: 1; font-size: 15px; font-family: inherit; }
+  .search-hero .search-input-wrap button { background: var(--primary); color: #fff; border: none; padding: 12px 28px; cursor: pointer; font-size: 15px; font-family: inherit; transition: background var(--transition); white-space: nowrap; }
+  .search-hero .search-input-wrap button:hover { background: var(--primary-dark); }
+  .search-hero .search-input-wrap .clear-btn { background: #fff; color: #94a3b8; border: none; padding: 12px 14px; cursor: pointer; font-size: 16px; transition: color var(--transition); display: none; }
+  .search-hero .search-input-wrap .clear-btn:hover { color: var(--text); }
+  .search-hero .search-input-wrap .clear-btn.visible { display: block; }
+
+  /* 搜索历史 */
+  .search-history { margin-top: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .search-history .history-label { font-size: 12px; color: #94a3b8; white-space: nowrap; }
+  .search-history .history-tag { font-size: 12px; padding: 3px 12px; background: #f1f5f9; border-radius: 50px; color: var(--text-light); cursor: pointer; border: 1px solid var(--border); transition: all var(--transition); }
+  .search-history .history-tag:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+  .search-history .history-clear { font-size: 11px; color: #cbd5e1; cursor: pointer; background: none; border: none; margin-left: 4px; }
+  .search-history .history-clear:hover { color: #dc2626; }
+
+  /* 实时建议下拉 */
+  .search-suggestions { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid var(--border); border-radius: 0 0 var(--radius) var(--radius); box-shadow: var(--shadow-md); z-index: 100; display: none; max-height: 240px; overflow-y: auto; }
+  .search-suggestions.open { display: block; }
+  .search-suggestions .suggestion-item { padding: 10px 18px; cursor: pointer; font-size: 13px; color: var(--text); border-bottom: 1px solid #f1f5f9; transition: background var(--transition); }
+  .search-suggestions .suggestion-item:hover { background: var(--primary-light); }
+  .search-suggestions .suggestion-item .suggestion-highlight { color: var(--primary); font-weight: 500; }
+
+  /* 结果统计 */
+  .results-summary { padding: 20px 0 0; font-size: 14px; color: var(--text-light); }
+  .results-summary strong { color: var(--primary); }
+
+  /* 类型筛选标签 */
+  .type-tabs { display: flex; gap: 10px; padding: 16px 0 8px; flex-wrap: wrap; }
+  .type-tab { padding: 6px 18px; border-radius: 50px; font-size: 13px; cursor: pointer; border: 1px solid var(--border); background: #fff; color: var(--text-light); transition: all var(--transition); font-family: inherit; }
+  .type-tab:hover { border-color: var(--primary); color: var(--primary); }
+  .type-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .type-tab .count { margin-left: 4px; opacity: 0.75; font-size: 12px; }
+
+  /* 结果列表 */
+  .results-area { padding-bottom: 40px; }
+  .result-group { margin-bottom: 28px; }
+  .result-group-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 2px solid var(--primary); }
+  .result-group-header .group-icon { font-size: 22px; }
+  .result-group-header h3 { font-size: 17px; color: var(--text); font-weight: 600; }
+  .result-group-header .group-count { font-size: 13px; color: var(--text-light); margin-left: auto; }
+
+  .result-item { padding: 14px 0; border-bottom: 1px dashed #e2e8f0; display: flex; gap: 14px; align-items: flex-start; cursor: pointer; transition: all var(--transition); }
+  .result-item:last-child { border-bottom: none; }
+  .result-item:hover { background: #f8fafc; margin: 0 -10px; padding-left: 10px; padding-right: 10px; border-radius: 4px; }
+  .result-item .result-icon { width: 44px; height: 44px; border-radius: 8px; background: linear-gradient(135deg, #dbeafe, #93c5fd); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .result-item .result-info { flex: 1; min-width: 0; }
+  .result-item .result-title { font-size: 15px; color: var(--text); margin-bottom: 4px; font-weight: 500; line-height: 1.5; transition: color var(--transition); }
+  .result-item:hover .result-title { color: var(--primary); }
+  .result-item .result-desc { font-size: 13px; color: #94a3b8; margin-bottom: 4px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .result-item .result-meta { font-size: 12px; color: #94a3b8; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .result-item .result-badge { font-size: 11px; padding: 2px 8px; border-radius: 3px; white-space: nowrap; }
+  .result-item .result-highlight { background: #fff3cd; padding: 1px 3px; border-radius: 2px; color: #92400e; font-weight: 500; }
+
+  .badge-news { background: #dbeafe; color: #2563eb; }
+  .badge-notice { background: #fee2e2; color: #dc2626; }
+  .badge-photo { background: #d1fae5; color: #047857; }
+  .badge-media { background: #fef3c7; color: #b45309; }
+  .badge-topic { background: #ede9fe; color: #6d28d9; }
+
+  /* 加载中 */
+  .loading-state { text-align: center; padding: 60px 20px; }
+  .loading-spinner { display: inline-block; width: 40px; height: 40px; border: 4px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-state p { margin-top: 14px; color: var(--text-light); font-size: 14px; }
+
+  /* 空状态 */
+  .empty-state { text-align: center; padding: 60px 20px; }
+  .empty-state .empty-icon { font-size: 64px; margin-bottom: 16px; }
+  .empty-state h3 { font-size: 18px; color: var(--text); margin-bottom: 8px; }
+  .empty-state p { font-size: 14px; color: var(--text-light); margin-bottom: 20px; }
+  .empty-state .empty-suggestions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .empty-state .empty-suggestion { padding: 6px 16px; background: var(--primary-light); color: var(--primary); border-radius: 50px; font-size: 13px; cursor: pointer; border: none; font-family: inherit; transition: all var(--transition); }
+  .empty-state .empty-suggestion:hover { background: var(--primary); color: #fff; }
+
+  /* 错误状态 */
+  .error-state { text-align: center; padding: 60px 20px; color: #dc2626; }
+  .error-state .error-icon { font-size: 48px; margin-bottom: 12px; }
+
+  /* 页脚 */
+  .site-footer { background: #0b1424; color: #94a3b8; padding: 36px 20px 24px; font-size: 13px; }
+  .footer-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; margin-bottom: 24px; }
+  .footer-grid h4 { color: #fff; font-size: 15px; margin-bottom: 14px; font-weight: 600; }
+  .footer-grid a { color: #94a3b8; display: block; margin-bottom: 6px; transition: color 0.2s; font-size: 13px; }
+  .footer-grid a:hover { color: #fff; }
+  .footer-contact p { margin-bottom: 6px; display: flex; gap: 6px; align-items: flex-start; }
+  .footer-bottom { max-width: var(--max-width); margin: 0 auto; padding-top: 18px; border-top: 1px solid #1e293b; text-align: center; font-size: 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+  .footer-bottom .gov-icon { display: inline-flex; align-items: center; gap: 4px; }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .menu-toggle { display: flex; }
+    .main-nav .nav-list { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--primary); }
+    .main-nav .nav-list.open { display: flex; }
+    .main-nav .nav-list > li > a { padding: 12px 20px; }
+    .search-hero .search-row { flex-direction: column; align-items: stretch; }
+    .site-header .container { flex-direction: column; align-items: flex-start; }
+    .header-search { width: 100%; }
+    .header-search input { flex: 1; }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== 顶部工具条 ==================== -->
+<div class="top-toolbar">
+  <div class="container">
+    <span class="toolbar-date" id="toolbarDate"></span>
+    <div class="toolbar-links">
+      <a href="index.html">网站首页</a>
+      <a href="lianxi-women.html">联系我们</a>
+      <a href="hudong-jiaoliu.html">互动交流</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 头部 ==================== -->
+<header class="site-header">
+  <div class="container">
+    <div class="header-brand">
+      <a href="index.html" class="header-logo">💧</a>
+      <div class="header-titles">
+        <h1>湘潭市中环水务有限公司</h1>
+        <p class="subtitle">Xiangtan Zhonghuan Water Co., Ltd. — 安全供水 · 优质服务 · 绿色发展</p>
+      </div>
+    </div>
+    <div class="header-search">
+      <input type="text" id="headerSearchInput" placeholder="搜索网站信息…">
+      <button type="button" id="headerSearchBtn">🔍 搜索</button>
+    </div>
+  </div>
+</header>
+
+<!-- ==================== 主导航 ==================== -->
+<nav class="main-nav" id="mainNav">
+  <div class="container">
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-list" id="navList">
+      <li><a href="index.html">网站首页</a></li>
+      <li>
+        <a href="xinxi-gongkai.html">信息公开</a>
+        <div class="nav-dropdown">
+          <a href="xinxi-gongkai.html#org">机构职能</a>
+          <a href="xinxi-gongkai.html#leader">领导信息</a>
+          <a href="xinxi-gongkai.html#policy">政策法规</a>
+          <a href="xinxi-gongkai.html#water-quality">水质公告</a>
+          <a href="xinxi-gongkai.html#bidding">招标采购</a>
+        </div>
+      </li>
+      <li><a href="gongsi-yaowen.html">公司要闻</a></li>
+      <li><a href="tongzhi-gonggao.html">通知公告</a></li>
+      <li><a href="tupian-xinwen.html">图片新闻</a></li>
+      <li><a href="meiti-jujiao.html">媒体聚焦</a></li>
+      <li><a href="zhuanti-zhuanlan.html">专题专栏</a></li>
+      <li><a href="banshi-fuwu.html">办事服务</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ==================== 面包屑 ==================== -->
+<div class="breadcrumb-bar">
+  <div class="container">
+    <a href="index.html">首页</a>
+    <span class="sep">›</span>
+    <span class="current">搜索结果</span>
+  </div>
+</div>
+
+<!-- ==================== 搜索栏 ==================== -->
+<div class="search-hero">
+  <div class="container" style="position:relative;">
+    <div class="search-row">
+      <span class="search-label">🔍 全站搜索</span>
+      <div class="search-input-wrap" id="searchInputWrap">
+        <input type="text" id="mainSearchInput" placeholder="输入关键词搜索…" autocomplete="off">
+        <button type="button" class="clear-btn" id="clearBtn" title="清除">✕</button>
+        <button type="button" id="mainSearchBtn">搜索</button>
+      </div>
+    </div>
+    <!-- 搜索历史 -->
+    <div class="search-history" id="searchHistory" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- ==================== 主内容 ==================== -->
+<div class="main-content">
+  <div class="container">
+    <div class="results-summary" id="resultsSummary" style="display:none;"></div>
+    <div class="type-tabs" id="typeTabs" style="display:none;"></div>
+    <div class="results-area" id="resultsArea">
+      <div style="text-align:center;padding:60px 20px;color:#94a3b8;">
+        <div style="font-size:48px;margin-bottom:12px;">🔍</div>
+        <p style="font-size:15px;">输入关键词搜索全站信息</p>
+        <p style="font-size:13px;margin-top:4px;">支持搜索标题和内容摘要</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 页脚 ==================== -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-contact">
+      <h4>湘潭市中环水务有限公司</h4>
+      <p>📍 地址：湖南省湘潭市雨湖区韶山东路88号水务大厦</p>
+      <p>📞 24小时客服热线：0731-5828-XXXX</p>
+      <p>✉️ 电子邮箱：service@xtzhsw.com</p>
+      <p>🕐 营业时间：周一至周五 8:30-17:30，周六 9:00-15:00</p>
+    </div>
+    <div>
+      <h4>快速导航</h4>
+      <a href="xinxi-gongkai.html">信息公开</a>
+      <a href="banshi-fuwu.html">办事服务</a>
+      <a href="hudong-jiaoliu.html">互动交流</a>
+      <a href="zhuanti-zhuanlan.html">专题专栏</a>
+      <a href="lianxi-women.html">联系我们</a>
+    </div>
+    <div>
+      <h4>服务直达</h4>
+      <a href="banshi-fuwu.html#pay">在线缴费</a>
+      <a href="xinxi-gongkai.html#water-quality">水质公告</a>
+      <a href="xinxi-gongkai.html#water-quality">停水通知</a>
+      <a href="banshi-fuwu.html#repair">故障报修</a>
+      <a href="banshi-fuwu.html#download">下载专区</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>主办单位：湘潭市中环水务有限公司</span>
+    <span class="gov-icon">🏛️ 政府网站标识码：4303000057</span>
+    <span>湘ICP备2025XXXXXXXX号-1</span>
+    <span>湘公网安备 43030202000XXX号</span>
+  </div>
+</footer>
+
+<!-- ==================== Supabase 客户端 ==================== -->
+<script src="supabase-client.js"></script>
+
+<!-- ==================== 搜索逻辑 ==================== -->
+<script>
+(function() {
+  // ---- 常量 ----
+  var DEBOUNCE_MS = 350;
+  var MAX_HISTORY = 8;
+  var PER_TABLE_LIMIT = 30;
+  var HISTORY_KEY = 'xtzhsw_search_history';
+
+  // ---- 工具函数 ----
+  function formatDate(d) {
+    if (!d) return '';
+    var s = String(d);
+    var p = s.split('-');
+    if (p.length === 3) return p[1] + '-' + p[2];
+    return s;
+  }
+
+  function esc(s) {
+    if (!s) return '';
+    var el = document.createElement('div');
+    el.textContent = s;
+    return el.innerHTML;
+  }
+
+  function getParam(name) {
+    var m = location.search.match(new RegExp('[?&]' + name + '=([^&]*)'));
+    return m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : '';
+  }
+
+  // ---- 高亮关键词（支持多词） ----
+  function highlight(text, keyword) {
+    if (!keyword || !text) return esc(text);
+    var escaped = esc(text);
+    var kw = esc(keyword);
+    var regex = new RegExp('(' + kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+    return escaped.replace(regex, '<span class="result-highlight">$1</span>');
+  }
+
+  // ---- 截取匹配上下文 ----
+  function snippet(text, keyword, maxLen) {
+    maxLen = maxLen || 100;
+    if (!text || !keyword) return esc(text || '').substring(0, maxLen);
+    var plain = esc(text);
+    var lower = plain.toLowerCase();
+    var kw = esc(keyword).toLowerCase();
+    var idx = lower.indexOf(kw);
+    if (idx === -1) return plain.substring(0, maxLen);
+    var start = Math.max(0, idx - 25);
+    var end = Math.min(plain.length, idx + kw.length + 30);
+    var result = (start > 0 ? '…' : '') + plain.substring(start, end) + (end < plain.length ? '…' : '');
+    // 对片段中的关键词进行高亮
+    var kwEscaped = esc(keyword);
+    var regex = new RegExp('(' + kwEscaped.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+    return result.replace(regex, '<span class="result-highlight">$1</span>');
+  }
+
+  // ---- 相关性评分 ----
+  function scoreResult(item, keyword) {
+    var score = 0;
+    var kw = keyword.toLowerCase();
+    var title = (item.title || '').toLowerCase();
+    var subtitle = (item.subtitle || '').toLowerCase();
+
+    // 标题精确匹配
+    if (title === kw) score += 100;
+    // 标题以关键词开头
+    else if (title.indexOf(kw) === 0) score += 80;
+    // 标题包含关键词
+    else if (title.indexOf(kw) !== -1) score += 60;
+
+    // 副标题/摘要精确匹配
+    if (subtitle === kw) score += 40;
+    // 副标题以关键词开头
+    else if (subtitle.indexOf(kw) === 0) score += 30;
+    // 副标题包含关键词
+    else if (subtitle.indexOf(kw) !== -1) score += 20;
+
+    // 标题长度越短，匹配度越高（同分时优先短标题）
+    score -= Math.max(0, title.length) * 0.01;
+
+    return score;
+  }
+
+  // ---- 搜索结果类型配置 ----
+  var TYPE_CONFIG = {
+    news: {
+      table: 'news',
+      icon: '📰', label: '公司要闻', badge: 'badge-news',
+      link: 'gongsi-yaowen.html',
+      fields: ['title','summary','published_at','category'],
+      searchFields: ['title','summary']  // 多字段搜索
+    },
+    notices: {
+      table: 'notices',
+      icon: '📋', label: '通知公告', badge: 'badge-notice',
+      link: 'tongzhi-gonggao.html',
+      fields: ['title','extra_info','published_at','category'],
+      searchFields: ['title','extra_info']
+    },
+    photo_news: {
+      table: 'photo_news',
+      icon: '📷', label: '图片新闻', badge: 'badge-photo',
+      link: 'tupian-xinwen.html',
+      fields: ['title','published_at','album_category'],
+      searchFields: ['title']
+    },
+    media: {
+      table: 'media_coverage',
+      icon: '📺', label: '媒体聚焦', badge: 'badge-media',
+      link: 'meiti-jujiao.html',
+      fields: ['title','summary','published_at','source_name'],
+      searchFields: ['title','summary']
+    },
+    topics: {
+      table: 'topics',
+      icon: '📌', label: '专题专栏', badge: 'badge-topic',
+      link: 'zhuanti-zhuanlan.html',
+      fields: ['title','subtitle'],
+      searchFields: ['title','subtitle']
+    }
+  };
+
+  var categoryNames = { stop: '停水', announce: '公告', public: '公示', notify: '通知', urgent: '紧急' };
+  var categoryNamesNews = { hot: '热点', meeting: '会议', project: '项目', party: '党建' };
+  var albumNames = { construction:'工程建设', conference:'会议活动', honor:'荣誉表彰', testing:'水质检测', public_open:'公众开放', emergency:'应急抢修', culture:'企业文化', general:'综合' };
+
+  // ---- DOM 引用 ----
+  var mainInput = document.getElementById('mainSearchInput');
+  var mainBtn = document.getElementById('mainSearchBtn');
+  var clearBtn = document.getElementById('clearBtn');
+  var headerInput = document.getElementById('headerSearchInput');
+  var headerBtn = document.getElementById('headerSearchBtn');
+  var resultsArea = document.getElementById('resultsArea');
+  var resultsSummary = document.getElementById('resultsSummary');
+  var typeTabs = document.getElementById('typeTabs');
+  var searchHistoryEl = document.getElementById('searchHistory');
+
+  var db = null;
+  var currentResults = null;
+  var currentKeyword = '';
+  var currentTypeFilter = '';
+  var debounceTimer = null;
+
+  // ---- 搜索历史 ----
+  function getHistory() {
+    try {
+      return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+    } catch(e) { return []; }
+  }
+
+  function saveHistory(keyword) {
+    var hist = getHistory();
+    // 去重，放到最前
+    hist = hist.filter(function(h) { return h !== keyword; });
+    hist.unshift(keyword);
+    if (hist.length > MAX_HISTORY) hist = hist.slice(0, MAX_HISTORY);
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(hist)); } catch(e) {}
+  }
+
+  function clearHistory() {
+    try { localStorage.removeItem(HISTORY_KEY); } catch(e) {}
+    renderHistory();
+  }
+
+  function renderHistory() {
+    var hist = getHistory();
+    if (hist.length === 0) {
+      searchHistoryEl.style.display = 'none';
+      return;
+    }
+    searchHistoryEl.style.display = 'flex';
+    var html = '<span class="history-label">最近搜索：</span>';
+    hist.forEach(function(h) {
+      html += '<span class="history-tag" data-q="' + esc(h) + '">' + esc(h) + '</span>';
+    });
+    html += '<button class="history-clear" title="清除历史">清空</button>';
+    searchHistoryEl.innerHTML = html;
+
+    // 点击历史标签
+    searchHistoryEl.querySelectorAll('.history-tag').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        var q = tag.getAttribute('data-q');
+        mainInput.value = q;
+        headerInput.value = q;
+        doSearch(q, true);
+      });
+    });
+
+    // 清空历史
+    searchHistoryEl.querySelector('.history-clear').addEventListener('click', clearHistory);
+  }
+
+  // ---- 执行搜索 ----
+  function doSearch(keyword, skipHistory) {
+    keyword = keyword.trim();
+    currentKeyword = keyword;
+
+    // 更新 URL
+    updateUrl(keyword);
+
+    // 同步两个输入框
+    mainInput.value = keyword;
+    headerInput.value = keyword;
+    clearBtn.classList.toggle('visible', keyword.length > 0);
+
+    if (!keyword) {
+      resultsSummary.style.display = 'none';
+      typeTabs.style.display = 'none';
+      currentResults = null;
+      resultsArea.innerHTML = '<div style="text-align:center;padding:60px 20px;color:#94a3b8;"><div style="font-size:48px;margin-bottom:12px;">🔍</div><p style="font-size:15px;">输入关键词搜索全站信息</p><p style="font-size:13px;margin-top:4px;">支持搜索标题和内容摘要</p></div>';
+      renderHistory();
+      return;
+    }
+
+    // 保存到历史
+    if (!skipHistory) saveHistory(keyword);
+    renderHistory();
+
+    // 显示加载状态
+    resultsSummary.style.display = 'none';
+    typeTabs.style.display = 'none';
+    resultsArea.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><p>正在搜索「' + esc(keyword) + '」…</p></div>';
+
+    // 如果 Supabase 已就绪，直接搜索
+    if (db) {
+      performSearch(db, keyword, currentTypeFilter);
+    }
+    // 否则等 supabase:ready 事件触发（页面初次加载时）
+  }
+
+  function updateUrl(keyword) {
+    var url = keyword ? 'search.html?q=' + encodeURIComponent(keyword) : 'search.html';
+    if (location.search !== ('?' + (keyword ? 'q=' + encodeURIComponent(keyword) : ''))) {
+      history.replaceState(null, '', url);
+    }
+  }
+
+  // ---- 从 Supabase 加载结果 ----
+  window.addEventListener('supabase:ready', function() {
+    db = window.supabase;
+    var q = getParam('q');
+    var typeFilter = getParam('type');
+    currentTypeFilter = typeFilter;
+
+    if (q) {
+      mainInput.value = q;
+      headerInput.value = q;
+      clearBtn.classList.toggle('visible', q.length > 0);
+      performSearch(db, q, typeFilter);
+    }
+
+    renderHistory();
+
+    // 主搜索栏事件
+    mainBtn.addEventListener('click', function() { doSearch(mainInput.value); });
+    mainInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { doSearch(mainInput.value); return; }
+    });
+    // 实时搜索（防抖）
+    mainInput.addEventListener('input', function() {
+      var val = mainInput.value;
+      clearBtn.classList.toggle('visible', val.length > 0);
+      clearTimeout(debounceTimer);
+      if (val.trim().length >= 2) {
+        debounceTimer = setTimeout(function() { doSearch(val.trim(), true); }, DEBOUNCE_MS);
+      } else if (val.trim().length === 0) {
+        doSearch('');
+      }
+    });
+
+    // 清除按钮
+    clearBtn.addEventListener('click', function() {
+      mainInput.value = '';
+      headerInput.value = '';
+      doSearch('');
+      mainInput.focus();
+    });
+
+    // 头部搜索栏事件
+    headerBtn.addEventListener('click', function() {
+      var q = headerInput.value.trim();
+      mainInput.value = q;
+      doSearch(q);
+    });
+    headerInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        var q = headerInput.value.trim();
+        mainInput.value = q;
+        doSearch(q);
+      }
+    });
+
+    // 搜索结果项点击事件委托
+    resultsArea.addEventListener('click', function(e) {
+      var item = e.target.closest('.result-item');
+      if (item) {
+        var link = item.getAttribute('data-link');
+        if (link) location.href = link;
+      }
+    });
+  });
+
+  window.addEventListener('supabase:error', function() {
+    if (getParam('q')) {
+      resultsArea.innerHTML = '<div class="error-state"><div class="error-icon">⚠️</div><p>数据服务暂时不可用</p><p style="color:#64748b;font-size:13px;">请稍后重试或联系管理员</p></div>';
+    }
+  });
+
+  // ---- 核心搜索：多字段 OR 查询 ----
+  async function performSearch(db, keyword, typeFilter) {
+    var typesToSearch = typeFilter && TYPE_CONFIG[typeFilter]
+      ? [{ key: typeFilter, cfg: TYPE_CONFIG[typeFilter] }]
+      : Object.entries(TYPE_CONFIG).map(function(e) { return { key: e[0], cfg: e[1] }; });
+
+    // 并行查询所有类型
+    var searchPromises = typesToSearch.map(function(t) {
+      return searchTableMultiField(db, t.key, t.cfg, keyword);
+    });
+
+    try {
+      var allResults = await Promise.all(searchPromises);
+    } catch (err) {
+      console.error('Search error:', err);
+      resultsArea.innerHTML = '<div class="error-state"><div class="error-icon">⚠️</div><p>搜索时发生错误</p><p style="color:#64748b;font-size:13px;">请稍后重试</p></div>';
+      return;
+    }
+
+    currentResults = allResults;
+    renderResults(allResults, keyword, typeFilter);
+  }
+
+  // ---- 多字段搜索（使用 Supabase .or() 过滤器）----
+  async function searchTableMultiField(db, typeKey, cfg, keyword) {
+    var pattern = '%' + keyword + '%';
+
+    // 构建 OR 条件：对 searchFields 中每个字段做 ilike
+    var orConditions = cfg.searchFields.map(function(f) {
+      return f + '.ilike.' + pattern;
+    }).join(',');
+
+    var query = db.from(cfg.table)
+      .select(cfg.fields.join(','))
+      .or(orConditions)
+      .order('published_at', { ascending: false })
+      .limit(PER_TABLE_LIMIT);
+
+    var r;
+    try {
+      r = await query;
+    } catch (e) {
+      console.warn('Search error on ' + cfg.table + ':', e.message);
+      return { type: typeKey, cfg: cfg, items: [], error: true };
+    }
+
+    if (r.error) {
+      console.warn('Search error on ' + cfg.table + ':', r.error.message);
+      return { type: typeKey, cfg: cfg, items: [], error: true };
+    }
+
+    // 格式化结果并添加相关性评分
+    var items = (r.data || []).map(function(item) {
+      var formatted = formatResultItem(typeKey, cfg, item);
+      formatted._score = scoreResult(formatted, keyword);
+      return formatted;
+    });
+
+    // 按相关性降序排列
+    items.sort(function(a, b) { return b._score - a._score; });
+
+    return {
+      type: typeKey,
+      cfg: cfg,
+      items: items
+    };
+  }
+
+  function formatResultItem(typeKey, cfg, item) {
+    var meta = [];
+    if (item.published_at) meta.push(formatDate(item.published_at));
+
+    if (typeKey === 'news') {
+      if (item.category && categoryNamesNews[item.category]) meta.push(categoryNamesNews[item.category]);
+    } else if (typeKey === 'notices') {
+      if (item.category && categoryNames[item.category]) meta.push(categoryNames[item.category]);
+    } else if (typeKey === 'media') {
+      if (item.source_name) meta.push(esc(item.source_name));
+    } else if (typeKey === 'photo_news') {
+      if (item.album_category && albumNames[item.album_category]) meta.push(albumNames[item.album_category]);
+    }
+
+    return {
+      title: item.title || '',
+      subtitle: item.summary || item.extra_info || item.subtitle || '',
+      meta: meta.join(' · '),
+      icon: cfg.icon,
+      badge: cfg.badge,
+      badgeLabel: cfg.label,
+      type: typeKey,
+      link: cfg.link
+    };
+  }
+
+  // ---- 渲染结果 ----
+  function renderResults(allResults, keyword, typeFilter) {
+    var totalCount = 0;
+    allResults.forEach(function(r) { totalCount += r.items.length; });
+
+    // 空结果
+    if (totalCount === 0) {
+      resultsSummary.style.display = 'block';
+      resultsSummary.innerHTML = '未找到与 <strong>' + esc(keyword) + '</strong> 相关的结果';
+      typeTabs.style.display = 'none';
+      renderEmpty(keyword);
+      return;
+    }
+
+    resultsSummary.style.display = 'block';
+    resultsSummary.innerHTML = '共找到 <strong>' + totalCount + '</strong> 条与 <strong>' + esc(keyword) + '</strong> 相关的结果，已按相关性排序';
+
+    // 类型筛选标签
+    if (!typeFilter) {
+      typeTabs.style.display = 'flex';
+      var tabsHtml = '<button class="type-tab active" data-type="all">全部 <span class="count">(' + totalCount + ')</span></button>';
+      allResults.forEach(function(r) {
+        if (r.items.length > 0) {
+          tabsHtml += '<button class="type-tab" data-type="' + r.type + '">' + r.cfg.icon + ' ' + r.cfg.label + ' <span class="count">(' + r.items.length + ')</span></button>';
+        }
+      });
+      typeTabs.innerHTML = tabsHtml;
+
+      typeTabs.querySelectorAll('.type-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          typeTabs.querySelectorAll('.type-tab').forEach(function(t) { t.classList.remove('active'); });
+          tab.classList.add('active');
+          filterResultsByType(allResults, keyword, tab.getAttribute('data-type'));
+        });
+      });
+    } else {
+      typeTabs.style.display = 'none';
+    }
+
+    renderResultGroups(allResults, keyword, typeFilter || 'all');
+  }
+
+  function filterResultsByType(allResults, keyword, selType) {
+    if (selType === 'all') {
+      renderResultGroups(allResults, keyword, 'all');
+      return;
+    }
+    var filtered = allResults.filter(function(r) { return r.type === selType; });
+    renderResultGroups(filtered, keyword, selType);
+  }
+
+  function renderResultGroups(results, keyword, selType) {
+    // 当选择具体类型时，合并为一个组；否则按类型分组
+    var groups;
+    if (selType !== 'all' && results.length === 1) {
+      groups = results;
+    } else if (selType !== 'all') {
+      groups = results;
+    } else {
+      groups = results;
+    }
+
+    var html = '';
+
+    groups.forEach(function(r) {
+      if (r.items.length === 0) return;
+      if (r.error) {
+        html += '<div class="result-group"><div class="result-group-header"><span class="group-icon">' + r.cfg.icon + '</span><h3>' + r.cfg.label + '</h3><span class="group-count">数据加载失败</span></div></div>';
+        return;
+      }
+
+      html += '<div class="result-group">';
+      html += '<div class="result-group-header"><span class="group-icon">' + r.cfg.icon + '</span><h3>' + r.cfg.label + '</h3><span class="group-count">共 ' + r.items.length + ' 条</span></div>';
+
+      r.items.forEach(function(item) {
+        html += '<div class="result-item" data-link="' + item.link + '" title="点击查看详情">';
+        html += '<div class="result-icon">' + item.icon + '</div>';
+        html += '<div class="result-info">';
+        html += '<div class="result-title">' + highlight(item.title, keyword) + '</div>';
+        if (item.subtitle) {
+          html += '<div class="result-desc">' + snippet(item.subtitle, keyword, 120) + '</div>';
+        }
+        html += '<div class="result-meta">';
+        html += '<span class="result-badge ' + item.badge + '">' + item.badgeLabel + '</span>';
+        if (item.meta) html += '<span>' + item.meta + '</span>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+      });
+
+      html += '</div>';
+    });
+
+    resultsArea.innerHTML = html;
+  }
+
+  function renderEmpty(keyword) {
+    var suggestions = ['停水通知', '水质公告', '招标采购', '公司要闻', '办事指南'];
+    var html = '<div class="empty-state">';
+    html += '<div class="empty-icon">🔍</div>';
+    html += '<h3>未找到相关结果</h3>';
+    html += '<p>试试其他关键词，或浏览以下推荐内容</p>';
+    html += '<div class="empty-suggestions">';
+    suggestions.forEach(function(s) {
+      html += '<button class="empty-suggestion" data-suggest="' + esc(s) + '">' + s + '</button>';
+    });
+    html += '</div></div>';
+    resultsArea.innerHTML = html;
+
+    // 点击推荐关键词
+    resultsArea.querySelectorAll('.empty-suggestion').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var q = btn.getAttribute('data-suggest');
+        mainInput.value = q;
+        headerInput.value = q;
+        doSearch(q);
+      });
+    });
+  }
+
+  // ---- 页面初始化 ----
+  var now = new Date();
+  var weekdays = ['日','一','二','三','四','五','六'];
+  document.getElementById('toolbarDate').textContent = now.getFullYear() + '年' + (now.getMonth()+1) + '月' + now.getDate() + '日 星期' + weekdays[now.getDay()];
+
+  document.getElementById('menuToggle').addEventListener('click', function() {
+    this.classList.toggle('open');
+    document.getElementById('navList').classList.toggle('open');
+  });
+})();
+</script>
+
+</body>
+</html>

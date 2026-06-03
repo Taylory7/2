@@ -477,7 +477,7 @@
       var catLabels = { construction:'施工一线', conference:'会议活动', honor:'荣誉表彰', testing:'水质检测', public_open:'公众开放', emergency:'应急演练', culture:'企业文化', general:'其他' };
       var items = document.querySelectorAll('.side-card:nth-child(2) .side-list li');
       var keys = ['construction','conference','honor','testing','public_open','emergency','culture'];
-      keys.forEach(function(k, i){ if (items[i]) items[i].textContent = catLabels[k] + ' (' + (counts[k]||0) + ' 辑)'; });
+      keys.forEach(function(k, i){ if (items[i]) { var a = items[i].querySelector('a'); if (a) { var oldText = a.textContent.trim(); var spaceIdx = oldText.indexOf(' '); var emoji = spaceIdx > 0 ? oldText.substring(0, spaceIdx) : ''; a.textContent = emoji + ' ' + catLabels[k] + ' (' + (counts[k]||0) + ' 辑)'; } } });
     }
     // Hot albums
     var r6 = await db.from('photo_news').select('title,views').order('views',{ascending:false}).limit(5);
@@ -493,6 +493,23 @@
   }
 
   window.addEventListener('supabase:ready', function() { loadPhotos(window.supabase); });
+})();
+</script>
+
+<!-- 搜索功能：跳转到 search.html -->
+<script>
+(function() {
+  var input = document.querySelector('.header-search input');
+  var btn = document.querySelector('.header-search button');
+  if (!input || !btn) return;
+  function doSearch() {
+    var q = input.value.trim();
+    if (q) location.href = 'search.html?q=' + encodeURIComponent(q) + '&type=photo_news';
+  }
+  btn.addEventListener('click', doSearch);
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doSearch();
+  });
 })();
 </script>
 </body>
