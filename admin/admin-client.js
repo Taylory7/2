@@ -19,6 +19,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_Wa1vSAlz748umLRKBkTgWg_HROPciyE';
   var _client = null;
   var _user = null;
   var _initialized = false;
+  var _readyDispatched = false;
   var _listeners = [];
 
   function _dispatch(name, detail) {
@@ -161,7 +162,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_Wa1vSAlz748umLRKBkTgWg_HROPciyE';
         _client.auth.getSession().then(function (r) {
           if (r.data && r.data.session) {
             _user = r.data.session.user;
-            _dispatch('admin:ready', { user: _user });
+            if (!_readyDispatched) { _readyDispatched = true; _dispatch('admin:ready', { user: _user }); }
           } else {
             _dispatch('admin:unauth');
           }
@@ -173,9 +174,10 @@ var SUPABASE_ANON_KEY = 'sb_publishable_Wa1vSAlz748umLRKBkTgWg_HROPciyE';
         _client.auth.onAuthStateChange(function (event, session) {
           if (event === 'SIGNED_IN' && session) {
             _user = session.user;
-            _dispatch('admin:ready', { user: _user });
+            if (!_readyDispatched) { _readyDispatched = true; _dispatch('admin:ready', { user: _user }); }
           } else if (event === 'SIGNED_OUT') {
             _user = null;
+            _readyDispatched = false;
             _dispatch('admin:unauth');
           } else if (event === 'TOKEN_REFRESHED' && session) {
             _user = session.user;
