@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>视频中心 — 湘潭市中环水务有限公司</title>
+<style>
+  :root {
+    --primary: #1a56db; --primary-dark: #0f3dab; --primary-light: #e8f0fe;
+    --accent: #0891b2; --white: #ffffff; --text: #1e293b; --text-light: #64748b;
+    --bg: #f8fafc; --bg-card: #ffffff; --border: #e2e8f0;
+    --shadow: 0 2px 8px rgba(0,0,0,0.06); --shadow-md: 0 6px 20px rgba(0,0,0,0.10);
+    --radius: 8px; --max-width: 1200px; --transition: 0.25s ease;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text); background: var(--bg); line-height: 1.75; font-size: 15px; }
+  a { text-decoration: none; color: inherit; }
+  ul { list-style: none; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+  .top-toolbar { background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-size: 12px; color: var(--text-light); }
+  .top-toolbar .container { display: flex; justify-content: space-between; align-items: center; padding: 6px 20px; flex-wrap: wrap; gap: 8px; }
+  .top-toolbar .toolbar-links { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .top-toolbar a { color: var(--text-light); }
+  .top-toolbar a:hover { color: var(--primary); }
+
+  .site-header { background: linear-gradient(135deg, #fff 0%, #f0f7ff 100%); border-bottom: 3px solid var(--primary); }
+  .site-header .container { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; gap: 24px; flex-wrap: wrap; }
+  .header-brand { display: flex; align-items: center; gap: 16px; }
+  .header-logo { width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff; box-shadow: 0 4px 16px rgba(26,86,219,0.25); flex-shrink: 0; }
+  .header-titles h1 { font-size: 26px; font-weight: 700; color: var(--primary-dark); letter-spacing: 1px; }
+  .header-titles .subtitle { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+  .header-search { display: flex; border: 2px solid var(--border); border-radius: 50px; overflow: hidden; background: #fff; transition: border-color var(--transition); flex-shrink: 0; }
+  .header-search:focus-within { border-color: var(--primary); }
+  .header-search input { border: none; outline: none; padding: 10px 18px; width: 240px; font-size: 14px; font-family: inherit; }
+  .header-search button { background: var(--primary); color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-size: 14px; font-family: inherit; }
+  .header-search button:hover { background: var(--primary-dark); }
+
+  .main-nav { background: linear-gradient(135deg, #1a56db, #1e40af); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+  .main-nav .container { display: flex; align-items: center; }
+  .main-nav .nav-list { display: flex; align-items: center; }
+  .main-nav .nav-list > li { position: relative; }
+  .main-nav .nav-list > li > a { display: block; padding: 14px 24px; color: rgba(255,255,255,0.92); font-size: 16px; font-weight: 500; white-space: nowrap; transition: all var(--transition); letter-spacing: 1px; }
+  .main-nav .nav-list > li > a:hover, .main-nav .nav-list > li.active > a { background: rgba(255,255,255,0.15); color: #fff; }
+  .main-nav .nav-list > li.active > a { border-bottom: 3px solid #fff; padding-bottom: 11px; }
+  .main-nav .nav-dropdown { position: absolute; top: 100%; left: 0; background: #fff; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); border-radius: 0 0 var(--radius) var(--radius); opacity: 0; visibility: hidden; transform: translateY(4px); transition: all 0.2s ease; z-index: 1001; overflow: hidden; }
+  .main-nav .nav-list > li:hover .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-dropdown a { display: block; padding: 10px 18px; color: var(--text); font-size: 13px; border-bottom: 1px solid #f1f5f9; transition: all var(--transition); }
+  .nav-dropdown a:hover { background: var(--primary-light); color: var(--primary); padding-left: 22px; }
+  .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; margin-left: auto; }
+  .menu-toggle span { display: block; width: 26px; height: 2.5px; background: #fff; border-radius: 2px; transition: all 0.3s ease; }
+  .menu-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .menu-toggle.open span:nth-child(2) { opacity: 0; }
+  .menu-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  .breadcrumb { background: #fff; border-bottom: 1px solid var(--border); }
+  .breadcrumb .container { padding: 12px 20px; font-size: 13px; color: var(--text-light); display: flex; gap: 8px; align-items: center; }
+  .breadcrumb a { color: var(--primary); }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { color: #94a3b8; }
+
+  /* ==================== 视频页横幅 ==================== */
+  .video-hero { background: linear-gradient(135deg, #0f2b6e 0%, #1e40af 25%, #2563eb 50%, #0ea5e9 100%); color: #fff; padding: 56px 0; text-align: center; position: relative; overflow: hidden; }
+  .video-hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 25% 40%, rgba(255,255,255,0.08), transparent 50%), radial-gradient(circle at 75% 60%, rgba(255,255,255,0.06), transparent 50%); }
+  .video-hero .container { position: relative; z-index: 1; }
+  .video-hero h2 { font-size: clamp(28px, 4.5vw, 40px); font-weight: 700; margin-bottom: 12px; letter-spacing: 2px; }
+  .video-hero p { opacity: 0.88; font-size: 16px; max-width: 640px; margin: 0 auto; line-height: 1.8; }
+  .video-hero-stats { display: flex; justify-content: center; gap: 40px; margin-top: 28px; flex-wrap: wrap; }
+  .video-hero-stat { text-align: center; }
+  .video-hero-stat .vhs-num { font-size: 32px; font-weight: 800; }
+  .video-hero-stat .vhs-label { font-size: 13px; opacity: 0.75; margin-top: 4px; }
+
+  /* ==================== 主内容区 ==================== */
+  .page-body { padding: 40px 0; }
+  .page-body .container { display: grid; grid-template-columns: 1fr 320px; gap: 28px; }
+
+  /* === 主栏 === */
+  .main-col { display: flex; flex-direction: column; gap: 28px; }
+
+  .section-card { background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; transition: box-shadow 0.3s ease; }
+  .section-card:hover { box-shadow: var(--shadow-md); }
+  .section-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--border); background: linear-gradient(90deg, #f0f4ff, #fff); }
+  .section-header h3 { font-size: 17px; color: var(--text); display: flex; align-items: center; gap: 10px; font-weight: 600; }
+  .section-header h3::before { content: ""; width: 5px; height: 20px; background: var(--primary); border-radius: 3px; }
+  .section-header .section-badge { padding: 4px 12px; background: var(--primary-light); color: var(--primary); border-radius: 50px; font-size: 12px; font-weight: 600; }
+  .section-body { padding: 24px; }
+
+  /* === 精选视频（大播放器） === */
+  .featured-video { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 16/9; cursor: pointer; }
+  .featured-video-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #0f2b6e, #1e40af, #0ea5e9); display: flex; align-items: center; justify-content: center; font-size: 80px; }
+  .featured-video-bg::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 30% 35%, rgba(255,255,255,0.12), transparent 60%); }
+  .featured-video-bg .featured-icon { position: relative; z-index: 1; opacity: 0.9; animation: float-icon 3s ease-in-out infinite; }
+  @keyframes float-icon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .featured-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+  .featured-video:hover .featured-overlay { background: rgba(0,0,0,0.3); }
+  .featured-play { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.9); display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--primary); transition: all 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.25); }
+  .featured-video:hover .featured-play { transform: scale(1.12); background: #fff; box-shadow: 0 8px 30px rgba(0,0,0,0.35); }
+  .featured-duration { position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); color: #fff; font-size: 12px; padding: 3px 10px; border-radius: 4px; }
+  .featured-info { padding: 18px 0 0; }
+  .featured-info h4 { font-size: 20px; color: var(--text); margin-bottom: 8px; font-weight: 700; }
+  .featured-info p { font-size: 14px; color: var(--text-light); line-height: 1.7; }
+  .featured-meta { display: flex; gap: 16px; margin-top: 10px; font-size: 12px; color: #94a3b8; flex-wrap: wrap; }
+
+  /* === 视频网格 === */
+  .video-gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .video-gallery-card { position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); transition: all 0.3s ease; cursor: pointer; display: block; color: inherit; background: #fff; }
+  .video-gallery-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.12); transform: translateY(-3px); }
+  .video-gallery-thumb { aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; font-size: 42px; position: relative; overflow: hidden; }
+  .video-gallery-thumb.vgt-1 { background: linear-gradient(135deg, #1e3a5f, #2563eb, #0ea5e9); }
+  .video-gallery-thumb.vgt-2 { background: linear-gradient(135deg, #064e3b, #0891b2, #06b6d4); }
+  .video-gallery-thumb.vgt-3 { background: linear-gradient(135deg, #4c1d95, #7c3aed, #a78bfa); }
+  .video-gallery-thumb.vgt-4 { background: linear-gradient(135deg, #7c2d12, #ea580c, #f97316); }
+  .video-gallery-thumb.vgt-5 { background: linear-gradient(135deg, #0f3d2e, #16a34a, #22c55e); }
+  .video-gallery-thumb.vgt-6 { background: linear-gradient(135deg, #1e293b, #475569, #64748b); }
+  .video-gallery-thumb::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.12), transparent 55%); }
+  .video-gallery-thumb .thumb-icon { position: relative; z-index: 1; }
+  .video-gallery-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.15); transition: background 0.3s; }
+  .video-gallery-card:hover .video-gallery-play { background: rgba(0,0,0,0.3); }
+  .video-gallery-play .play-circle { width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,0.88); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--primary); transition: all 0.3s; box-shadow: 0 3px 12px rgba(0,0,0,0.18); }
+  .video-gallery-card:hover .play-circle { transform: scale(1.1); background: #fff; }
+  .video-gallery-duration { position: absolute; bottom: 6px; right: 6px; background: rgba(0,0,0,0.7); color: #fff; font-size: 10px; padding: 2px 7px; border-radius: 3px; }
+  .video-gallery-info { padding: 12px 14px; }
+  .video-gallery-info h4 { font-size: 14px; color: var(--text); margin-bottom: 4px; font-weight: 600; line-height: 1.4; }
+  .video-gallery-info .vg-meta { font-size: 11px; color: #94a3b8; }
+
+  /* === 侧栏 === */
+  .sidebar-col { display: flex; flex-direction: column; gap: 24px; }
+  .side-card { background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; transition: box-shadow 0.3s ease; }
+  .side-card:hover { box-shadow: var(--shadow-md); }
+  .side-card-header { padding: 14px 18px; border-bottom: 1px solid var(--border); background: linear-gradient(90deg, #f0f4ff, #fff); font-size: 15px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 8px; }
+  .side-card-header::before { content: ""; width: 4px; height: 16px; background: var(--primary); border-radius: 2px; }
+  .side-card-body { padding: 14px 18px; }
+  .side-card-body p { font-size: 13px; color: var(--text-light); line-height: 1.8; }
+
+  /* 侧栏热门列表 */
+  .hot-list li { padding: 10px 0; border-bottom: 1px dashed #e2e8f0; font-size: 13px; display: flex; align-items: center; gap: 8px; transition: padding 0.2s ease; }
+  .hot-list li:last-child { border-bottom: none; }
+  .hot-list li:hover { padding-left: 6px; }
+  .hot-list .hot-rank { width: 22px; height: 22px; border-radius: 4px; background: #f1f5f9; color: var(--text-light); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .hot-list li:nth-child(1) .hot-rank { background: #ef4444; color: #fff; }
+  .hot-list li:nth-child(2) .hot-rank { background: #f59e0b; color: #fff; }
+  .hot-list li:nth-child(3) .hot-rank { background: #3b82f6; color: #fff; }
+  .hot-list a { color: var(--text); transition: color var(--transition); }
+  .hot-list a:hover { color: var(--primary); }
+
+  /* 侧栏标签 */
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag-cloud a { padding: 5px 12px; border-radius: 50px; font-size: 12px; background: var(--bg); color: var(--text-light); border: 1px solid var(--border); transition: all 0.2s; }
+  .tag-cloud a:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+
+  /* ==================== 视频弹窗（复用首页样式） ==================== */
+  .video-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; backdrop-filter: blur(4px); }
+  .video-modal-overlay.active { opacity: 1; visibility: visible; }
+  .video-modal { background: #fff; border-radius: 12px; width: 90%; max-width: 860px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); transform: scale(0.9) translateY(20px); transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+  .video-modal-overlay.active .video-modal { transform: scale(1) translateY(0); }
+  .video-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--border); }
+  .video-modal-header h3 { font-size: 18px; color: var(--text); font-weight: 600; }
+  .video-modal-close { width: 36px; height: 36px; border-radius: 50%; border: none; background: #f1f5f9; color: var(--text-light); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; line-height: 1; }
+  .video-modal-close:hover { background: #ef4444; color: #fff; }
+  .video-modal-player { aspect-ratio: 16/9; background: #000; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .video-modal-player-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #0f2b6e, #1e40af, #2563eb, #0ea5e9); }
+  .video-modal-player-bg::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.12), transparent 60%); }
+  .video-modal-player-icon { position: relative; z-index: 1; font-size: 80px; opacity: 0.85; animation: pulse-icon 2s ease-in-out infinite; }
+  @keyframes pulse-icon { 0%, 100% { transform: scale(1); opacity: 0.85; } 50% { transform: scale(1.08); opacity: 1; } }
+  .video-modal-controls { display: flex; align-items: center; gap: 12px; padding: 12px 24px; background: #f8fafc; border-top: 1px solid var(--border); }
+  .video-modal-play { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--primary); color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; flex-shrink: 0; }
+  .video-modal-play:hover { background: var(--primary-dark); }
+  .video-modal-progress { flex: 1; height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; cursor: pointer; }
+  .video-modal-progress-fill { height: 100%; background: var(--primary); border-radius: 3px; transition: width 0.1s linear; }
+  .video-modal-time { font-size: 12px; color: var(--text-light); white-space: nowrap; font-family: monospace; }
+  .video-modal-info { padding: 16px 24px; border-top: 1px solid var(--border); }
+  .video-modal-info p { font-size: 13px; color: var(--text-light); line-height: 1.7; }
+  .video-modal-actions { display: flex; gap: 10px; margin-top: 12px; }
+  .video-modal-btn { padding: 8px 18px; border-radius: 6px; font-size: 13px; cursor: pointer; border: 1px solid var(--border); background: #fff; color: var(--text); transition: all 0.2s; display: flex; align-items: center; gap: 6px; font-family: inherit; }
+  .video-modal-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+  .video-modal-btn.primary-btn { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .video-modal-btn.primary-btn:hover { background: var(--primary-dark); }
+
+  /* ==================== 页脚 ==================== */
+  .site-footer { background: linear-gradient(180deg, #0b1424, #0f1d38); color: #94a3b8; padding: 36px 20px 24px; font-size: 13px; }
+  .footer-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; margin-bottom: 24px; }
+  .footer-grid h4 { color: #fff; font-size: 15px; margin-bottom: 14px; font-weight: 600; }
+  .footer-grid a { color: #94a3b8; display: block; margin-bottom: 6px; transition: color 0.2s; font-size: 13px; }
+  .footer-grid a:hover { color: #60a5fa; }
+  .footer-contact p { margin-bottom: 6px; display: flex; gap: 6px; align-items: flex-start; }
+  .footer-bottom { max-width: var(--max-width); margin: 0 auto; padding-top: 18px; border-top: 1px solid #1e293b; text-align: center; font-size: 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+  /* ==================== 响应式 ==================== */
+  @media (max-width: 900px) {
+    .page-body .container { grid-template-columns: 1fr; }
+    .video-gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .top-toolbar .container { justify-content: center; }
+    .site-header .container { justify-content: center; text-align: center; }
+    .header-titles h1 { font-size: 20px; }
+    .header-search input { width: 160px; }
+    .main-nav .nav-list { display: none; }
+    .menu-toggle { display: flex; }
+    .main-nav .nav-list.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--primary-dark); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .main-nav .nav-list.open .nav-dropdown { position: static; opacity: 1; visibility: visible; background: rgba(0,0,0,0.1); box-shadow: none; transform: none; border-radius: 0; }
+    .main-nav .nav-list.open .nav-dropdown a { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.1); }
+    .video-hero-stats { gap: 20px; }
+    .video-hero-stat .vhs-num { font-size: 24px; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .video-modal { width: 95%; }
+    .video-modal-player-icon { font-size: 50px; }
+  }
+  @media (max-width: 480px) {
+    .video-gallery-grid { grid-template-columns: 1fr; }
+    .header-titles h1 { font-size: 18px; }
+    .header-brand { flex-direction: column; text-align: center; }
+    .featured-video-bg { font-size: 50px; }
+    .featured-play { width: 54px; height: 54px; font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== 顶部工具条 ==================== -->
+<div class="top-toolbar">
+  <div class="container">
+    <div class="toolbar-links">
+      <a href="#">中国政府网</a><span>|</span><a href="#">住建部网</a><span>|</span><a href="#">湖南省政府门户</a><span>|</span><a href="#">湘潭市政府网</a><span>|</span><a href="#">中国城镇供水排水协会</a>
+    </div>
+    <span id="currentDate"></span>
+  </div>
+</div>
+
+<!-- ==================== 头部 ==================== -->
+<header class="site-header">
+  <div class="container">
+    <div class="header-brand">
+      <div class="header-logo">💧</div>
+      <div class="header-titles"><h1>湘潭市中环水务有限公司</h1><p class="subtitle">安全供水 · 优质服务 · 绿色发展</p></div>
+    </div>
+    <div class="header-search"><input type="text" placeholder="搜索视频内容…"><button>🔍 搜索</button></div>
+  </div>
+</header>
+
+<!-- ==================== 主导航 ==================== -->
+<nav class="main-nav" id="mainNav">
+  <div class="container">
+    <ul class="nav-list" id="navList">
+      <li><a href="index.html">网站首页</a></li>
+      <li><a href="xinxi-gongkai.html">信息公开</a></li>
+      <li><a href="banshi-fuwu.html">办事服务</a></li>
+      <li><a href="hudong-jiaoliu.html">互动交流</a></li>
+      <li><a href="zhuanti-zhuanlan.html">专题专栏</a></li>
+      <li><a href="lianxi-women.html">联系我们</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ==================== 面包屑 ==================== -->
+<div class="breadcrumb">
+  <div class="container"><a href="index.html">首页</a><span>/</span><span>视频中心</span></div>
+</div>
+
+<!-- ==================== 视频页横幅 ==================== -->
+<section class="video-hero">
+  <div class="container">
+    <h2>📺 视频中心</h2>
+    <p>用影像记录企业发展历程 · 展现智慧水务建设成果 · 传播节水护水正能量</p>
+    <div class="video-hero-stats">
+      <div class="video-hero-stat"><div class="vhs-num">36</div><div class="vhs-label">全部视频</div></div>
+      <div class="video-hero-stat"><div class="vhs-num">12</div><div class="vhs-label">企业宣传</div></div>
+      <div class="video-hero-stat"><div class="vhs-num">15</div><div class="vhs-label">建设纪实</div></div>
+      <div class="video-hero-stat"><div class="vhs-num">9</div><div class="vhs-label">科普教育</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 主内容区 ==================== -->
+<main class="page-body">
+  <div class="container">
+
+    <!-- ========== 左栏 ========== -->
+    <div class="main-col">
+
+      <!-- 精选视频（大播放器） -->
+      <div class="section-card" id="video-1">
+        <div class="section-header">
+          <h3>⭐ 精选视频</h3>
+          <span class="section-badge">推荐</span>
+        </div>
+        <div class="section-body">
+          <div class="featured-video" data-video-id="1" data-video-title="湘潭中环水务企业宣传片" data-video-desc="走进中环水务，了解我们的供水服务与绿色发展理念" data-video-duration="05:32" data-video-icon="🎬">
+            <div class="featured-video-bg"><span class="featured-icon">🎬</span></div>
+            <div class="featured-overlay"><div class="featured-play">▶</div></div>
+            <span class="featured-duration">05:32</span>
+          </div>
+          <div class="featured-info">
+            <h4>湘潭中环水务企业宣传片</h4>
+            <p>全面展示公司发展历程、供水保障体系、智慧水务建设和绿色发展理念，带您深入了解湘潭供水事业的时代篇章。</p>
+            <div class="featured-meta">
+              <span>📅 2026-05-20</span><span>👁️ 12,836 次播放</span><span>📂 企业宣传</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 企业宣传视频 -->
+      <div class="section-card">
+        <div class="section-header">
+          <h3>🏢 企业宣传</h3>
+          <span class="section-badge">4个视频</span>
+        </div>
+        <div class="section-body">
+          <div class="video-gallery-grid">
+            <a class="video-gallery-card" data-video-id="1a" data-video-title="湘潭中环水务企业宣传片" data-video-desc="全面展示公司发展历程、供水保障体系、智慧水务建设和绿色发展理念" data-video-duration="05:32" data-video-icon="🎬">
+              <div class="video-gallery-thumb vgt-1"><span class="thumb-icon">🎬</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">05:32</span></div>
+              <div class="video-gallery-info"><h4>湘潭中环水务企业宣传片</h4><div class="vg-meta">12,836 次播放 · 2026-05</div></div>
+            </a>
+            <a class="video-gallery-card" data-video-id="1b" data-video-title="供水服务承诺：24小时守护城市生命线" data-video-desc="讲述客服抢修团队日夜坚守、保障供水的感人故事" data-video-duration="06:18" data-video-icon="🛠️">
+              <div class="video-gallery-thumb vgt-2"><span class="thumb-icon">🛠️</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">06:18</span></div>
+              <div class="video-gallery-info"><h4>供水服务承诺：24小时守护城市生命线</h4><div class="vg-meta">8,521 次播放 · 2026-04</div></div>
+            </a>
+            <a class="video-gallery-card" data-video-id="1c" data-video-title=""一滴水的承诺"企业形象短片" data-video-desc="以一滴水的第一视角，展现从源头到龙头的净化历程" data-video-duration="04:05" data-video-icon="💧">
+              <div class="video-gallery-thumb vgt-3"><span class="thumb-icon">💧</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">04:05</span></div>
+              <div class="video-gallery-info"><h4>"一滴水的承诺"企业形象短片</h4><div class="vg-meta">15,230 次播放 · 2026-03</div></div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 智慧水务建设纪实 -->
+      <div class="section-card" id="video-2">
+        <div class="section-header">
+          <h3>🏗️ 智慧水务建设纪实</h3>
+          <span class="section-badge">6个视频</span>
+        </div>
+        <div class="section-body">
+          <div class="video-gallery-grid">
+            <a class="video-gallery-card" data-video-id="2a" data-video-title="智慧水务建设纪实" data-video-desc="数字化转型之路：从传统供水到智慧管控的全过程" data-video-duration="08:15" data-video-icon="🏗️">
+              <div class="video-gallery-thumb vgt-4"><span class="thumb-icon">🏗️</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">08:15</span></div>
+              <div class="video-gallery-info"><h4>智慧水务建设纪实</h4><div class="vg-meta">9,347 次播放 · 2026-05</div></div>
+            </a>
+            <a class="video-gallery-card" data-video-id="2b" data-video-title="智慧水务2.0平台上线全记录" data-video-desc="从需求调研到平台上线，见证智慧水务系统的诞生" data-video-duration="10:42" data-video-icon="🖥️">
+              <div class="video-gallery-thumb vgt-5"><span class="thumb-icon">🖥️</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">10:42</span></div>
+              <div class="video-gallery-info"><h4>智慧水务2.0平台上线全记录</h4><div class="vg-meta">6,890 次播放 · 2026-04</div></div>
+            </a>
+            <a class="video-gallery-card" data-video-id="2c" data-video-title="管网GIS系统建设纪录片" data-video-desc="探秘城市地下供水管网的数字化建模与管理革新" data-video-duration="07:30" data-video-icon="🗺️">
+              <div class="video-gallery-thumb vgt-6"><span class="thumb-icon">🗺️</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">07:30</span></div>
+              <div class="video-gallery-info"><h4>管网GIS系统建设纪录片</h4><div class="vg-meta">5,124 次播放 · 2026-03</div></div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 科普教育视频 -->
+      <div class="section-card" id="video-3">
+        <div class="section-header">
+          <h3>🔬 科普教育</h3>
+          <span class="section-badge">5个视频</span>
+        </div>
+        <div class="section-body">
+          <div class="video-gallery-grid">
+            <a class="video-gallery-card" data-video-id="3a" data-video-title="一滴水的旅程" data-video-desc="从湘江到千家万户，见证一滴水的净化与输送之旅" data-video-duration="03:48" data-video-icon="💧">
+              <div class="video-gallery-thumb vgt-1"><span class="thumb-icon">💧</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">03:48</span></div>
+              <div class="video-gallery-info"><h4>一滴水的旅程</h4><div class="vg-meta">18,562 次播放 · 2026-05</div></div>
+            </a>
+            <a class="video-gallery-card" data-video-id="3b" data-video-title="自来水安全吗？科学解读水质标准" data-video-desc="专家解读国家水质标准，揭开自来水的科学真相" data-video-duration="05:20" data-video-icon="🔬">
+              <div class="video-gallery-thumb vgt-2"><span class="thumb-icon">🔬</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">05:20</span></div>
+              <div class="video-gallery-info"><h4>自来水安全吗？科学解读水质标准</h4><div class="vg-meta">22,138 次播放 · 2026-04</div></div>
+            </a>
+            <a class="video-gallery-card" data-video-id="3c" data-video-title="节水小妙招：家庭用水这样做更省钱" data-video-desc="10个简单实用的家庭节水技巧，年省水费超500元" data-video-duration="04:15" data-video-icon="💰">
+              <div class="video-gallery-thumb vgt-3"><span class="thumb-icon">💰</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">04:15</span></div>
+              <div class="video-gallery-info"><h4>节水小妙招：家庭用水这样做更省钱</h4><div class="vg-meta">31,205 次播放 · 2026-03</div></div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========== 侧栏 ========== -->
+    <aside class="sidebar-col">
+
+      <!-- 热门视频排行 -->
+      <div class="side-card">
+        <div class="side-card-header">🔥 热门视频排行</div>
+        <div class="side-card-body" style="padding: 0;">
+          <ul class="hot-list" style="padding: 10px 18px 14px;">
+            <li><span class="hot-rank">1</span><a href="#video-3">一滴水的旅程 — 从湘江到千家万户</a></li>
+            <li><span class="hot-rank">2</span><a href="#video-3">节水小妙招：家庭用水这样做更省钱</a></li>
+            <li><span class="hot-rank">3</span><a href="#video-3">自来水安全吗？科学解读水质标准</a></li>
+            <li><span class="hot-rank">4</span><a href="#video-1">一滴水的承诺 — 企业形象短片</a></li>
+            <li><span class="hot-rank">5</span><a href="#video-1">湘潭中环水务企业宣传片</a></li>
+            <li><span class="hot-rank">6</span><a href="#video-2">智慧水务建设纪实</a></li>
+            <li><span class="hot-rank">7</span><a href="#video-2">智慧水务2.0平台上线全记录</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 视频分类 -->
+      <div class="side-card">
+        <div class="side-card-header">📂 视频分类</div>
+        <div class="side-card-body">
+          <div class="tag-cloud">
+            <a href="#video-1">企业宣传</a>
+            <a href="#video-2">智慧水务</a>
+            <a href="#video-3">科普教育</a>
+            <a href="#video-1">供水服务</a>
+            <a href="#video-2">工程建设</a>
+            <a href="#video-3">节水宣传</a>
+            <a href="#">党建文化</a>
+            <a href="#">安全生产</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 关于视频中心 -->
+      <div class="side-card">
+        <div class="side-card-header">ℹ️ 关于视频中心</div>
+        <div class="side-card-body">
+          <p>湘潭中环水务视频中心汇集企业宣传片、工程建设纪实、科普教育动画等各类影像资料。我们致力于用影像讲述水务故事，传播节水理念，展示企业发展成果。</p>
+          <p style="margin-top:10px;">📧 投稿邮箱：video@xtzhsw.com</p>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+</main>
+
+<!-- ==================== 视频播放弹窗 ==================== -->
+<div class="video-modal-overlay" id="videoModalOverlay">
+  <div class="video-modal">
+    <div class="video-modal-header">
+      <h3 id="videoModalTitle">视频播放</h3>
+      <button class="video-modal-close" id="videoModalClose" title="关闭">&times;</button>
+    </div>
+    <div class="video-modal-player">
+      <div class="video-modal-player-bg"></div>
+      <div class="video-modal-player-icon" id="videoModalIcon">🎬</div>
+    </div>
+    <div class="video-modal-controls">
+      <button class="video-modal-play" id="videoModalPlay" title="播放/暂停">▶</button>
+      <div class="video-modal-progress" id="videoModalProgress">
+        <div class="video-modal-progress-fill" id="videoModalProgressFill" style="width: 0%"></div>
+      </div>
+      <span class="video-modal-time" id="videoModalTime">00:00 / 00:00</span>
+    </div>
+    <div class="video-modal-info">
+      <p id="videoModalDesc">视频描述</p>
+      <div class="video-modal-actions">
+        <button class="video-modal-btn primary-btn" id="videoModalShare">🔗 复制链接</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 页脚 ==================== -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-contact">
+      <h4>湘潭市中环水务有限公司</h4>
+      <p>📍 地址：湖南省湘潭市雨湖区韶山东路88号水务大厦</p>
+      <p>📞 24小时客服热线：0731-5828-XXXX</p>
+      <p>✉️ 电子邮箱：service@xtzhsw.com</p>
+      <p>🕐 营业时间：周一至周五 8:30-17:30，周六 9:00-15:00</p>
+    </div>
+    <div>
+      <h4>快速导航</h4>
+      <a href="xinxi-gongkai.html">信息公开</a>
+      <a href="banshi-fuwu.html">办事服务</a>
+      <a href="hudong-jiaoliu.html">互动交流</a>
+      <a href="zhuanti-zhuanlan.html">专题专栏</a>
+      <a href="lianxi-women.html">联系我们</a>
+    </div>
+    <div>
+      <h4>视频分类</h4>
+      <a href="#video-1">企业宣传片</a>
+      <a href="#video-2">建设纪实</a>
+      <a href="#video-3">科普教育</a>
+      <a href="#">党建文化</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>主办单位：湘潭市中环水务有限公司</span>
+    <span>🏛️ 政府网站标识码：4303000057</span>
+    <span>湘ICP备2025XXXXXXXX号-1</span>
+    <span>湘公网安备 43030202000XXX号</span>
+  </div>
+</footer>
+
+<script>
+/* ==================== 日期显示 ==================== */
+(function() {
+  const d = new Date();
+  const week = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+  document.getElementById('currentDate').textContent =
+    d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日 ' + week[d.getDay()];
+})();
+
+/* ==================== 移动端菜单 ==================== */
+const menuToggle = document.getElementById('menuToggle');
+const navList = document.getElementById('navList');
+menuToggle.addEventListener('click', () => {
+  navList.classList.toggle('open');
+  menuToggle.classList.toggle('open');
+});
+
+/* ==================== 视频弹窗逻辑 ==================== */
+(function() {
+  var overlay = document.getElementById('videoModalOverlay');
+  var modalTitle = document.getElementById('videoModalTitle');
+  var modalIcon = document.getElementById('videoModalIcon');
+  var modalDesc = document.getElementById('videoModalDesc');
+  var modalTime = document.getElementById('videoModalTime');
+  var modalProgressFill = document.getElementById('videoModalProgressFill');
+  var modalProgress = document.getElementById('videoModalProgress');
+  var modalPlay = document.getElementById('videoModalPlay');
+  var modalClose = document.getElementById('videoModalClose');
+  var modalShare = document.getElementById('videoModalShare');
+
+  var currentVideo = null;
+  var isPlaying = false;
+  var currentTime = 0;
+  var duration = 0;
+  var timerInterval = null;
+  var progressInterval = null;
+
+  function parseDuration(str) {
+    var parts = str.split(':');
+    return parseInt(parts[0]) * 60 + parseInt(parts[1]);
+  }
+
+  function formatTime(seconds) {
+    var m = Math.floor(seconds / 60);
+    var s = Math.floor(seconds % 60);
+    return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function openModal(videoData) {
+    currentVideo = videoData;
+    modalTitle.textContent = videoData.title;
+    modalIcon.textContent = videoData.icon;
+    modalDesc.textContent = videoData.desc;
+    duration = parseDuration(videoData.duration);
+    currentTime = 0;
+    isPlaying = false;
+    modalTime.textContent = '00:00 / ' + videoData.duration;
+    modalProgressFill.style.width = '0%';
+    modalPlay.textContent = '▶';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    if (history.pushState) {
+      history.pushState(null, '', '#' + videoData.id);
+    }
+  }
+
+  function closeModal() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    stopTimer();
+    isPlaying = false;
+    currentVideo = null;
+    if (history.pushState && window.location.hash && window.location.hash.match(/^#video-/)) {
+      history.pushState(null, '', window.location.pathname);
+    }
+  }
+
+  function startTimer() {
+    stopTimer();
+    timerInterval = setInterval(function() {
+      if (currentTime < duration) {
+        currentTime += 0.25;
+        modalTime.textContent = formatTime(currentTime) + ' / ' + formatTime(duration);
+      }
+      if (currentTime >= duration) {
+        currentTime = duration;
+        pauseVideo();
+        modalTime.textContent = formatTime(duration) + ' / ' + formatTime(duration);
+      }
+    }, 250);
+    progressInterval = setInterval(function() {
+      var pct = duration > 0 ? (currentTime / duration) * 100 : 0;
+      modalProgressFill.style.width = pct + '%';
+    }, 100);
+  }
+
+  function stopTimer() {
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
+  }
+
+  function playVideo() {
+    if (!currentVideo) return;
+    if (currentTime >= duration) {
+      currentTime = 0;
+      modalProgressFill.style.width = '0%';
+      modalTime.textContent = '00:00 / ' + formatTime(duration);
+    }
+    isPlaying = true;
+    modalPlay.textContent = '⏸';
+    startTimer();
+  }
+
+  function pauseVideo() {
+    isPlaying = false;
+    modalPlay.textContent = '▶';
+    stopTimer();
+  }
+
+  function togglePlay() {
+    if (isPlaying) { pauseVideo(); } else { playVideo(); }
+  }
+
+  modalProgress.addEventListener('click', function(e) {
+    if (!currentVideo) return;
+    var rect = modalProgress.getBoundingClientRect();
+    var pct = (e.clientX - rect.left) / rect.width;
+    pct = Math.max(0, Math.min(1, pct));
+    currentTime = pct * duration;
+    modalProgressFill.style.width = (pct * 100) + '%';
+    modalTime.textContent = formatTime(currentTime) + ' / ' + formatTime(duration);
+  });
+
+  modalClose.addEventListener('click', closeModal);
+
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeModal();
+  });
+
+  modalPlay.addEventListener('click', togglePlay);
+
+  document.addEventListener('keydown', function(e) {
+    if (!overlay.classList.contains('active')) return;
+    switch(e.key) {
+      case 'Escape': closeModal(); break;
+      case ' ': e.preventDefault(); togglePlay(); break;
+      case 'ArrowLeft': e.preventDefault();
+        if (currentVideo) {
+          currentTime = Math.max(0, currentTime - 5);
+          modalProgressFill.style.width = (duration > 0 ? (currentTime / duration) * 100 : 0) + '%';
+          modalTime.textContent = formatTime(currentTime) + ' / ' + formatTime(duration);
+        }
+        break;
+      case 'ArrowRight': e.preventDefault();
+        if (currentVideo) {
+          currentTime = Math.min(duration, currentTime + 5);
+          modalProgressFill.style.width = (duration > 0 ? (currentTime / duration) * 100 : 0) + '%';
+          modalTime.textContent = formatTime(currentTime) + ' / ' + formatTime(duration);
+        }
+        break;
+    }
+  });
+
+  modalShare.addEventListener('click', function() {
+    if (!currentVideo) return;
+    var url = window.location.origin + window.location.pathname + '#' + currentVideo.id;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function() {
+        var orig = modalShare.textContent;
+        modalShare.textContent = '✅ 已复制';
+        modalShare.style.color = '#22c55e';
+        setTimeout(function() { modalShare.textContent = orig; modalShare.style.color = ''; }, 2000);
+      }).catch(function() { fallbackCopy(url); });
+    } else {
+      fallbackCopy(url);
+    }
+  });
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    var orig = modalShare.textContent;
+    modalShare.textContent = '✅ 已复制';
+    modalShare.style.color = '#22c55e';
+    setTimeout(function() { modalShare.textContent = orig; modalShare.style.color = ''; }, 2000);
+  }
+
+  // 绑定所有视频卡片的点击事件
+  var clickableCards = document.querySelectorAll('.video-gallery-card[data-video-id], .featured-video[data-video-id]');
+  clickableCards.forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      e.preventDefault();
+      var videoData = {
+        id: card.getAttribute('data-video-id'),
+        title: card.getAttribute('data-video-title'),
+        desc: card.getAttribute('data-video-desc'),
+        duration: card.getAttribute('data-video-duration'),
+        icon: card.getAttribute('data-video-icon')
+      };
+      openModal(videoData);
+    });
+  });
+
+  // 页面加载时检查 URL hash，自动打开对应视频
+  function checkHash() {
+    var hash = window.location.hash;
+    if (!hash || !hash.match(/^#video-/)) return;
+    var targetCard = document.querySelector('[data-video-id="' + hash.slice(1) + '"]');
+    if (targetCard) {
+      var videoData = {
+        id: targetCard.getAttribute('data-video-id'),
+        title: targetCard.getAttribute('data-video-title'),
+        desc: targetCard.getAttribute('data-video-desc'),
+        duration: targetCard.getAttribute('data-video-duration'),
+        icon: targetCard.getAttribute('data-video-icon')
+      };
+      openModal(videoData);
+    }
+  }
+
+  if (window.location.hash && window.location.hash.match(/^#video-/)) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', checkHash);
+    } else {
+      checkHash();
+    }
+  }
+
+  window.addEventListener('hashchange', function() {
+    if (window.location.hash.match(/^#video-/)) {
+      checkHash();
+    } else if (overlay.classList.contains('active')) {
+      closeModal();
+    }
+  });
+})();
+
+/* ==================== 搜索功能 ==================== */
+(function() {
+  var searchInput = document.querySelector('.header-search input');
+  var searchBtn = document.querySelector('.header-search button');
+  if (searchBtn && searchInput) {
+    searchBtn.addEventListener('click', function() {
+      var q = searchInput.value.trim();
+      if (q) window.location.href = 'search.html?q=' + encodeURIComponent(q);
+    });
+    searchInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        var q = searchInput.value.trim();
+        if (q) window.location.href = 'search.html?q=' + encodeURIComponent(q);
+      }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
