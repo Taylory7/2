@@ -97,6 +97,14 @@
   .news-info .news-desc { font-size: 13px; color: var(--text-light); line-height: 1.6; }
   .news-tag { font-size: 11px; padding: 2px 8px; border-radius: 3px; white-space: nowrap; }
   .tag-hot { background: #fee2e2; color: #dc2626; }
+
+  /* 分类筛选标签 */
+  .category-tabs { display: flex; gap: 0; flex-wrap: wrap; border-bottom: 2px solid var(--border); margin-bottom: 16px; }
+  .category-tabs .cat-btn { padding: 8px 20px; font-size: 14px; border: none; background: none; color: var(--text-light); cursor: pointer; font-family: inherit; transition: all var(--transition); position: relative; }
+  .category-tabs .cat-btn:hover { color: var(--primary); }
+  .category-tabs .cat-btn.active { color: var(--primary); font-weight: 600; }
+  .category-tabs .cat-btn.active::after { content: ""; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: var(--primary); }
+  .category-tabs .cat-count { font-size: 11px; color: #94a3b8; margin-left: 4px; }
   .tag-project { background: #dbeafe; color: #2563eb; }
   .tag-meeting { background: #fef3c7; color: #d97706; }
   .tag-party { background: #ede9fe; color: #7c3aed; }
@@ -553,7 +561,7 @@
       <h4>服务直达</h4>
       <a href="banshi-fuwu.html#pay">在线缴费</a>
       <a href="xinxi-gongkai.html#water-quality">水质公告</a>
-      <a href="xinxi-gongkai.html#water-quality">停水通知</a>
+      <a href="tongzhi-gonggao.html">停水通知</a>
       <a href="banshi-fuwu.html#repair">故障报修</a>
       <a href="banshi-fuwu.html#download">下载专区</a>
     </div>

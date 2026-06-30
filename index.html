@@ -1462,7 +1462,7 @@
             <li><a href="xinxi-gongkai.html#bidding">▶ 招标采购信息公开</a></li>
             <li><a href="xinxi-gongkai.html#finance">▶ 财政预决算信息</a></li>
             <li><a href="xinxi-gongkai.html#price">▶ 供水价格公示</a></li>
-            <li><a href="xinxi-gongkai.html#water-quality">▶ 停水通知公告</a></li>
+            <li><a href="tongzhi-gonggao.html">▶ 停水通知公告</a></li>
             <li><a href="xinxi-gongkai.html#report">▶ 年度社会责任报告</a></li>
           </ul>
         </div>
@@ -1522,7 +1522,7 @@
       <h4>服务直达</h4>
       <a href="banshi-fuwu.html#pay">在线缴费</a>
       <a href="xinxi-gongkai.html#water-quality">水质公告</a>
-      <a href="xinxi-gongkai.html#water-quality">停水通知</a>
+      <a href="tongzhi-gonggao.html">停水通知</a>
       <a href="banshi-fuwu.html#repair">故障报修</a>
       <a href="banshi-fuwu.html#download">下载专区</a>
     </div>
@@ -1589,8 +1589,8 @@
     document.getElementById('banner').addEventListener('mouseleave', startAuto);
     startAuto();
   })();
-  /* ==================== 视频弹窗逻辑 ==================== */
-  (function() {
+  /* ==================== 视频弹窗逻辑（DOMContentLoaded 确保 HTML 已解析） ==================== */
+  document.addEventListener('DOMContentLoaded', function() {
     var overlay = document.getElementById('videoModalOverlay');
     var modalTitle = document.getElementById('videoModalTitle');
     var modalIcon = document.getElementById('videoModalIcon');
@@ -1837,7 +1837,7 @@
         closeModal();
       }
     });
-  })();
+  });
 
 </script>
 
