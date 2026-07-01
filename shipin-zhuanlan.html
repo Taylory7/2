@@ -300,11 +300,11 @@
   <div class="container">
     <h2>📺 视频中心</h2>
     <p>用影像记录企业发展历程 · 展现智慧水务建设成果 · 传播节水护水正能量</p>
-    <div class="video-hero-stats">
-      <div class="video-hero-stat"><div class="vhs-num">36</div><div class="vhs-label">全部视频</div></div>
-      <div class="video-hero-stat"><div class="vhs-num">12</div><div class="vhs-label">企业宣传</div></div>
-      <div class="video-hero-stat"><div class="vhs-num">15</div><div class="vhs-label">建设纪实</div></div>
-      <div class="video-hero-stat"><div class="vhs-num">9</div><div class="vhs-label">科普教育</div></div>
+    <div class="video-hero-stats" id="videoHeroStats">
+      <div class="video-hero-stat"><div class="vhs-num">—</div><div class="vhs-label">全部视频</div></div>
+      <div class="video-hero-stat"><div class="vhs-num">—</div><div class="vhs-label">企业宣传</div></div>
+      <div class="video-hero-stat"><div class="vhs-num">—</div><div class="vhs-label">智慧水务</div></div>
+      <div class="video-hero-stat"><div class="vhs-num">—</div><div class="vhs-label">科普教育</div></div>
     </div>
   </div>
 </section>
@@ -314,119 +314,21 @@
   <div class="container">
 
     <!-- ========== 左栏 ========== -->
-    <div class="main-col">
-
-      <!-- 精选视频（大播放器） -->
-      <div class="section-card" id="video-1">
-        <div class="section-header">
-          <h3>⭐ 精选视频</h3>
-          <span class="section-badge">推荐</span>
-        </div>
-        <div class="section-body">
-          <div class="featured-video" data-video-id="1" data-video-title="湘潭中环水务企业宣传片" data-video-desc="走进中环水务，了解我们的供水服务与绿色发展理念" data-video-duration="05:32" data-video-icon="🎬">
-            <div class="featured-video-bg"><span class="featured-icon">🎬</span></div>
-            <div class="featured-overlay"><div class="featured-play">▶</div></div>
-            <span class="featured-duration">05:32</span>
-          </div>
-          <div class="featured-info">
-            <h4>湘潭中环水务企业宣传片</h4>
-            <p>全面展示公司发展历程、供水保障体系、智慧水务建设和绿色发展理念，带您深入了解湘潭供水事业的时代篇章。</p>
-            <div class="featured-meta">
-              <span>📅 2026-05-20</span><span>👁️ 12,836 次播放</span><span>📂 企业宣传</span>
-            </div>
-          </div>
-        </div>
+    <div class="main-col" id="videoMainCol">
+      <div style="text-align:center;padding:60px;color:var(--text-light);">
+        <div style="font-size:40px;margin-bottom:12px;">⏳</div>
+        <p>加载视频数据中…</p>
       </div>
-
-      <!-- 企业宣传视频 -->
-      <div class="section-card">
-        <div class="section-header">
-          <h3>🏢 企业宣传</h3>
-          <span class="section-badge">4个视频</span>
-        </div>
-        <div class="section-body">
-          <div class="video-gallery-grid">
-            <a class="video-gallery-card" data-video-id="1a" data-video-title="湘潭中环水务企业宣传片" data-video-desc="全面展示公司发展历程、供水保障体系、智慧水务建设和绿色发展理念" data-video-duration="05:32" data-video-icon="🎬">
-              <div class="video-gallery-thumb vgt-1"><span class="thumb-icon">🎬</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">05:32</span></div>
-              <div class="video-gallery-info"><h4>湘潭中环水务企业宣传片</h4><div class="vg-meta">12,836 次播放 · 2026-05</div></div>
-            </a>
-            <a class="video-gallery-card" data-video-id="1b" data-video-title="供水服务承诺：24小时守护城市生命线" data-video-desc="讲述客服抢修团队日夜坚守、保障供水的感人故事" data-video-duration="06:18" data-video-icon="🛠️">
-              <div class="video-gallery-thumb vgt-2"><span class="thumb-icon">🛠️</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">06:18</span></div>
-              <div class="video-gallery-info"><h4>供水服务承诺：24小时守护城市生命线</h4><div class="vg-meta">8,521 次播放 · 2026-04</div></div>
-            </a>
-            <a class="video-gallery-card" data-video-id="1c" data-video-title=""一滴水的承诺"企业形象短片" data-video-desc="以一滴水的第一视角，展现从源头到龙头的净化历程" data-video-duration="04:05" data-video-icon="💧">
-              <div class="video-gallery-thumb vgt-3"><span class="thumb-icon">💧</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">04:05</span></div>
-              <div class="video-gallery-info"><h4>"一滴水的承诺"企业形象短片</h4><div class="vg-meta">15,230 次播放 · 2026-03</div></div>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 智慧水务建设纪实 -->
-      <div class="section-card" id="video-2">
-        <div class="section-header">
-          <h3>🏗️ 智慧水务建设纪实</h3>
-          <span class="section-badge">6个视频</span>
-        </div>
-        <div class="section-body">
-          <div class="video-gallery-grid">
-            <a class="video-gallery-card" data-video-id="2a" data-video-title="智慧水务建设纪实" data-video-desc="数字化转型之路：从传统供水到智慧管控的全过程" data-video-duration="08:15" data-video-icon="🏗️">
-              <div class="video-gallery-thumb vgt-4"><span class="thumb-icon">🏗️</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">08:15</span></div>
-              <div class="video-gallery-info"><h4>智慧水务建设纪实</h4><div class="vg-meta">9,347 次播放 · 2026-05</div></div>
-            </a>
-            <a class="video-gallery-card" data-video-id="2b" data-video-title="智慧水务2.0平台上线全记录" data-video-desc="从需求调研到平台上线，见证智慧水务系统的诞生" data-video-duration="10:42" data-video-icon="🖥️">
-              <div class="video-gallery-thumb vgt-5"><span class="thumb-icon">🖥️</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">10:42</span></div>
-              <div class="video-gallery-info"><h4>智慧水务2.0平台上线全记录</h4><div class="vg-meta">6,890 次播放 · 2026-04</div></div>
-            </a>
-            <a class="video-gallery-card" data-video-id="2c" data-video-title="管网GIS系统建设纪录片" data-video-desc="探秘城市地下供水管网的数字化建模与管理革新" data-video-duration="07:30" data-video-icon="🗺️">
-              <div class="video-gallery-thumb vgt-6"><span class="thumb-icon">🗺️</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">07:30</span></div>
-              <div class="video-gallery-info"><h4>管网GIS系统建设纪录片</h4><div class="vg-meta">5,124 次播放 · 2026-03</div></div>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 科普教育视频 -->
-      <div class="section-card" id="video-3">
-        <div class="section-header">
-          <h3>🔬 科普教育</h3>
-          <span class="section-badge">5个视频</span>
-        </div>
-        <div class="section-body">
-          <div class="video-gallery-grid">
-            <a class="video-gallery-card" data-video-id="3a" data-video-title="一滴水的旅程" data-video-desc="从湘江到千家万户，见证一滴水的净化与输送之旅" data-video-duration="03:48" data-video-icon="💧">
-              <div class="video-gallery-thumb vgt-1"><span class="thumb-icon">💧</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">03:48</span></div>
-              <div class="video-gallery-info"><h4>一滴水的旅程</h4><div class="vg-meta">18,562 次播放 · 2026-05</div></div>
-            </a>
-            <a class="video-gallery-card" data-video-id="3b" data-video-title="自来水安全吗？科学解读水质标准" data-video-desc="专家解读国家水质标准，揭开自来水的科学真相" data-video-duration="05:20" data-video-icon="🔬">
-              <div class="video-gallery-thumb vgt-2"><span class="thumb-icon">🔬</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">05:20</span></div>
-              <div class="video-gallery-info"><h4>自来水安全吗？科学解读水质标准</h4><div class="vg-meta">22,138 次播放 · 2026-04</div></div>
-            </a>
-            <a class="video-gallery-card" data-video-id="3c" data-video-title="节水小妙招：家庭用水这样做更省钱" data-video-desc="10个简单实用的家庭节水技巧，年省水费超500元" data-video-duration="04:15" data-video-icon="💰">
-              <div class="video-gallery-thumb vgt-3"><span class="thumb-icon">💰</span><div class="video-gallery-play"><div class="play-circle">▶</div></div><span class="video-gallery-duration">04:15</span></div>
-              <div class="video-gallery-info"><h4>节水小妙招：家庭用水这样做更省钱</h4><div class="vg-meta">31,205 次播放 · 2026-03</div></div>
-            </a>
-          </div>
-        </div>
-      </div>
-
     </div>
 
     <!-- ========== 侧栏 ========== -->
-    <aside class="sidebar-col">
-
+    <aside class="sidebar-col" id="videoSidebar">
       <!-- 热门视频排行 -->
       <div class="side-card">
         <div class="side-card-header">🔥 热门视频排行</div>
         <div class="side-card-body" style="padding: 0;">
-          <ul class="hot-list" style="padding: 10px 18px 14px;">
-            <li><span class="hot-rank">1</span><a href="#video-3">一滴水的旅程 — 从湘江到千家万户</a></li>
-            <li><span class="hot-rank">2</span><a href="#video-3">节水小妙招：家庭用水这样做更省钱</a></li>
-            <li><span class="hot-rank">3</span><a href="#video-3">自来水安全吗？科学解读水质标准</a></li>
-            <li><span class="hot-rank">4</span><a href="#video-1">一滴水的承诺 — 企业形象短片</a></li>
-            <li><span class="hot-rank">5</span><a href="#video-1">湘潭中环水务企业宣传片</a></li>
-            <li><span class="hot-rank">6</span><a href="#video-2">智慧水务建设纪实</a></li>
-            <li><span class="hot-rank">7</span><a href="#video-2">智慧水务2.0平台上线全记录</a></li>
+          <ul class="hot-list" id="hotVideoList" style="padding: 10px 18px 14px;">
+            <li style="color:var(--text-light);">加载中…</li>
           </ul>
         </div>
       </div>
@@ -435,15 +337,11 @@
       <div class="side-card">
         <div class="side-card-header">📂 视频分类</div>
         <div class="side-card-body">
-          <div class="tag-cloud">
-            <a href="#video-1">企业宣传</a>
-            <a href="#video-2">智慧水务</a>
-            <a href="#video-3">科普教育</a>
-            <a href="#video-1">供水服务</a>
-            <a href="#video-2">工程建设</a>
-            <a href="#video-3">节水宣传</a>
-            <a href="#">党建文化</a>
-            <a href="#">安全生产</a>
+          <div class="tag-cloud" id="tagCloud">
+            <a href="#corporate">企业宣传</a>
+            <a href="#smart_water">智慧水务</a>
+            <a href="#education">科普教育</a>
+            <a href="#other">其他</a>
           </div>
         </div>
       </div>
@@ -456,7 +354,6 @@
           <p style="margin-top:10px;">📧 投稿邮箱：video@xtzhsw.com</p>
         </div>
       </div>
-
     </aside>
 
   </div>
@@ -523,6 +420,7 @@
   </div>
 </footer>
 
+<script src="supabase-client.js"></script>
 <script>
 /* ==================== 日期显示 ==================== */
 (function() {
@@ -530,6 +428,213 @@
   const week = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
   document.getElementById('currentDate').textContent =
     d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日 ' + week[d.getDay()];
+})();
+
+/* ==================== 动态加载视频数据 ==================== */
+(function() {
+  var supabase = null;
+  var allVideos = [];
+  var gradientClasses = ['vgt-1','vgt-2','vgt-3','vgt-4','vgt-5','vgt-6'];
+  var catNames = { corporate:'企业宣传', smart_water:'智慧水务', education:'科普教育', other:'其他' };
+  var catIcons = { corporate:'🏢', smart_water:'💧', education:'🔬', other:'📁' };
+  var catEmojis  = { corporate:'🏢', smart_water:'🏗️', education:'🔬', other:'📁' };
+
+  // Wait for Supabase client to be ready
+  window.addEventListener('supabase:ready', function(e) {
+    supabase = e.detail.client;
+    loadAllVideos();
+  });
+
+  async function loadAllVideos() {
+    try {
+      var r = await supabase.from('videos').select('*').order('sort_order', { ascending: false }).order('views', { ascending: false });
+      if (r.error) { console.warn('视频加载失败:', r.error.message); showEmptyState(); return; }
+      allVideos = r.data || [];
+      if (!allVideos.length) { showEmptyState(); return; }
+      renderHeroStats();
+      renderFeaturedVideo();
+      renderCategorySections();
+      renderHotList();
+    } catch (e) {
+      console.warn('视频加载异常:', e.message);
+      showEmptyState();
+    }
+  }
+
+  function showEmptyState() {
+    document.getElementById('videoMainCol').innerHTML =
+      '<div style="text-align:center;padding:60px;color:var(--text-light);">' +
+        '<div style="font-size:40px;margin-bottom:12px;">📭</div>' +
+        '<p>暂无视频内容</p></div>';
+    document.getElementById('hotVideoList').innerHTML = '<li style="color:var(--text-light);">暂无数据</li>';
+  }
+
+  function formatViews(n) {
+    if (n >= 10000) return (n/10000).toFixed(1) + '万';
+    if (n >= 1000) return (n/1000).toFixed(1) + '千';
+    return String(n);
+  }
+
+  /* ===== Hero Stats ===== */
+  function renderHeroStats() {
+    var total = allVideos.length;
+    var corp = allVideos.filter(function(v){return v.category==='corporate'}).length;
+    var sw   = allVideos.filter(function(v){return v.category==='smart_water'}).length;
+    var edu  = allVideos.filter(function(v){return v.category==='education'}).length;
+    var container = document.getElementById('videoHeroStats');
+    container.innerHTML =
+      '<div class="video-hero-stat"><div class="vhs-num">'+total+'</div><div class="vhs-label">全部视频</div></div>' +
+      '<div class="video-hero-stat"><div class="vhs-num">'+corp+'</div><div class="vhs-label">企业宣传</div></div>' +
+      '<div class="video-hero-stat"><div class="vhs-num">'+sw+'</div><div class="vhs-label">智慧水务</div></div>' +
+      '<div class="video-hero-stat"><div class="vhs-num">'+edu+'</div><div class="vhs-label">科普教育</div></div>';
+  }
+
+  /* ===== Featured Video ===== */
+  function renderFeaturedVideo() {
+    var featured = allVideos.filter(function(v){return v.is_featured;}).sort(function(a,b){return b.sort_order - a.sort_order;});
+    var fv = featured.length ? featured[0] : allVideos[0];
+    var thumbHTML = fv.thumbnail_url
+      ? '<img src="'+escHTML(fv.thumbnail_url)+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">'
+      : '<div class="featured-video-bg"><span class="featured-icon">🎬</span></div>';
+    var icon = fv.thumbnail_url ? '' : '<div class="featured-overlay"><div class="featured-play">▶</div></div>';
+
+    var html =
+      '<div class="section-card">' +
+        '<div class="section-header"><h3>⭐ 精选视频</h3><span class="section-badge">推荐</span></div>' +
+        '<div class="section-body">' +
+          '<div class="featured-video" data-video-id="'+fv.id+'" data-video-title="'+escHTML(fv.title)+'" data-video-desc="'+escHTML(fv.description||'')+'" data-video-duration="'+(fv.duration||'00:00')+'" data-video-icon="🎬" data-video-url="'+escHTML(fv.video_url||'')+'">' +
+            thumbHTML + icon +
+            '<span class="featured-duration">'+(fv.duration||'00:00')+'</span>' +
+          '</div>' +
+          '<div class="featured-info">' +
+            '<h4>'+escHTML(fv.title)+'</h4>' +
+            '<p>'+escHTML(fv.description||'')+'</p>' +
+            '<div class="featured-meta">' +
+              '<span>📅 '+fv.published_at+'</span><span>👁️ '+formatViews(fv.views||0)+' 次播放</span><span>📂 '+(catNames[fv.category]||fv.category)+'</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+    // Render category sections after featured
+    var mainCol = document.getElementById('videoMainCol');
+    mainCol.innerHTML = html;
+  }
+
+  /* ===== Category Sections ===== */
+  function renderCategorySections() {
+    var categories = ['corporate', 'smart_water', 'education'];
+    var html = '';
+    for (var ci = 0; ci < categories.length; ci++) {
+      var cat = categories[ci];
+      var catVideos = allVideos.filter(function(v){return v.category===cat;}).sort(function(a,b){return b.sort_order - a.sort_order;}).slice(0, 3);
+      if (!catVideos.length) continue;
+      html +=
+        '<div class="section-card">' +
+          '<div class="section-header">' +
+            '<h3>'+catIcons[cat]+' '+catNames[cat]+'</h3>' +
+            '<span class="section-badge">'+catVideos.length+'个视频</span>' +
+          '</div>' +
+          '<div class="section-body">' +
+            '<div class="video-gallery-grid">';
+      for (var vi = 0; vi < catVideos.length; vi++) {
+        var v = catVideos[vi];
+        var gradClass = gradientClasses[(ci*3+vi) % gradientClasses.length];
+        var thumbHTML = v.thumbnail_url
+          ? '<img src="'+escHTML(v.thumbnail_url)+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">'
+          : '<span class="thumb-icon">🎬</span>';
+        var bgClass = v.thumbnail_url ? '' : ' '+gradClass;
+        var playHTML = v.thumbnail_url
+          ? '<div class="video-gallery-play"><div class="play-circle">▶</div></div>'
+          : '<div class="video-gallery-play"><div class="play-circle">▶</div></div>';
+        html +=
+          '<a class="video-gallery-card" data-video-id="'+v.id+'" data-video-title="'+escHTML(v.title)+'" data-video-desc="'+escHTML(v.description||'')+'" data-video-duration="'+(v.duration||'00:00')+'" data-video-icon="🎬" data-video-url="'+escHTML(v.video_url||'')+'">' +
+            '<div class="video-gallery-thumb'+bgClass+'">'+thumbHTML+playHTML+'<span class="video-gallery-duration">'+(v.duration||'00:00')+'</span></div>' +
+            '<div class="video-gallery-info"><h4>'+escHTML(v.title)+'</h4><div class="vg-meta">'+formatViews(v.views||0)+' 次播放 · '+(v.published_at||'').substring(0,7)+'</div></div>' +
+          '</a>';
+      }
+      html +=
+            '</div>' +
+          '</div>' +
+        '</div>';
+    }
+    document.getElementById('videoMainCol').innerHTML += html;
+    // Re-bind video card clicks
+    bindVideoCards();
+  }
+
+  /* ===== Hot List ===== */
+  function renderHotList() {
+    var hot = allVideos.slice().sort(function(a,b){return (b.views||0)-(a.views||0);}).slice(0, 7);
+    var html = '';
+    for (var i = 0; i < hot.length; i++) {
+      html += '<li><span class="hot-rank">'+(i+1)+'</span><a href="#" data-video-id="'+hot[i].id+'" class="hot-video-link">'+escHTML(hot[i].title)+'</a></li>';
+    }
+    if (!html) html = '<li style="color:var(--text-light);">暂无数据</li>';
+    document.getElementById('hotVideoList').innerHTML = html;
+    // Bind hot list links
+    var links = document.querySelectorAll('.hot-video-link');
+    links.forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        var vid = parseInt(this.dataset.videoId);
+        var v = findVideoById(vid);
+        if (v) openVideoModal(v);
+      });
+    });
+  }
+
+  function findVideoById(id) {
+    for (var i = 0; i < allVideos.length; i++) {
+      if (allVideos[i].id === id) return allVideos[i];
+    }
+    return null;
+  }
+
+  /* ===== Bind click on video cards ===== */
+  function bindVideoCards() {
+    var cards = document.querySelectorAll('.video-gallery-card, .featured-video');
+    cards.forEach(function(card) {
+      // Avoid double-binding
+      if (card.dataset.bound === '1') return;
+      card.dataset.bound = '1';
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function(e) {
+        e.preventDefault();
+        var vid = parseInt(this.dataset.videoId);
+        var v = findVideoById(vid);
+        if (v) openVideoModal(v);
+      });
+    });
+  }
+
+  /* ===== Open modal for a video ===== */
+  function openVideoModal(v) {
+    // Prepare video data object for the existing modal player
+    var videoData = {
+      id: v.id,
+      title: v.title,
+      icon: '🎬',
+      desc: v.description || '',
+      duration: v.duration || '00:00'
+    };
+    // Update player background if thumbnail exists
+    var playerBg = document.querySelector('.video-modal-player-bg');
+    if (v.thumbnail_url) {
+      playerBg.style.background = 'url(' + escHTML(v.thumbnail_url) + ') center/cover';
+      document.getElementById('videoModalIcon').style.display = 'none';
+    } else {
+      playerBg.style.background = 'linear-gradient(135deg, #0f2b6e, #1e40af, #2563eb, #0ea5e9)';
+      document.getElementById('videoModalIcon').style.display = '';
+    }
+    // Store video URL on overlay for share/copy
+    document.getElementById('videoModalOverlay').dataset.videoUrl = v.video_url || '';
+    // Trigger the existing modal player's open logic by dispatching a custom event
+    var event = new CustomEvent('video:open', { detail: videoData });
+    window.dispatchEvent(event);
+  }
+
+  function escHTML(s) { var el = document.createElement('div'); el.textContent = s || ''; return el.innerHTML; }
 })();
 
 /* ==================== 移动端菜单 ==================== */
@@ -761,6 +866,11 @@ menuToggle.addEventListener('click', () => {
     } else if (overlay.classList.contains('active')) {
       closeModal();
     }
+  });
+
+  // Listen for dynamically-loaded video open events
+  window.addEventListener('video:open', function(e) {
+    if (e.detail) openModal(e.detail);
   });
 })();
 

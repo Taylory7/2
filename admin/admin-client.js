@@ -59,6 +59,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_Wa1vSAlz748umLRKBkTgWg_HROPciyE';
       { key: 'photo-news',label: '🖼️ 图片新闻管理',    href: 'photo-news.html' },
       { key: 'media',     label: '📺 媒体聚焦管理',    href: 'media.html' },
       { key: 'topics',    label: '📌 专题专栏管理',    href: 'topics.html' },
+      { key: 'videos',    label: '🎬 视频管理',        href: 'videos.html' },
     ];
 
     var navHTML = navItems.map(function (n) {
@@ -222,6 +223,21 @@ var SUPABASE_ANON_KEY = 'sb_publishable_Wa1vSAlz748umLRKBkTgWg_HROPciyE';
         return false;
       }
       return true;
+    },
+
+    // Upload image to Supabase Storage 'media' bucket
+    // Returns the public URL string. Throws on error.
+    uploadImage: async function (file) {
+      if (!_client) throw new Error('客户端未就绪');
+      var ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      var fileName = Date.now() + '_' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+      var r = await _client.storage.from('media').upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+      if (r.error) throw new Error('上传失败: ' + r.error.message);
+      var urlR = _client.storage.from('media').getPublicUrl(fileName);
+      return urlR.data.publicUrl;
     },
 
     renderShell: renderShell,

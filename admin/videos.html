@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>专题专栏管理 — 后台管理</title>
+<title>视频管理 — 后台管理</title>
 <style>
   .toolbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; gap:12px; flex-wrap:wrap; }
   .btn { padding:9px 18px; border:none; border-radius:var(--radius); font-size:14px; cursor:pointer; font-family:inherit; transition:all 0.2s; font-weight:500; }
@@ -17,13 +17,16 @@
   .btn-edit { background:#dbeafe; color:#1e40af; border:1px solid #93c5fd; }
   .btn-edit:hover { background:#1e40af; color:#fff; }
   .data-table-wrap { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); border:1px solid var(--border); overflow:auto; }
-  .data-table { width:100%; border-collapse:collapse; font-size:13px; min-width:650px; }
+  .data-table { width:100%; border-collapse:collapse; font-size:13px; min-width:750px; }
   .data-table th { background:#f8fafc; padding:10px 12px; text-align:left; font-weight:600; color:var(--text-light); font-size:12px; white-space:nowrap; border-bottom:2px solid var(--border); }
   .data-table td { padding:8px 12px; border-bottom:1px solid #f1f5f9; vertical-align:middle; }
   .data-table tr:hover td { background:#f8fafc; }
-  .data-table .col-title { max-width:240px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
-  .badge { font-size:11px; padding:2px 8px; border-radius:10px; white-space:nowrap; background:#d1fae5; color:#047857; }
-  .badge-inactive { background:#f1f5f9; color:#94a3b8; }
+  .data-table .col-title { max-width:260px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+  .badge { font-size:11px; padding:2px 8px; border-radius:10px; white-space:nowrap; }
+  .badge-corporate { background:#dbeafe; color:#2563eb; }
+  .badge-smart_water { background:#d1fae5; color:#047857; }
+  .badge-education { background:#fef3c7; color:#d97706; }
+  .badge-other { background:#f1f5f9; color:#64748b; }
   .pagination { display:flex; justify-content:center; align-items:center; gap:6px; padding:16px; flex-wrap:wrap; }
   .pagination button { padding:6px 12px; border:1px solid var(--border); border-radius:4px; background:#fff; cursor:pointer; font-family:inherit; font-size:13px; transition:all 0.15s; }
   .pagination button:hover { border-color:var(--primary); color:var(--primary); }
@@ -33,7 +36,7 @@
 
   .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:200; display:flex; align-items:center; justify-content:center; padding:20px; }
   .modal-overlay.hidden { display:none; }
-  .modal { background:#fff; border-radius:12px; box-shadow:0 16px 48px rgba(0,0,0,0.2); width:100%; max-width:550px; max-height:90vh; overflow-y:auto; }
+  .modal { background:#fff; border-radius:12px; box-shadow:0 16px 48px rgba(0,0,0,0.2); width:100%; max-width:600px; max-height:90vh; overflow-y:auto; }
   .modal-header { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; background:#fff; z-index:1; }
   .modal-header h3 { font-size:16px; font-weight:600; }
   .modal-close { background:none; border:none; font-size:22px; cursor:pointer; color:var(--text-light); padding:4px 8px; line-height:1; }
@@ -43,7 +46,7 @@
   .form-group label { display:block; font-size:13px; font-weight:600; margin-bottom:4px; color:var(--text); }
   .form-group input,.form-group select,.form-group textarea { width:100%; padding:8px 12px; border:1.5px solid var(--border); border-radius:var(--radius); font-size:14px; font-family:inherit; outline:none; transition:border-color 0.2s; }
   .form-group input:focus,.form-group select:focus,.form-group textarea:focus { border-color:var(--primary); }
-  .form-group textarea { resize:vertical; min-height:60px; }
+  .form-group textarea { resize:vertical; min-height:70px; }
   .form-group .help-text { font-size:11px; color:var(--text-light); margin-top:2px; }
   .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .form-check { display:flex; align-items:center; gap:8px; }
@@ -56,6 +59,8 @@
   .confirm-box p { margin-bottom:20px; font-size:15px; line-height:1.6; }
   .confirm-box .confirm-title { font-weight:700; color:#dc2626; font-size:16px; margin-bottom:8px; }
   .confirm-actions { display:flex; gap:10px; justify-content:center; }
+
+  .thumb-preview-img { max-width:200px; max-height:120px; border-radius:4px; border:1px solid var(--border); object-fit:cover; }
 </style>
 </head>
 <body>
@@ -63,61 +68,73 @@
 <div class="modal-overlay hidden" id="formModal">
   <div class="modal">
     <div class="modal-header">
-      <h3 id="modalTitle">新建专题专栏</h3>
+      <h3 id="modalTitle">新建视频</h3>
       <button class="modal-close" id="modalClose">&times;</button>
     </div>
     <div class="modal-body">
-      <form id="itemForm" autocomplete="off">
+      <form id="videoForm" autocomplete="off">
         <input type="hidden" id="fid">
-        <div class="form-group">
-          <label>标题 *</label>
-          <input type="text" id="ftitle" required placeholder="请输入专题标题">
-        </div>
-        <div class="form-group">
-          <label>副标题</label>
-          <input type="text" id="fsubtitle" placeholder="简要描述…">
-        </div>
         <div class="form-row">
           <div class="form-group">
-            <label>图标 Emoji</label>
-            <select id="ficon_emoji">
-              <option value="🤖">🤖 智慧</option><option value="💧">💧 节水</option><option value="🛡️">🛡️ 安全</option><option value="🔬">🔬 科普</option><option value="🏗️">🏗️ 工程</option><option value="🏅">🏅 党建</option>
-            </select>
+            <label>标题 *</label>
+            <input type="text" id="ftitle" required placeholder="请输入视频标题">
           </div>
           <div class="form-group">
-            <label>图标样式</label>
-            <select id="ficon_class">
-              <option value="topic-icon-1">蓝色 (topic-icon-1)</option><option value="topic-icon-2">绿色 (topic-icon-2)</option><option value="topic-icon-3">橙色 (topic-icon-3)</option><option value="topic-icon-4">紫色 (topic-icon-4)</option><option value="topic-icon-5">青色 (topic-icon-5)</option><option value="topic-icon-6">粉色 (topic-icon-6)</option>
+            <label>分类</label>
+            <select id="fcategory">
+              <option value="corporate">🏢 企业宣传</option>
+              <option value="smart_water">💧 智慧水务</option>
+              <option value="education">📚 科普教育</option>
+              <option value="other">📁 其他</option>
             </select>
           </div>
         </div>
         <div class="form-group">
-          <label>链接地址</label>
-          <input type="text" id="flink_url" placeholder="如：zhuanti-zhuanlan.html#smart-water" value="#">
+          <label>描述</label>
+          <textarea id="fdescription" rows="2" placeholder="视频简介或描述…"></textarea>
+        </div>
+        <div class="form-group">
+          <label>视频链接</label>
+          <input type="text" id="fvideo_url" placeholder="支持 YouTube / Bilibili / 直接视频 URL 等">
+          <span class="help-text">用于前台视频播放跳转，支持各类视频平台链接或直链</span>
+        </div>
+        <div class="form-group">
+          <label>缩略图</label>
+          <div style="display:flex;gap:8px;">
+            <input type="file" id="fthumb_file" accept="image/*" style="flex:1;">
+            <button type="button" class="btn btn-outline btn-sm" id="btnUpload">📤 上传</button>
+          </div>
+          <input type="hidden" id="fthumbnail_url">
+          <div id="thumbPreview" style="margin-top:8px;display:none;">
+            <img src="" id="imgThumb" class="thumb-preview-img">
+            <button type="button" class="btn btn-sm btn-danger" id="btnRemoveThumb" style="margin-left:8px;">✕ 移除</button>
+          </div>
+          <span class="help-text">建议尺寸 640×360 (16:9)，支持 JPG/PNG/WebP</span>
         </div>
         <div class="form-row">
+          <div class="form-group">
+            <label>时长</label>
+            <input type="text" id="fduration" placeholder="如 03:25" value="00:00">
+          </div>
+          <div class="form-group">
+            <label>发布日期</label>
+            <input type="date" id="fpublished_at">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>浏览量</label>
+            <input type="number" id="fviews" value="0" min="0">
+          </div>
           <div class="form-group">
             <label>排序序号</label>
             <input type="number" id="fsort_order" value="0" min="0">
             <span class="help-text">数字越大越靠前</span>
           </div>
-          <div class="form-check form-group" style="align-self:end; padding-bottom:4px;">
-            <input type="checkbox" id="fis_active" checked>
-            <label for="fis_active">启用</label>
-          </div>
         </div>
-        <div class="form-group">
-          <label>封面图片</label>
-          <div style="display:flex;gap:8px;">
-            <input type="file" id="fimage" accept="image/*" style="flex:1;">
-            <button type="button" class="btn btn-outline btn-sm" id="btnUpload">📤 上传</button>
-          </div>
-          <input type="hidden" id="fimage_url">
-          <div id="imagePreview" style="margin-top:8px;display:none;">
-            <img src="" id="imgPreview" style="max-width:200px;max-height:150px;border-radius:4px;border:1px solid var(--border);">
-            <button type="button" class="btn btn-sm btn-danger" id="btnRemoveImage" style="margin-left:8px;">✕ 移除</button>
-          </div>
-          <span class="help-text">支持 JPG/PNG/WebP，建议尺寸 800×600</span>
+        <div class="form-check form-group">
+          <input type="checkbox" id="fis_featured">
+          <label for="fis_featured">标记为精选推荐</label>
         </div>
         <div class="form-actions">
           <button type="button" class="btn btn-outline" id="modalCancel">取消</button>
@@ -131,7 +148,7 @@
 <div class="confirm-overlay hidden" id="confirmDialog">
   <div class="confirm-box">
     <div class="confirm-title">⚠️ 确认删除</div>
-    <p id="confirmMsg">确定要删除这个专题吗？此操作不可撤销。</p>
+    <p id="confirmMsg">确定要删除这个视频吗？此操作不可撤销。</p>
     <div class="confirm-actions">
       <button class="btn btn-outline" id="confirmCancel">取消</button>
       <button class="btn btn-danger" id="confirmOk">确定删除</button>
@@ -145,60 +162,72 @@
   var TOAST = window._adminClient.toast;
   var PAGE_SIZE = 15;
   var currentPage = 1;
+  var editingId = null;
   var deleteId = null;
 
+  var catNames = { corporate:'企业宣传', smart_water:'智慧水务', education:'科普教育', other:'其他' };
+  var catBadge = { corporate:'badge-corporate', smart_water:'badge-smart_water', education:'badge-education', other:'badge-other' };
+
+  // Auth guard
   window.addEventListener('admin:unauth', function () { window.location.href = 'login.html'; });
   window.addEventListener('admin:ready', function () {
-    window._adminClient.renderShell('📌 专题专栏管理');
+    window._adminClient.renderShell('🎬 视频管理');
     document.getElementById('adminContent').innerHTML =
       '<div class="toolbar">' +
-        '<h3 style="font-size:15px">📌 专题列表</h3>' +
-        '<button class="btn btn-primary" id="btnNew">＋ 新建专题</button>' +
+        '<h3 style="font-size:15px">🎬 视频列表</h3>' +
+        '<button class="btn btn-primary" id="btnNew">＋ 新建视频</button>' +
       '</div>' +
       '<div class="data-table-wrap" id="tableWrap">' +
         '<table class="data-table"><thead><tr>' +
-          '<th>ID</th><th>标题</th><th>副标题</th><th>图标</th><th>状态</th><th>排序</th><th>操作</th>' +
+          '<th>ID</th><th>标题</th><th>分类</th><th>时长</th><th>浏览</th><th>日期</th><th>精选</th><th>操作</th>' +
         '</tr></thead><tbody id="tableBody"></tbody></table>' +
         '<div class="pagination" id="pagination"></div>' +
       '</div>';
     loadData();
+    bindEvents();
+  });
+
+  function bindEvents() {
     document.getElementById('btnNew').addEventListener('click', function () { openForm(null); });
     document.getElementById('modalClose').addEventListener('click', closeForm);
     document.getElementById('modalCancel').addEventListener('click', closeForm);
-    document.getElementById('itemForm').addEventListener('submit', saveItem);
+    document.getElementById('videoForm').addEventListener('submit', saveItem);
     document.getElementById('confirmCancel').addEventListener('click', function () { document.getElementById('confirmDialog').classList.add('hidden'); });
     document.getElementById('confirmOk').addEventListener('click', confirmDelete);
-    document.getElementById('btnUpload').addEventListener('click', uploadImage);
-    document.getElementById('btnRemoveImage').addEventListener('click', removeImage);
-  });
+    // Thumbnail upload
+    document.getElementById('btnUpload').addEventListener('click', uploadThumb);
+    document.getElementById('btnRemoveThumb').addEventListener('click', removeThumb);
+  }
 
-  function showImagePreview(url) {
-    document.getElementById('imgPreview').src = url;
-    document.getElementById('imagePreview').style.display = 'block';
+  /* ===== Thumbnail helpers ===== */
+  function showThumbPreview(url) {
+    document.getElementById('imgThumb').src = url;
+    document.getElementById('thumbPreview').style.display = 'block';
   }
-  function hideImagePreview() {
-    document.getElementById('imgPreview').src = '';
-    document.getElementById('imagePreview').style.display = 'none';
-    document.getElementById('fimage_url').value = '';
-    document.getElementById('fimage').value = '';
+  function hideThumbPreview() {
+    document.getElementById('imgThumb').src = '';
+    document.getElementById('thumbPreview').style.display = 'none';
+    document.getElementById('fthumbnail_url').value = '';
+    document.getElementById('fthumb_file').value = '';
   }
-  async function uploadImage() {
-    var file = document.getElementById('fimage').files[0];
-    if (!file) { TOAST('请先选择图片文件', 'error'); return; }
+  async function uploadThumb() {
+    var file = document.getElementById('fthumb_file').files[0];
+    if (!file) { TOAST('请先选择缩略图文件', 'error'); return; }
     try {
       var url = await window._adminClient.uploadImage(file);
-      document.getElementById('fimage_url').value = url;
-      showImagePreview(url);
-      TOAST('图片上传成功', 'success');
+      document.getElementById('fthumbnail_url').value = url;
+      showThumbPreview(url);
+      TOAST('缩略图上传成功', 'success');
     } catch (e) { TOAST(e.message, 'error'); }
   }
-  function removeImage() { hideImagePreview(); }
+  function removeThumb() { hideThumbPreview(); }
 
+  /* ===== Data ===== */
   async function loadData() {
     var db = window._adminClient.getClient();
     var start = (currentPage - 1) * PAGE_SIZE;
     var end = start + PAGE_SIZE - 1;
-    var r = await db.from('topics').select('*', { count: 'exact' }).order('sort_order', { ascending: false }).range(start, end);
+    var r = await db.from('videos').select('*', { count: 'exact' }).order('published_at', { ascending: false }).range(start, end);
     if (r.error) { TOAST('加载失败: ' + r.error.message, 'error'); return; }
     renderTable(r.data);
     renderPagination(r.count);
@@ -207,23 +236,25 @@
   function renderTable(data) {
     var tbody = document.getElementById('tableBody');
     if (!data || !data.length) {
-      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-light);padding:32px;">暂无数据</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-light);padding:32px;">暂无数据</td></tr>';
       return;
     }
     tbody.innerHTML = data.map(function (r) {
       return '<tr>' +
         '<td>' + r.id + '</td>' +
-        '<td><div class="col-title">' + esc(r.title) + '</div></td>' +
-        '<td><div class="col-title">' + esc(r.subtitle) + '</div></td>' +
-        '<td>' + esc(r.icon_emoji) + '</td>' +
-        '<td><span class="badge' + (r.is_active ? '' : ' badge-inactive') + '">' + (r.is_active ? '✅ 启用' : '⛔ 停用') + '</span></td>' +
-        '<td>' + (r.sort_order || 0) + '</td>' +
+        '<td><div class="col-title">🎬 ' + esc(r.title) + '</div></td>' +
+        '<td><span class="badge ' + (catBadge[r.category]||'') + '">' + (catNames[r.category]||r.category) + '</span></td>' +
+        '<td>' + (r.duration || '00:00') + '</td>' +
+        '<td>' + (r.views || 0) + '</td>' +
+        '<td>' + (r.published_at || '—') + '</td>' +
+        '<td>' + (r.is_featured ? '⭐' : '—') + '</td>' +
         '<td>' +
           '<button class="btn btn-sm btn-edit" data-edit="' + r.id + '">✏️ 编辑</button> ' +
           '<button class="btn btn-sm btn-danger" data-del="' + r.id + '">🗑 删除</button>' +
         '</td>' +
       '</tr>';
     }).join('');
+
     tbody.querySelectorAll('[data-edit]').forEach(function (btn) {
       btn.addEventListener('click', function () { openForm(parseInt(this.dataset.edit)); });
     });
@@ -239,83 +270,112 @@
     for (var i = 1; i <= totalPages; i++) {
       if (totalPages <= 7 || i === 1 || i === totalPages || Math.abs(i - currentPage) <= 1) {
         html += '<button class="' + (i === currentPage ? 'active' : '') + '" data-page="' + i + '">' + i + '</button>';
-      } else if (i === 2 && currentPage > 3) html += '<button disabled>…</button>';
-      else if (i === totalPages - 1 && currentPage < totalPages - 2) html += '<button disabled>…</button>';
+      } else if (i === 2 && currentPage > 3) {
+        html += '<button disabled>…</button>';
+      } else if (i === totalPages - 1 && currentPage < totalPages - 2) {
+        html += '<button disabled>…</button>';
+      }
     }
     html += '<button ' + (currentPage >= totalPages ? 'disabled' : '') + ' id="btnNext">下一页</button>';
     html += '<span class="page-info">共 ' + totalPages + ' 页 / ' + total + ' 条</span>';
     el.innerHTML = html;
+
     el.querySelectorAll('[data-page]').forEach(function (btn) {
       btn.addEventListener('click', function () { currentPage = parseInt(this.dataset.page); loadData(); });
     });
-    var prevBtn = el.querySelector('#btnPrev'), nextBtn = el.querySelector('#btnNext');
+    var prevBtn = el.querySelector('#btnPrev');
+    var nextBtn = el.querySelector('#btnNext');
     if (prevBtn) prevBtn.addEventListener('click', function () { if (currentPage > 1) { currentPage--; loadData(); } });
     if (nextBtn) nextBtn.addEventListener('click', function () { if (currentPage < totalPages) { currentPage++; loadData(); } });
   }
 
+  /* ===== Form ===== */
   function openForm(id) {
-    var form = document.getElementById('itemForm');
+    editingId = id;
+    var form = document.getElementById('videoForm');
     form.reset();
     document.getElementById('fid').value = '';
+    document.getElementById('fviews').value = '0';
     document.getElementById('fsort_order').value = '0';
+    document.getElementById('fduration').value = '00:00';
+    document.getElementById('fpublished_at').value = new Date().toISOString().slice(0, 10);
 
     if (id) {
-      document.getElementById('modalTitle').textContent = '编辑专题专栏';
+      document.getElementById('modalTitle').textContent = '编辑视频';
       var db = window._adminClient.getClient();
-      db.from('topics').select('*').eq('id', id).single().then(function (r) {
+      db.from('videos').select('*').eq('id', id).single().then(function (r) {
         if (r.data) {
           document.getElementById('fid').value = r.data.id;
           document.getElementById('ftitle').value = r.data.title || '';
-          document.getElementById('fsubtitle').value = r.data.subtitle || '';
-          document.getElementById('ficon_emoji').value = r.data.icon_emoji || '📌';
-          document.getElementById('ficon_class').value = r.data.icon_class || 'topic-icon-1';
-          document.getElementById('flink_url').value = r.data.link_url || '#';
+          document.getElementById('fcategory').value = r.data.category || 'corporate';
+          document.getElementById('fdescription').value = r.data.description || '';
+          document.getElementById('fvideo_url').value = r.data.video_url || '';
+          document.getElementById('fduration').value = r.data.duration || '00:00';
+          document.getElementById('fviews').value = r.data.views || 0;
           document.getElementById('fsort_order').value = r.data.sort_order || 0;
-          document.getElementById('fis_active').checked = r.data.is_active !== false;
-          if (r.data.image_url) { document.getElementById('fimage_url').value = r.data.image_url; showImagePreview(r.data.image_url); } else { hideImagePreview(); }
+          document.getElementById('fpublished_at').value = r.data.published_at || '';
+          document.getElementById('fis_featured').checked = r.data.is_featured || false;
+          if (r.data.thumbnail_url) {
+            document.getElementById('fthumbnail_url').value = r.data.thumbnail_url;
+            showThumbPreview(r.data.thumbnail_url);
+          } else {
+            hideThumbPreview();
+          }
         }
       });
     } else {
-      document.getElementById('modalTitle').textContent = '新建专题专栏';
-      document.getElementById('fis_active').checked = true;
-      hideImagePreview();
+      document.getElementById('modalTitle').textContent = '新建视频';
+      hideThumbPreview();
     }
     document.getElementById('formModal').classList.remove('hidden');
   }
 
-  function closeForm() { document.getElementById('formModal').classList.add('hidden'); }
+  function closeForm() {
+    document.getElementById('formModal').classList.add('hidden');
+    editingId = null;
+  }
 
   async function saveItem(e) {
     e.preventDefault();
     var db = window._adminClient.getClient();
     var data = {
       title: document.getElementById('ftitle').value.trim(),
-      subtitle: document.getElementById('fsubtitle').value.trim(),
-      icon_emoji: document.getElementById('ficon_emoji').value,
-      icon_class: document.getElementById('ficon_class').value,
-      link_url: document.getElementById('flink_url').value.trim() || '#',
+      category: document.getElementById('fcategory').value,
+      description: document.getElementById('fdescription').value.trim(),
+      video_url: document.getElementById('fvideo_url').value.trim(),
+      thumbnail_url: document.getElementById('fthumbnail_url').value,
+      duration: document.getElementById('fduration').value.trim() || '00:00',
+      views: parseInt(document.getElementById('fviews').value) || 0,
       sort_order: parseInt(document.getElementById('fsort_order').value) || 0,
-      is_active: document.getElementById('fis_active').checked,
-      image_url: document.getElementById('fimage_url').value,
+      published_at: document.getElementById('fpublished_at').value,
+      is_featured: document.getElementById('fis_featured').checked,
     };
     if (!data.title) { TOAST('请输入标题', 'error'); return; }
+
     var id = document.getElementById('fid').value;
-    var r = id ? await db.from('topics').update(data).eq('id', parseInt(id)) : await db.from('topics').insert([data]);
+    var r;
+    if (id) {
+      r = await db.from('videos').update(data).eq('id', parseInt(id));
+    } else {
+      r = await db.from('videos').insert([data]);
+    }
     if (r.error) { TOAST('保存失败: ' + r.error.message, 'error'); return; }
     TOAST(id ? '更新成功！' : '创建成功！', 'success');
     closeForm();
     loadData();
   }
 
+  /* ===== Delete ===== */
   function showDeleteConfirm(id) {
     deleteId = id;
-    document.getElementById('confirmMsg').textContent = '确定要删除 ID 为 ' + id + ' 的专题吗？此操作不可撤销。';
+    document.getElementById('confirmMsg').textContent = '确定要删除 ID 为 ' + id + ' 的视频吗？此操作不可撤销。';
     document.getElementById('confirmDialog').classList.remove('hidden');
   }
 
   async function confirmDelete() {
     if (!deleteId) return;
-    var r = await window._adminClient.getClient().from('topics').delete().eq('id', deleteId);
+    var db = window._adminClient.getClient();
+    var r = await db.from('videos').delete().eq('id', deleteId);
     document.getElementById('confirmDialog').classList.add('hidden');
     if (r.error) { TOAST('删除失败: ' + r.error.message, 'error'); return; }
     TOAST('已删除', 'success');

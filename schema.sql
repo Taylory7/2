@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS news (
   published_at  DATE NOT NULL DEFAULT CURRENT_DATE,
   is_featured   BOOLEAN NOT NULL DEFAULT false,
   sort_order    INT NOT NULL DEFAULT 0,
+  image_url     TEXT NOT NULL DEFAULT '',
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -40,6 +41,7 @@ CREATE TABLE IF NOT EXISTS notices (
   published_at  DATE NOT NULL DEFAULT CURRENT_DATE,
   is_featured   BOOLEAN NOT NULL DEFAULT false,
   sort_order    INT NOT NULL DEFAULT 0,
+  image_url     TEXT NOT NULL DEFAULT '',
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -66,6 +68,7 @@ CREATE TABLE IF NOT EXISTS photo_news (
   is_featured_main   BOOLEAN NOT NULL DEFAULT false,
   is_featured_side   BOOLEAN NOT NULL DEFAULT false,
   sort_order         INT NOT NULL DEFAULT 0,
+  image_url          TEXT NOT NULL DEFAULT '',
   created_at         TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at         TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -90,6 +93,7 @@ CREATE TABLE IF NOT EXISTS media_coverage (
   published_at     DATE NOT NULL DEFAULT CURRENT_DATE,
   is_featured      BOOLEAN NOT NULL DEFAULT false,
   sort_order       INT NOT NULL DEFAULT 0,
+  image_url        TEXT NOT NULL DEFAULT '',
   created_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at       TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -111,6 +115,7 @@ CREATE TABLE IF NOT EXISTS topics (
   link_url    TEXT NOT NULL DEFAULT '#',
   sort_order  INT NOT NULL DEFAULT 0,
   is_active   BOOLEAN NOT NULL DEFAULT true,
+  image_url   TEXT NOT NULL DEFAULT '',
   created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 ALTER TABLE topics ENABLE ROW LEVEL SECURITY;
@@ -214,3 +219,59 @@ DO $$ BEGIN
   CREATE POLICY "topics_delete_auth" ON topics FOR DELETE TO authenticated USING (true);
 EXCEPTION WHEN duplicate_object THEN NULL;
 END $$;
+
+-- ============================================================
+-- 6. VIDEOS (视频管理)
+-- ============================================================
+CREATE TABLE IF NOT EXISTS videos (
+  id            BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  title         TEXT NOT NULL,
+  category      TEXT NOT NULL DEFAULT 'corporate'
+                CHECK (category IN ('corporate', 'smart_water', 'education', 'other')),
+  description   TEXT NOT NULL DEFAULT '',
+  video_url     TEXT NOT NULL DEFAULT '',
+  thumbnail_url TEXT NOT NULL DEFAULT '',
+  duration      TEXT NOT NULL DEFAULT '00:00',
+  views         INT NOT NULL DEFAULT 0,
+  is_featured   BOOLEAN NOT NULL DEFAULT false,
+  sort_order    INT NOT NULL DEFAULT 0,
+  published_at  DATE NOT NULL DEFAULT CURRENT_DATE,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_videos_published ON videos (published_at DESC);
+CREATE INDEX IF NOT EXISTS idx_videos_category ON videos (category);
+ALTER TABLE videos ENABLE ROW LEVEL SECURITY;
+DO $$ BEGIN
+  CREATE POLICY "videos_select" ON videos FOR SELECT USING (true);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+-- Auto-update trigger for videos
+DROP TRIGGER IF EXISTS trg_videos_updated ON videos;
+CREATE TRIGGER trg_videos_updated BEFORE UPDATE ON videos
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+-- Write policies for videos
+DO $$ BEGIN
+  CREATE POLICY "videos_insert_auth" ON videos FOR INSERT TO authenticated WITH CHECK (true);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+DO $$ BEGIN
+  CREATE POLICY "videos_update_auth" ON videos FOR UPDATE TO authenticated USING (true);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+DO $$ BEGIN
+  CREATE POLICY "videos_delete_auth" ON videos FOR DELETE TO authenticated USING (true);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+-- ============================================================
+-- Migration: add image_url column to existing tables
+-- Uses ADD COLUMN IF NOT EXISTS so safe to re-run
+-- ============================================================
+ALTER TABLE news ADD COLUMN IF NOT EXISTS image_url TEXT NOT NULL DEFAULT '';
+ALTER TABLE notices ADD COLUMN IF NOT EXISTS image_url TEXT NOT NULL DEFAULT '';
+ALTER TABLE photo_news ADD COLUMN IF NOT EXISTS image_url TEXT NOT NULL DEFAULT '';
+ALTER TABLE media_coverage ADD COLUMN IF NOT EXISTS image_url TEXT NOT NULL DEFAULT '';
+ALTER TABLE topics ADD COLUMN IF NOT EXISTS image_url TEXT NOT NULL DEFAULT '';

@@ -117,6 +117,19 @@
           <input type="checkbox" id="fis_featured">
           <label for="fis_featured">标记为头条/推荐</label>
         </div>
+        <div class="form-group">
+          <label>封面图片</label>
+          <div style="display:flex;gap:8px;">
+            <input type="file" id="fimage" accept="image/*" style="flex:1;">
+            <button type="button" class="btn btn-outline btn-sm" id="btnUpload">📤 上传</button>
+          </div>
+          <input type="hidden" id="fimage_url">
+          <div id="imagePreview" style="margin-top:8px;display:none;">
+            <img src="" id="imgPreview" style="max-width:200px;max-height:150px;border-radius:4px;border:1px solid var(--border);">
+            <button type="button" class="btn btn-sm btn-danger" id="btnRemoveImage" style="margin-left:8px;">✕ 移除</button>
+          </div>
+          <span class="help-text">支持 JPG/PNG/WebP，建议尺寸 800×600</span>
+        </div>
         <div class="form-actions">
           <button type="button" class="btn btn-outline" id="modalCancel">取消</button>
           <button type="submit" class="btn btn-primary" id="modalSave">💾 保存</button>
@@ -175,7 +188,32 @@
     document.getElementById('newsForm').addEventListener('submit', saveItem);
     document.getElementById('confirmCancel').addEventListener('click', function () { document.getElementById('confirmDialog').classList.add('hidden'); });
     document.getElementById('confirmOk').addEventListener('click', confirmDelete);
+    // Image upload
+    document.getElementById('btnUpload').addEventListener('click', uploadImage);
+    document.getElementById('btnRemoveImage').addEventListener('click', removeImage);
   }
+
+  function showImagePreview(url) {
+    document.getElementById('imgPreview').src = url;
+    document.getElementById('imagePreview').style.display = 'block';
+  }
+  function hideImagePreview() {
+    document.getElementById('imgPreview').src = '';
+    document.getElementById('imagePreview').style.display = 'none';
+    document.getElementById('fimage_url').value = '';
+    document.getElementById('fimage').value = '';
+  }
+  async function uploadImage() {
+    var file = document.getElementById('fimage').files[0];
+    if (!file) { TOAST('请先选择图片文件', 'error'); return; }
+    try {
+      var url = await window._adminClient.uploadImage(file);
+      document.getElementById('fimage_url').value = url;
+      showImagePreview(url);
+      TOAST('图片上传成功', 'success');
+    } catch (e) { TOAST(e.message, 'error'); }
+  }
+  function removeImage() { hideImagePreview(); }
 
   async function loadData() {
     var db = window._adminClient.getClient();
@@ -266,10 +304,17 @@
           document.getElementById('fsort_order').value = r.data.sort_order || 0;
           document.getElementById('fpublished_at').value = r.data.published_at || '';
           document.getElementById('fis_featured').checked = r.data.is_featured || false;
+          if (r.data.image_url) {
+            document.getElementById('fimage_url').value = r.data.image_url;
+            showImagePreview(r.data.image_url);
+          } else {
+            hideImagePreview();
+          }
         }
       });
     } else {
       document.getElementById('modalTitle').textContent = '新建公司要闻';
+      hideImagePreview();
     }
     document.getElementById('formModal').classList.remove('hidden');
   }
@@ -291,6 +336,7 @@
       sort_order: parseInt(document.getElementById('fsort_order').value) || 0,
       published_at: document.getElementById('fpublished_at').value,
       is_featured: document.getElementById('fis_featured').checked,
+      image_url: document.getElementById('fimage_url').value,
     };
     if (!data.title) { TOAST('请输入标题', 'error'); return; }
 
